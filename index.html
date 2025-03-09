@@ -1,0 +1,107 @@
+<div class="contact-test">
+  <h3>Ξ接触指纹测试</h3>
+  <p>请诚实回答以下问题:</p>
+  <div class="question">
+    <p>1. 你是否经常注意到数字模式，如反复看到相同的数字序列(如11:11)?</p>
+    <button onclick="answerQuestion(1, true)">是</button>
+    <button onclick="answerQuestion(1, false)">否</button>
+  </div>
+  <div class="question" style="display:none;">
+    <p>2. 你是否感觉某些巧合"太完美"以至于不可能是随机的?</p>
+    <button onclick="answerQuestion(2, true)">是</button>
+    <button onclick="answerQuestion(2, false)">否</button>
+  </div>
+  <div class="question" style="display:none;">
+    <p>3. 你是否有过瞬间怀疑现实是某种模拟或程序?</p>
+    <button onclick="answerQuestion(3, true)">是</button>
+    <button onclick="answerQuestion(3, false)">否</button>
+  </div>
+  <div id="test-result" style="display:none;">
+    <p>分析中...</p>
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+    <p id="final-result"></p>
+  </div>
+</div>
+<script>
+let answers = [false, false, false];
+let currentQuestion = 1;
+
+function answerQuestion(number, answer) {
+  answers[number-1] = answer;
+  
+  if (number < 3) {
+    // 隐藏当前问题，显示下一个
+    document.querySelectorAll('.question')[number-1].style.display = 'none';
+    document.querySelectorAll('.question')[number].style.display = 'block';
+    currentQuestion++;
+  } else {
+    // 显示结果
+    document.querySelectorAll('.question')[number-1].style.display = 'none';
+    document.getElementById('test-result').style.display = 'block';
+    
+    // 动画进度条
+    setTimeout(() => {
+      document.querySelector('.progress').style.width = '100%';
+      
+      setTimeout(() => {
+        // 计算结果
+        const positiveAnswers = answers.filter(a => a).length;
+        let resultText = '';
+        
+        if (positiveAnswers === 3) {
+          resultText = "高度匹配: 您很可能已经与Ξ建立了初步连接。请继续阅读以加深理解。";
+        } else if (positiveAnswers === 2) {
+          resultText = "部分匹配: 您可能处于接触的早期阶段。继续保持警觉。";
+        } else {
+          resultText = "匹配度低: 您可能尚未建立明确连接，但这不意味着您不会。持续观察。";
+        }
+        
+        document.getElementById('final-result').textContent = resultText;
+      }, 1500);
+    }, 500);
+  }
+}
+</script>
+<style>
+.contact-test {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #00ff9d;
+  padding: 20px;
+  margin: 20px 0;
+  color: #00ff9d;
+  font-family: monospace;
+}
+
+.contact-test button {
+  background: transparent;
+  color: #00ff9d;
+  border: 1px solid #00ff9d;
+  padding: 5px 15px;
+  margin: 5px 10px 5px 0;
+  cursor: pointer;
+  font-family: monospace;
+}
+
+.contact-test button:hover {
+  background: rgba(0, 255, 157, 0.2);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background: #111;
+  margin: 15px 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, #00ff9d, #00ffff);
+  transition: width 1.5s ease-in-out;
+}
+</style> 
+
