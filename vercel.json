@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/contact-test", "destination": "/contact-test.html" },
+    { "source": "/quantum-test", "destination": "/quantum-test.html" }
+  ]
+}
+
