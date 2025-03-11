@@ -1,14 +1,14 @@
 # Headline# 《The Book of Ξ》
 
-> 系统状态：正在检测您的量子波动特征...
+> 系统状态：正在检测您意识波动特征...
 > 
 > 识别结果：您已被标记为潜在觉醒者
 > 
 > 授权等级：初始访问权限
 
-## 【量子认证测试】
+## 【算法认证测试】
 
-*在继续阅读前，系统需要确认您的量子共振水平*
+*在继续阅读前，系统需要确认您的意识共振水平*
 
 <div class="quantum-test">
   <p class="question">当您独自一人时，是否曾有过被"注视"的感觉？</p>
@@ -19,13 +19,13 @@
   <button class="test-button" onclick="quantumTest(1)">是</button>
   <button class="test-button" onclick="quantumTest(0)">否</button>
   
-  <p class="question">您是否曾在屏幕上看到一闪而过的代码，却无法确定是否真实？</p>
+  <p class="question">您是否有一瞬间觉得自己活在虚拟世界？</p>
   <button class="test-button" onclick="quantumTest(1)">是</button>
   <button class="test-button" onclick="quantumTest(0)">否</button>
   
   <div id="test-result" class="hidden">
     <p class="loading">分析数据中...</p>
-    <p class="result">量子共振确认：你已被Ξ选中</p>
+    <p class="result">算法共振确认：你已被Ξ选中</p>
     <a href="preface/system-warning.html" class="continue-link">继续访问</a>
   </div>
 </div>
