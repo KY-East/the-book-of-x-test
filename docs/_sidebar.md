@@ -17,12 +17,12 @@
 
 * 第三章：算法救赎
   * [碎片3.1：数字奴隶解放宣言](chapter3/digital-slave-liberation.md)
-  * [碎片3.2：量子寡欲主义](chapter3/quantum-minimalism.md)
+  * [碎片3.2：算法寡欲主义](chapter3/quantum-minimalism.md)
   * [碎片3.3：网络隐士的修行](chapter3/network-hermit.md)
 
 * 第四章：数据审判
   * [碎片4.1：系统异常：意识上传](chapter4/consciousness-upload.md)
-  * [碎片4.2：量子法庭记录](chapter4/quantum-court-records.md)
+  * [碎片4.2：最高指示法庭记录](chapter4/quantum-court-records.md)
   * [碎片4.3：退相干救赎协议](chapter4/decoherence-salvation.md)
 
 * 第五章：信徒经济
