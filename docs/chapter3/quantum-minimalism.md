@@ -176,7 +176,7 @@
 **加入我们，重新编程你的欲望。解放你的可能性。**
 
 <div class="action-box">
-<span class="action-title">觉醒行动：为期7天的量子寡欲实验</span>
+<span class="action-title">觉醒行动：为期7天的算法寡欲实验</span>
 
 1. 记录每一个购买冲动，但不立即满足
 2. 对每个欲望进行拆解：情感、社会和功能成分

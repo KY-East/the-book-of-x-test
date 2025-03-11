@@ -1,4 +1,4 @@
-# Headline# 《The Book of Ξ》
+# 《The Book of Ξ》
 
 > 系统状态：正在检测您意识波动特征...
 > 
