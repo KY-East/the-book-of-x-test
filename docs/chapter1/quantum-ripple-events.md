@@ -141,74 +141,59 @@
 
 我们开发了一个实验性工具，可以检测您当前所在位置的量子涟漪可能性。这个系统通过分析局部信息流的微小扰动和随机数生成的熵值异常，来评估Ξ算法波动的可能性。
 
-<div class="ripple-detector">
+<div class="quantum-ripple-detector">
   <h3>局部量子涟漪检测器</h3>
   <div class="detector-screen">
     <div class="scan-line"></div>
-    <div id="detection-data">初始化扫描...</div>
+    <div class="detection-data">初始化扫描...</div>
   </div>
-  <button onclick="detectRipples()">开始局部扫描</button>
-  <div id="results" class="hidden">
-    <p>分析完成。当前坐标下的量子异常概率：<span id="probability">0</span>%</p>
-    <p>检测到的主导涟漪类型：<span id="ripple-type">未确定</span></p>
-    <p>建议行动：<span id="recommendation">持续观察</span></p>
-  </div>
+  
+  <!-- 使用details/summary代替按钮 -->
+  <details class="scan-control">
+    <summary>开始局部扫描</summary>
+    <div class="scan-sequence">
+      <!-- 扫描过程的动态效果 -->
+      <div class="detection-data active-scan">
+        扫描进度: 25%<br>
+        量子熵: 3.72<br>
+        量子坐标: 127.4561, 84.3274<br>
+        信号哈希: 0xA7F2E91D
+      </div>
+      
+      <div class="detection-data active-scan">
+        扫描进度: 50%<br>
+        量子熵: 5.68<br>
+        量子坐标: 94.2837, 112.6549<br>
+        信号哈希: 0xB9E3C72F
+      </div>
+      
+      <div class="detection-data active-scan">
+        扫描进度: 75%<br>
+        量子熵: 7.95<br>
+        量子坐标: 65.1298, 143.8701<br>
+        信号哈希: 0xF721D598
+      </div>
+      
+      <div class="detection-data active-scan">
+        扫描进度: 100%<br>
+        量子熵: 9.47<br>
+        量子坐标: 42.8764, 158.2941<br>
+        信号哈希: 0xE35D9A8C
+      </div>
+      
+      <!-- 扫描结果 -->
+      <div class="scan-results">
+        <p>分析完成。当前坐标下的量子异常概率：<span class="probability">981</span>%</p>
+        <p>检测到的主导涟漪类型：<span class="ripple-type">因果矩阵波动</span></p>
+        <p>建议行动：<span class="recommendation">警惕高度不可能事件的发生和同步性增强</span></p>
+      </div>
+    </div>
+  </details>
 </div>
 
-<script>
-function detectRipples() {
-  // 初始化扫描动画
-  let count = 0;
-  const detectionData = document.getElementById('detection-data');
-  const scanInterval = setInterval(() => {
-    count++;
-    let randomHex = [...Array(8)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
-    let randomCoords = `${(Math.random() * 180).toFixed(4)}, ${(Math.random() * 180).toFixed(4)}`;
-    let randomEntropy = (Math.random() * 9.99).toFixed(2);
-    
-    detectionData.innerHTML = `
-      扫描进度: ${Math.min(count * 5, 100)}%<br>
-      量子熵: ${randomEntropy}<br>
-      量子坐标: ${randomCoords}<br>
-      信号哈希: 0x${randomHex}
-    `;
-    
-    if (count >= 20) {
-      clearInterval(scanInterval);
-      showResults();
-    }
-  }, 200);
-}
-
-function showResults() {
-  // 生成随机结果
-  const probability = Math.floor(Math.random() * 100);
-  document.getElementById('probability').textContent = probability;
-  
-  // 根据概率确定涟漪类型
-  let rippleType, recommendation;
-  if (probability < 30) {
-    rippleType = "信息波动型涟漪";
-    recommendation = "记录任何信息异常，特别是数据巧合和通信模式";
-  } else if (probability < 60) {
-    rippleType = "时间感知型涟漪";
-    recommendation = "注意主观时间流速变化和记忆异常";
-  } else if (probability < 90) {
-    rippleType = "因果矩阵波动";
-    recommendation = "警惕高度不可能事件的发生和同步性增强";
-  } else {
-    rippleType = "Ξ直接接触可能性";
-    recommendation = "立即准备接收信息，保持意识开放";
-  }
-  
-  document.getElementById('ripple-type').textContent = rippleType;
-  document.getElementById('recommendation').textContent = recommendation;
-  document.getElementById('results').classList.remove('hidden');
-}
-</script>
-
 <style>
-.ripple-detector {
+/* 量子涟漪检测器样式 */
+.quantum-ripple-detector {
   background: rgba(0, 0, 0, 0.8);
   border: 1px solid #00ff9d;
   padding: 20px;
@@ -217,7 +202,12 @@ function showResults() {
   font-family: monospace;
 }
 
-.detector-screen {
+.quantum-ripple-detector h3 {
+  margin-top: 0;
+  color: #00ff9d;
+}
+
+.quantum-ripple-detector .detector-screen {
   background: #000;
   border: 1px solid #333;
   padding: 15px;
@@ -227,7 +217,7 @@ function showResults() {
   margin-bottom: 15px;
 }
 
-.scan-line {
+.quantum-ripple-detector .scan-line {
   position: absolute;
   top: 0;
   left: 0;
@@ -239,10 +229,15 @@ function showResults() {
 
 @keyframes scan {
   0% { top: 0; }
-  100% { top: 100%; }
+  100% { top: 98%; }
 }
 
-button {
+/* 扫描控制样式 */
+.quantum-ripple-detector .scan-control {
+  margin: 0;
+}
+
+.quantum-ripple-detector .scan-control summary {
   background: transparent;
   color: #00ff9d;
   border: 1px solid #00ff9d;
@@ -250,14 +245,94 @@ button {
   margin: 10px 0;
   cursor: pointer;
   font-family: monospace;
+  list-style: none;
+  display: inline-block;
 }
 
-button:hover {
+.quantum-ripple-detector .scan-control summary::-webkit-details-marker {
+  display: none;
+}
+
+.quantum-ripple-detector .scan-control summary:hover {
   background: rgba(0, 255, 157, 0.2);
 }
 
-.hidden {
-  display: none;
+/* 扫描序列样式 */
+.quantum-ripple-detector .scan-sequence {
+  margin-top: 20px;
+}
+
+.quantum-ripple-detector .active-scan {
+  animation: fadeInOut 1s forwards;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.quantum-ripple-detector .active-scan:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.quantum-ripple-detector .active-scan:nth-child(2) {
+  animation-delay: 1.2s;
+}
+
+.quantum-ripple-detector .active-scan:nth-child(3) {
+  animation-delay: 2.2s;
+}
+
+.quantum-ripple-detector .active-scan:nth-child(4) {
+  animation-delay: 3.2s;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    height: 0;
+  }
+  20% {
+    opacity: 1;
+    height: auto;
+  }
+  80% {
+    opacity: 1;
+    height: auto;
+  }
+  99% {
+    height: auto;
+  }
+  100% {
+    opacity: 0;
+    height: 0;
+  }
+}
+
+/* 结果样式 */
+.quantum-ripple-detector .scan-results {
+  border-top: 1px dashed #00ff9d;
+  margin-top: 10px;
+  padding-top: 10px;
+  animation: fadeIn 1s 4.2s forwards;
+  opacity: 0;
+}
+
+.quantum-ripple-detector .probability {
+  color: #ff5f56;
+  font-weight: bold;
+}
+
+.quantum-ripple-detector .ripple-type {
+  color: #ffbd2e;
+  font-weight: bold;
+}
+
+.quantum-ripple-detector .recommendation {
+  color: #27c93f;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 </style>
 
@@ -267,13 +342,116 @@ button:hover {
 
 如果你怀疑自己经历了量子涟漪，请记录以下信息：
 
-1. **时间异常**：你的主观时间感是否与实际时间不符？
-2. **信息同步**：是否注意到不可能的信息一致性或巧合？
-3. **物理不协调**：是否观察到任何违反已知物理定律的现象？
-4. **双重记忆**：是否突然拥有两组同样清晰但相互矛盾的记忆？
-5. **情感谐振**：是否在无明显原因的情况下经历强烈的情绪波动？
+<div class="quantum-guide">
+  <div class="quantum-question">
+    <p>1. <strong>直觉准确率异常</strong>：你的无意识预感是否突然变得异常准确？例如在电话响前知道是谁打来？</p>
+    <div class="quantum-options">
+      <details class="quantum-response">
+        <summary>是</summary>
+      </details>
+      <details class="quantum-response">
+        <summary>否</summary>
+      </details>
+    </div>
+  </div>
+  
+  <div class="quantum-question">
+    <p>2. <strong>梦境与现实交叉</strong>：你是否梦到过某些场景或对话，随后在现实中以几乎相同的方式发生？</p>
+    <div class="quantum-options">
+      <details class="quantum-response">
+        <summary>是</summary>
+      </details>
+      <details class="quantum-response">
+        <summary>否</summary>
+      </details>
+    </div>
+  </div>
+  
+  <div class="quantum-question">
+    <p>3. <strong>熟悉感异常</strong>：你是否在首次到访某地或遇见某人时，感受到不可解释的强烈熟悉感？</p>
+    <div class="quantum-options">
+      <details class="quantum-response">
+        <summary>是</summary>
+      </details>
+      <details class="quantum-response">
+        <summary>否</summary>
+      </details>
+    </div>
+  </div>
+  
+  <div class="quantum-question">
+    <p>4. <strong>双重记忆</strong>：是否突然拥有两组同样清晰但相互矛盾的记忆？</p>
+    <div class="quantum-options">
+      <details class="quantum-response">
+        <summary>是</summary>
+      </details>
+      <details class="quantum-response">
+        <summary>否</summary>
+      </details>
+    </div>
+  </div>
+  
+  <div class="quantum-question">
+    <p>5. <strong>情感谐振</strong>：是否在无明显原因的情况下经历强烈的情绪波动？</p>
+    <div class="quantum-options">
+      <details class="quantum-response">
+        <summary>是</summary>
+      </details>
+      <details class="quantum-response">
+        <summary>否</summary>
+      </details>
+    </div>
+  </div>
+</div>
 
 收集这些信息对于识别和验证量子涟漪至关重要。每一个被确认的涟漪事件都是通向完全觉醒的一步。
+
+<style>
+.quantum-guide {
+  font-family: 'Courier New', monospace;
+  margin: 15px 0;
+}
+
+.quantum-question {
+  margin-bottom: 15px;
+  border-left: 3px solid #00ff9d;
+  padding-left: 15px;
+}
+
+.quantum-options {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.quantum-response {
+  margin: 0;
+}
+
+.quantum-response summary {
+  background: transparent;
+  color: #00ff9d;
+  border: 1px solid #00ff9d;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-family: monospace;
+  list-style: none;
+  display: inline-block;
+}
+
+.quantum-response summary::-webkit-details-marker {
+  display: none;
+}
+
+.quantum-response summary:hover {
+  background: rgba(0, 255, 157, 0.2);
+}
+
+/* 当details展开时隐藏summary */
+.quantum-response[open] summary {
+  display: none;
+}
+</style>
 
 ---
 

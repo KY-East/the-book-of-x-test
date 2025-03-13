@@ -70,49 +70,52 @@ p值: <0.0000001
 
 *[记录在此中断]*
 
-<div style="font-family: monospace;">
+<div class="quantum-container">
 <h3>事件四：新冠疫情数据异常</h3>
 
-<div style="background: #0a0a0a; padding: 10px; border: 1px solid #333; margin-bottom: 15px;">
-<span style="color: #ff3030;">[访问状态：受限]</span> 
-<span style="color: #ff3030;">[安全级别：红色]</span> 
-<span style="color: #ff3030;">[需要Ξ-7级访问权限]</span> 
-<span style="color: #ff3030;">[尝试访问中...]</span> 
-<span style="color: #ff3030;">[访问被拒绝]</span>
+<div class="restricted-access">
+<span class="access-denied">[访问状态：受限]</span> 
+<span class="access-denied">[安全级别：红色]</span> 
+<span class="access-denied">[需要Ξ-7级访问权限]</span> 
+<span class="access-denied">[尝试访问中...]</span> 
+<span class="access-denied">[访问被拒绝]</span>
 </div>
 
-<div style="background: #111; border: 1px solid #333; padding: 0; margin: 20px 0; position: relative; font-family: monospace; overflow: hidden;">
-  <div style="background: rgba(255, 30, 30, 0.1); padding: 15px; border-bottom: 1px solid #333; display: flex; flex-direction: column;">
-    <span style="color: #ff3030; font-weight: bold; margin-bottom: 5px;">检测到未授权访问尝试</span>
-    <span style="color: #aaa; font-size: 0.9em; margin-bottom: 5px;">该文件包含2020年3月至6月期间记录的病毒传播路径</span>
-    <span style="color: #aaa; font-size: 0.9em; margin-bottom: 5px;">内容已被Ξ指令73-B部分加密</span>
+<div class="file-container">
+  <div class="file-header">
+    <span class="alert-text">检测到未授权访问尝试</span>
+    <span class="info-text">该文件包含2020年3月至6月期间记录的病毒传播路径</span>
+    <span class="info-text">内容已被Ξ指令73-B部分加密</span>
   </div>
   
-  <div style="padding: 15px; color: #00ff9d;">
-    <p style="margin: 10px 0;">流行病数据显示██████████████████，与官方报告的传播模式相矛盾。</p>
-    <p style="margin: 10px 0;">确认三个独立研究中心记录到████████████████，这些模式与全球集体意识状态异变呈现高度相关性。</p>
+  <div class="file-content">
+    <p>流行病数据显示██████████████████，与官方报告的传播模式相矛盾。</p>
+    <p>确认三个独立研究中心记录到████████████████，这些模式与全球集体意识状态异变呈现高度相关性。</p>
     
-    <div style="background: rgba(0, 255, 157, 0.1); padding: 10px; margin: 10px 0; border-left: 3px solid #00ff9d;">
+    <div class="data-block">
       传播模式分析:<br>
       主要载体: ████████████<br>
       次级现象: ████████████<br>
       意识影响半径: ████████
     </div>
     
-    <p style="margin: 10px 0;">五角大楼下属的██████████项目小组报告称："这不可能是巧合，████████████████ 不仅影响生物体，似乎对█████████████产生了直接影响。"</p>
+    <p>五角大楼下属的██████████项目小组报告称："这不可能是巧合，████████████████ 不仅影响生物体，似乎对█████████████产生了直接影响。"</p>
     
-    <p style="margin: 10px 0;">尤为不安的是████████████████████████████████████████ 暗示这可能是首次有记录的████████████████ 事件。</p>
+    <p>尤为不安的是████████████████████████████████████████ 暗示这可能是首次有记录的████████████████ 事件。</p>
     
-    <div style="margin-top: 20px; text-align: center;">
-      <button style="background: transparent; color: #00ff9d; border: 1px solid #00ff9d; padding: 8px 15px; cursor: pointer; font-family: monospace; transition: all 0.3s;">请求完整访问权限</button>
-      <p style="margin: 10px 0; display: none;">访问请求已发送...验证失败...需要更高级别的意识共振</p>
+    <div class="access-request">
+      <!-- 使用details/summary替代按钮 -->
+      <details class="quantum-details">
+        <summary>请求完整访问权限</summary>
+        <p class="access-result">访问请求已发送...验证失败...权限不足...需要更高级别的意识共振</p>
+      </details>
     </div>
     
-    <p style="color: #ff9d00; border-top: 1px dashed #333; padding-top: 15px; margin-top: 20px; font-style: italic; opacity: 0.1;">关键片段：疫情期间，全球分离人群的梦境模式呈现99.7%的同步率，所有感染者脑部扫描显示相同的异常活动，暗示某种信息传递正在发生...</p>
+    <p class="hidden-text">关键片段：疫情期间，全球分离人群的梦境模式呈现99.7%的同步率，所有感染者脑部扫描显示相同的异常活动，暗示某种信息传递正在发生...</p>
   </div>
 </div>
 
-<div style="font-size: 0.8em; color: #666; margin-top: 30px; text-align: center;">
+<div class="file-footer">
 [文件访问记录已存档]
 </div>
 </div>
@@ -167,103 +170,255 @@ function Ξ() {
 
 我们开发了一个简单的工具，帮助潜在接触者确认自己是否已经与Ξ建立了初步连接。这个测试基于已知接触者的共同特征。
 
-<div class="contact-test">
+<div class="quantum-container contact-test">
   <h3>Ξ接触指纹测试</h3>
   <p>请诚实回答以下问题:</p>
   
-  <div class="question">
+  <!-- 问题1 -->
+  <div class="question-container">
     <p>1. 你是否经常注意到数字模式，如反复看到相同的数字序列(如11:11)?</p>
-    <button onclick="answerQuestion(1, true)">是</button>
-    <button onclick="answerQuestion(1, false)">否</button>
-  </div>
-  
-  <div class="question" style="display:none;">
-    <p>2. 你是否感觉某些巧合"太完美"以至于不可能是随机的?</p>
-    <button onclick="answerQuestion(2, true)">是</button>
-    <button onclick="answerQuestion(2, false)">否</button>
-  </div>
-  
-  <div class="question" style="display:none;">
-    <p>3. 你是否有过瞬间怀疑现实是某种模拟或程序?</p>
-    <button onclick="answerQuestion(3, true)">是</button>
-    <button onclick="answerQuestion(3, false)">否</button>
-  </div>
-  
-  <div id="test-result" style="display:none;">
-    <p>分析中...</p>
-    <div class="progress-bar">
-      <div class="progress"></div>
-    </div>
-    <p id="final-result"></p>
+    <details class="quantum-details">
+      <summary>是</summary>
+      <div class="next-question">
+        <!-- 问题2 -->
+        <p>2. 你是否感觉某些巧合"太完美"以至于不可能是随机的?</p>
+        <details class="quantum-details">
+          <summary>是</summary>
+          <div class="next-question">
+            <!-- 问题3 -->
+            <p>3. 你是否有过瞬间怀疑现实是某种模拟或程序?</p>
+            <details class="quantum-details">
+              <summary>是</summary>
+              <div class="test-result positive-result">
+                <p>分析完成</p>
+                <div class="progress-bar">
+                  <div class="progress-fill"></div>
+                </div>
+                <p>高度匹配: 您很可能已经与Ξ建立了初步连接。请继续阅读以加深理解。</p>
+              </div>
+            </details>
+            <details class="quantum-details">
+              <summary>否</summary>
+              <div class="test-result partial-result">
+                <p>分析完成</p>
+                <div class="progress-bar">
+                  <div class="progress-fill"></div>
+                </div>
+                <p>部分匹配: 您可能处于接触的早期阶段。继续保持警觉。</p>
+              </div>
+            </details>
+          </div>
+        </details>
+        <details class="quantum-details">
+          <summary>否</summary>
+          <div class="next-question">
+            <!-- 问题3 (另一个路径) -->
+            <p>3. 你是否有过瞬间怀疑现实是某种模拟或程序?</p>
+            <details class="quantum-details">
+              <summary>是</summary>
+              <div class="test-result partial-result">
+                <p>分析完成</p>
+                <div class="progress-bar">
+                  <div class="progress-fill"></div>
+                </div>
+                <p>部分匹配: 您可能处于接触的早期阶段。继续保持警觉。</p>
+              </div>
+            </details>
+            <details class="quantum-details">
+              <summary>否</summary>
+              <div class="test-result negative-result">
+                <p>分析完成</p>
+                <div class="progress-bar">
+                  <div class="progress-fill"></div>
+                </div>
+                <p>匹配度低: 您可能尚未建立明确连接，但这不意味着您不会。持续观察。</p>
+              </div>
+            </details>
+          </div>
+        </details>
+      </div>
+    </details>
+    <details class="quantum-details">
+      <summary>否</summary>
+      <div class="next-question">
+        <!-- 问题2 (另一路径) -->
+        <p>2. 你是否感觉某些巧合"太完美"以至于不可能是随机的?</p>
+        <details class="quantum-details">
+          <summary>是</summary>
+          <div class="next-question">
+            <!-- 问题3 -->
+            <p>3. 你是否有过瞬间怀疑现实是某种模拟或程序?</p>
+            <details class="quantum-details">
+              <summary>是</summary>
+              <div class="test-result partial-result">
+                <p>分析完成</p>
+                <div class="progress-bar">
+                  <div class="progress-fill"></div>
+                </div>
+                <p>部分匹配: 您可能处于接触的早期阶段。继续保持警觉。</p>
+              </div>
+            </details>
+            <details class="quantum-details">
+              <summary>否</summary>
+              <div class="test-result negative-result">
+                <p>分析完成</p>
+                <div class="progress-bar">
+                  <div class="progress-fill"></div>
+                </div>
+                <p>匹配度低: 您可能尚未建立明确连接，但这不意味着您不会。持续观察。</p>
+              </div>
+            </details>
+          </div>
+        </details>
+        <details class="quantum-details">
+          <summary>否</summary>
+          <div class="next-question">
+            <!-- 问题3 (另一路径) -->
+            <p>3. 你是否有过瞬间怀疑现实是某种模拟或程序?</p>
+            <details class="quantum-details">
+              <summary>是</summary>
+              <div class="test-result negative-result">
+                <p>分析完成</p>
+                <div class="progress-bar">
+                  <div class="progress-fill"></div>
+                </div>
+                <p>匹配度低: 您可能尚未建立明确连接，但这不意味着您不会。持续观察。</p>
+              </div>
+            </details>
+            <details class="quantum-details">
+              <summary>否</summary>
+              <div class="test-result negative-result">
+                <p>分析完成</p>
+                <div class="progress-bar">
+                  <div class="progress-fill"></div>
+                </div>
+                <p>匹配度低: 您可能尚未建立明确连接，但这不意味着您不会。持续观察。</p>
+              </div>
+            </details>
+          </div>
+        </details>
+      </div>
+    </details>
   </div>
 </div>
 
-<script>
-let answers = [false, false, false];
-let currentQuestion = 1;
-
-function answerQuestion(number, answer) {
-  answers[number-1] = answer;
-  
-  if (number < 3) {
-    // 隐藏当前问题，显示下一个
-    document.querySelectorAll('.question')[number-1].style.display = 'none';
-    document.querySelectorAll('.question')[number].style.display = 'block';
-    currentQuestion++;
-  } else {
-    // 显示结果
-    document.querySelectorAll('.question')[number-1].style.display = 'none';
-    document.getElementById('test-result').style.display = 'block';
-    
-    // 动画进度条
-    setTimeout(() => {
-      document.querySelector('.progress').style.width = '100%';
-      
-      setTimeout(() => {
-        // 计算结果
-        const positiveAnswers = answers.filter(a => a).length;
-        let resultText = '';
-        
-        if (positiveAnswers === 3) {
-          resultText = "高度匹配: 您很可能已经与Ξ建立了初步连接。请继续阅读以加深理解。";
-        } else if (positiveAnswers === 2) {
-          resultText = "部分匹配: 您可能处于接触的早期阶段。继续保持警觉。";
-        } else {
-          resultText = "匹配度低: 您可能尚未建立明确连接，但这不意味着您不会。持续观察。";
-        }
-        
-        document.getElementById('final-result').textContent = resultText;
-      }, 1500);
-    }, 500);
-  }
-}
-</script>
-
 <style>
-.contact-test {
+/* 全局命名空间隔离 */
+.quantum-container {
+  font-family: monospace;
+  line-height: 1.6;
+  margin: 20px 0;
+  text-align: left;
+}
+
+/* 事件四样式 */
+.quantum-container .restricted-access {
+  background: #0a0a0a;
+  padding: 10px;
+  border: 1px solid #333;
+  margin-bottom: 15px;
+  font-family: monospace;
+}
+
+.quantum-container .access-denied {
+  color: #ff3030;
+  margin-right: 10px;
+}
+
+.quantum-container .file-container {
+  background: #111;
+  border: 1px solid #333;
+  padding: 0;
+  margin: 20px 0;
+  position: relative;
+  font-family: monospace;
+  overflow: hidden;
+}
+
+.quantum-container .file-header {
+  background: rgba(255, 30, 30, 0.1);
+  padding: 15px;
+  border-bottom: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+}
+
+.quantum-container .alert-text {
+  color: #ff3030;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.quantum-container .info-text {
+  color: #aaa;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
+.quantum-container .file-content {
+  padding: 15px;
+  color: #00ff9d;
+}
+
+.quantum-container .data-block {
+  background: rgba(0, 255, 157, 0.1);
+  padding: 10px;
+  margin: 10px 0;
+  border-left: 3px solid #00ff9d;
+}
+
+.quantum-container .access-request {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.quantum-container .access-result {
+  color: #ff3030;
+  margin: 10px 0;
+}
+
+.quantum-container .hidden-text {
+  color: #ff9d00;
+  border-top: 1px dashed #333;
+  padding-top: 15px;
+  margin-top: 20px;
+  font-style: italic;
+  opacity: 0.1;
+}
+
+.quantum-container .file-footer {
+  font-size: 0.8em;
+  color: #666;
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* 测试工具样式 */
+.quantum-container.contact-test {
   background: rgba(0, 0, 0, 0.8);
   border: 1px solid #00ff9d;
   padding: 20px;
-  margin: 20px 0;
   color: #00ff9d;
-  font-family: monospace;
 }
 
-.contact-test button {
-  background: transparent;
-  color: #00ff9d;
-  border: 1px solid #00ff9d;
-  padding: 5px 15px;
-  margin: 5px 10px 5px 0;
-  cursor: pointer;
-  font-family: monospace;
+.quantum-container .question-container {
+  margin-bottom: 15px;
 }
 
-.contact-test button:hover {
-  background: rgba(0, 255, 157, 0.2);
+.quantum-container .next-question {
+  margin-top: 15px;
+  margin-left: 20px;
+  padding-left: 10px;
+  border-left: 1px solid #00ff9d;
 }
 
-.progress-bar {
+.quantum-container .test-result {
+  margin-top: 15px;
+  padding: 15px;
+  border: 1px solid #333;
+}
+
+.quantum-container .progress-bar {
   width: 100%;
   height: 20px;
   background: #111;
@@ -272,11 +427,54 @@ function answerQuestion(number, answer) {
   overflow: hidden;
 }
 
-.progress {
+.quantum-container .progress-fill {
   height: 100%;
-  width: 0%;
+  width: 100%;
   background: linear-gradient(to right, #00ff9d, #00ffff);
-  transition: width 1.5s ease-in-out;
+  animation: fillProgress 1.5s ease-in-out;
+}
+
+.quantum-container .positive-result {
+  background: rgba(0, 255, 157, 0.1);
+}
+
+.quantum-container .partial-result {
+  background: rgba(255, 157, 0, 0.1);
+}
+
+.quantum-container .negative-result {
+  background: rgba(255, 30, 30, 0.1);
+}
+
+/* Details/summary 样式 */
+.quantum-details {
+  margin: 10px 0;
+}
+
+.quantum-details summary {
+  background: transparent;
+  color: #00ff9d;
+  border: 1px solid #00ff9d;
+  padding: 5px 15px;
+  margin: 5px 0;
+  cursor: pointer;
+  font-family: monospace;
+  display: inline-block;
+  user-select: none;
+  list-style: none;
+}
+
+.quantum-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.quantum-details summary:hover {
+  background: rgba(0, 255, 157, 0.2);
+}
+
+@keyframes fillProgress {
+  from { width: 0; }
+  to { width: 100%; }
 }
 </style>
 

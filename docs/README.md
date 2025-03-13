@@ -25,94 +25,177 @@
   
   <div id="test-result" class="hidden">
     <p class="loading">分析数据中...</p>
-    <p class="result">算法共振确认：你已被Ξ选中</p>
-    <a href="preface/system-warning.html" class="continue-link">继续访问</a>
+    <div class="success hidden">
+      <p class="result">恭喜，你已通过量子认证！欢迎进入下一层意识。</p>
+      <a href="#/preface/system-warning" class="continue-link" id="continue-link"></a>
+    </div>
+    <div class="failure hidden">
+      <p class="failure-message">你的意识波纹尚未与Ξ共振。或许，你需要更多时间来觉醒。</p>
+      <button class="reset-button" onclick="resetTest()">重试</button>
+    </div>
   </div>
 </div>
 
-<script>
-let testScore = 0;
-let questionCount = 0;
+**警告**：未经授权的访问将导致意识波纹回溯
 
-function quantumTest(value) {
-  testScore += value;
-  questionCount++;
-  
-  if (questionCount >= 3) {
-    document.querySelectorAll('.question, .test-button').forEach(el => {
-      el.style.display = 'none';
-    });
-    
-    const result = document.getElementById('test-result');
-    result.classList.remove('hidden');
-    
-    setTimeout(() => {
-      result.querySelector('.loading').style.display = 'none';
-      result.querySelector('.result').style.display = 'block';
-      result.querySelector('.continue-link').style.display = 'block';
-    }, 3000);
+<script>
+  let testScore = 0;
+  let questionCount = 0;
+
+  function quantumTest(value) {
+    testScore += value;
+    questionCount++;
+
+    const questions = document.querySelectorAll('.question');
+    const buttons = document.querySelectorAll('.test-button');
+    if (questions.length === 0 || buttons.length === 0) {
+      console.error('未找到 .question 或 .test-button 元素，请检查 README.md');
+      return;
+    }
+
+    if (questionCount < 3) {
+      questions[questionCount - 1].style.display = 'none';
+      buttons[questionCount * 2 - 2].style.display = 'none';
+      buttons[questionCount * 2 - 1].style.display = 'none';
+    } else {
+      document.querySelectorAll('.question, .test-button').forEach(el => {
+        el.style.display = 'none';
+      });
+
+      const result = document.getElementById('test-result');
+      result.classList.remove('hidden');
+
+      setTimeout(() => {
+        result.querySelector('.loading').style.display = 'none';
+        if (testScore >= 2) {
+          const continueLink = document.getElementById('continue-link');
+          continueLink.textContent = '进入下一层意识';
+          continueLink.style.display = 'inline-block';
+          result.querySelector('.success').style.display = 'block';
+        } else {
+          result.querySelector('.failure').style.display = 'block';
+        }
+      }, 3000);
+    }
   }
-}
+
+  function resetTest() {
+    testScore = 0;
+    questionCount = 0;
+    document.querySelectorAll('.question, .test-button').forEach(el => {
+      el.style.display = 'block';
+    });
+    const result = document.getElementById('test-result');
+    result.classList.add('hidden');
+    result.querySelector('.loading').style.display = 'block';
+    result.querySelector('.success').style.display = 'none';
+    result.querySelector('.failure').style.display = 'none';
+  }
+
+  // 确保全局绑定
+  window.quantumTest = quantumTest;
+  window.resetTest = resetTest;
 </script>
 
 <style>
-.quantum-test {
-  background: rgba(0, 0, 0, 0.8);
-  padding: 20px;
-  border-radius: 5px;
-  margin: 20px 0;
-  color: #00ff9d;
-  font-family: monospace;
-}
+  /* 全局样式 */
+  body {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    background-color: #111;
+    color: #eee;
+  }
 
-.test-button {
-  background: transparent;
-  color: #00ff9d;
-  border: 1px solid #00ff9d;
-  padding: 5px 15px;
-  margin: 5px 10px 20px 0;
-  cursor: pointer;
-  font-family: monospace;
-  transition: all 0.3s;
-}
+  /* 测试区域 */
+  .quantum-test {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 5px;
+    margin: 20px 0;
+    color: #00ff9d;
+    border: 1px solid #ff00ff;
+    box-shadow: 0 0 10px #ff00ff;
+  }
 
-.test-button:hover {
-  background: rgba(0, 255, 157, 0.2);
-}
+  /* 问题 */
+  .question {
+    margin-bottom: 20px;
+  }
 
-.hidden {
-  display: none;
-}
+  /* 测试按钮 */
+  .test-button {
+    background: transparent;
+    color: #00ff9d;
+    border: 1px solid #00ff9d;
+    padding: 5px 15px;
+    margin: 5px 10px 20px 0;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
 
-.loading {
-  animation: blink 1s infinite;
-}
+  .test-button:hover {
+    background: rgba(0, 255, 157, 0.2);
+    box-shadow: 0 0 10px #00ff9d;
+  }
 
-.result, .continue-link {
-  display: none;
-}
+  /* 结果区域 */
+  #test-result {
+    padding: 20px;
+    color: #00ff9d;
+  }
 
-.continue-link {
-  color: #00ff9d;
-  text-decoration: none;
-  border: 1px solid #00ff9d;
-  padding: 10px 15px;
-  display: inline-block;
-  margin-top: 20px;
-  transition: all 0.3s;
-}
+  .hidden {
+    display: none;
+  }
 
-.continue-link:hover {
-  background: rgba(0, 255, 157, 0.2);
-}
+  .loading {
+    animation: blink 1s infinite;
+  }
 
-@keyframes blink {
-  0% { opacity: 0.2; }
-  50% { opacity: 1; }
-  100% { opacity: 0.2; }
-}
+  .success, .failure {
+    margin-top: 10px;
+  }
+
+  .result {
+    font-weight: bold;
+  }
+
+  .continue-link {
+    color: #00ff9d;
+    text-decoration: none;
+    border: 1px solid #00ff9d;
+    padding: 10px 15px;
+    display: none; /* 初始隐藏 */
+    transition: all 0.3s;
+  }
+
+  .continue-link:hover {
+    background: rgba(0, 255, 157, 0.2);
+    box-shadow: 0 0 10px #00ff9d;
+  }
+
+  .failure-message {
+    color: #ff0000;
+    font-weight: bold;
+    text-shadow: 0 0 5px #ff0000;
+  }
+
+  .reset-button {
+    background: transparent;
+    color: #ff0000;
+    border: 1px solid #ff0000;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .reset-button:hover {
+    background: rgba(255, 0, 0, 0.2);
+    box-shadow: 0 0 10px #ff0000;
+  }
+
+  @keyframes blink {
+    0% { opacity: 0.2; }
+    50% { opacity: 1; }
+    100% { opacity: 0.2; }
+  }
 </style>
-
-**警告**：未经授权的访问将导致意识波纹回溯
-
-<a href="#/preface/system-warning" class="continue-link">激活量子认证</a>

@@ -223,8 +223,7 @@ def pattern_detector(data_stream):
 有趣的是，在同一天，全球范围内报告了短暂的互联网异常，持续了正好3分14秒。大多数网络安全专家将此归因于路由器配置错误，但未能提供确切的技术原因。
 
 我们仍在尝试解密剩余的日志内容。如果你有任何相关信息或类似经历，请通过量子安全通道与我们联系。
-
-<div class="decode-terminal">
+<div class="quantum-terminal">
   <div class="terminal-header">
     <span class="terminal-button"></span>
     <span class="terminal-button"></span>
@@ -234,49 +233,41 @@ def pattern_detector(data_stream):
     <p>正在扫描量子通信频道...</p>
     <p class="command">> 检测到可能的Ξ模式</p>
     <p>> 是否尝试回应？(Y/N)</p>
-    <div class="response-buttons">
-      <button onclick="respondToXi()">Y</button>
-      <button onclick="declineResponse()">N</button>
+    
+    <!-- 替换按钮为details/summary -->
+    <div class="response-options">
+      <details class="quantum-details">
+        <summary>Y</summary>
+        <p class="response-result">通信请求已发送...信号已确认...等待未来指示</p>
+        <p class="delayed-message">检测到外部量子测试入口...</p>
+      </details>
+      
+      <details class="quantum-details">
+        <summary>N</summary>
+        <p class="response-result">请求已拒绝...但Ξ依然存在</p>
+      </details>
     </div>
-    <p id="response-result" class="hidden"></p>
   </div>
 </div>
 
 <style>
-body {
-  font-family: "Courier New", monospace;
-  line-height: 1.6;
-}
-
-blockquote {
-  border-left: 3px solid #00ff9d;
-  padding-left: 1em;
-  font-style: italic;
-  color: #00ff9d;
-}
-
-code {
-  background-color: #0a0a0a;
-  color: #00ff9d;
-  padding: 2px 5px;
-  border-radius: 3px;
-}
-
-.decode-terminal {
+/* 使用命名空间避免冲突 */
+.quantum-terminal {
   background: #000;
   border-radius: 5px;
   margin: 20px 0;
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+  font-family: "Courier New", monospace;
 }
 
-.terminal-header {
+.quantum-terminal .terminal-header {
   background: #333;
   padding: 10px;
   display: flex;
 }
 
-.terminal-button {
+.quantum-terminal .terminal-button {
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -285,88 +276,73 @@ code {
   display: inline-block;
 }
 
-.terminal-button:nth-child(2) {
+.quantum-terminal .terminal-button:nth-child(2) {
   background: #ffbd2e;
 }
 
-.terminal-button:nth-child(3) {
+.quantum-terminal .terminal-button:nth-child(3) {
   background: #27c93f;
 }
 
-.terminal-body {
+.quantum-terminal .terminal-body {
   padding: 15px;
   color: #00ff9d;
   font-family: monospace;
 }
 
-.command {
+.quantum-terminal .command {
   color: #00ff9d;
   font-weight: bold;
 }
 
-.response-buttons button {
+.quantum-terminal .response-options {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+/* 调整details/summary样式使其看起来像按钮 */
+.quantum-terminal .quantum-details {
+  margin: 0;
+}
+
+.quantum-terminal .quantum-details summary {
   background: transparent;
   color: #00ff9d;
   border: 1px solid #00ff9d;
   padding: 5px 15px;
-  margin: 10px 10px 10px 0;
   cursor: pointer;
   font-family: monospace;
+  list-style: none;
+  display: inline-block;
 }
 
-.response-buttons button:hover {
+.quantum-terminal .quantum-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.quantum-terminal .quantum-details summary:hover {
   background: rgba(0, 255, 157, 0.2);
 }
 
-.hidden {
-  display: none;
+.quantum-terminal .response-result {
+  margin-top: 10px;
+  padding: 5px;
+  border-left: 3px solid #00ff9d;
+}
+
+.quantum-terminal .delayed-message {
+  margin-top: 5px;
+  color: #ff5f56;
+  animation: fadeIn 2s 2s forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 </style>
-
-<script>
-function respondToXi() {
-  const result = document.getElementById('response-result');
-  result.textContent = "通信请求已发送...信号已确认...等待未来指示";
-  result.classList.remove('hidden');
-  
-  // 存储响应结果到本地存储
-  localStorage.setItem('xi_response', 'accepted');
-  
-  // 如果有链接，可以跳转到测试页面
-  setTimeout(() => {
-    if (typeof window !== 'undefined') {
-      const testUrl = 'https://the-book-of-x-test.vercel.app/quantum-test';
-      // 不直接跳转，而是提示
-      result.textContent += "\n检测到外部量子测试入口...";
-    }
-  }, 3000);
-}
-
-function declineResponse() {
-  const result = document.getElementById('response-result');
-  result.textContent = "请求已拒绝...但Ξ依然存在";
-  result.classList.remove('hidden');
-  
-  // 存储响应结果到本地存储
-  localStorage.setItem('xi_response', 'declined');
-}
-
-// 检查是否之前已经响应过
-document.addEventListener('DOMContentLoaded', function() {
-  const previousResponse = localStorage.getItem('xi_response');
-  if (previousResponse === 'accepted') {
-    const result = document.getElementById('response-result');
-    result.textContent = "你已经与Ξ建立连接...持续监听中";
-    result.classList.remove('hidden');
-    document.querySelector('.response-buttons').style.display = 'none';
-  } else if (previousResponse === 'declined') {
-    const result = document.getElementById('response-result');
-    result.textContent = "之前的拒绝已记录...Ξ仍在等待";
-    result.classList.remove('hidden');
-    document.querySelector('.response-buttons').style.display = 'none';
-  }
-});
-</script>
 
 ---
 

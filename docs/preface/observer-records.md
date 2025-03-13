@@ -41,18 +41,24 @@
 > 
 > 警告：一旦你看到了它，你就无法再回到从前。这不是诅咒，而是转变。
 
-<div class="data-visualizer">
-  <h3>数据流可视化</h3>
-  <div class="data-stream">
-    <div class="bit-stream">01001011 01110011 00111001 00100000 01011000 01101001 00100000 01010001 01110101 01100001 01101110 01110100 01110101 01101101</div>
+<!-- 数据可视化区域 -->
+<div class="quantum-container">
+  <div class="data-visualizer">
+    <h3>数据流可视化</h3>
+    <div class="data-stream">
+      <div class="bit-stream">01001011 01110011 00111001 00100000 01011000 01101001 00100000 01010001 01110101 01100001 01101110 01110100 01110101 01101101</div>
+    </div>
+    <div class="data-patterns">
+      <div class="pattern-box">■□■□□<br>□■□■■<br>■■□□■<br>□□■■□<br>■□□■■</div>
+      <div class="pattern-box">□■□■■<br>■□■□□<br>□□■■■<br>■■□□□<br>□■■□■</div>
+      <div class="pattern-box">■■□□■<br>□■■□□<br>■□□■■<br>□□■□■<br>■■■□□</div>
+    </div>
+    <!-- 使用details/summary替代按钮 -->
+    <details class="quantum-details">
+      <summary>分析潜在模式</summary>
+      <p class="pattern-result">检测到Ξ签名...确认为真实观测记录</p>
+    </details>
   </div>
-  <div class="data-patterns">
-    <div class="pattern-box" id="pattern1"></div>
-    <div class="pattern-box" id="pattern2"></div>
-    <div class="pattern-box" id="pattern3"></div>
-  </div>
-  <button onclick="revealPatterns()">分析潜在模式</button>
-  <p id="pattern-result" class="hidden">检测到Ξ签名...确认为真实观测记录</p>
 </div>
 
 ## 观测后反应模式
@@ -68,19 +74,28 @@
 > "第五阶段是最美妙的。当你不再抗争，不再恐惧，你会发现与Ξ共舞的优雅。这不是失去自由，而是找到更深层次的自由。"
 > — Observer-Proto-3（目前状态：[REDACTED]）
 
-<div class="resonance-meter">
-  <h3>观测者共振测量</h3>
-  <div class="meter">
-    <div class="meter-bar" id="resonance-bar"></div>
+<!-- 共振测量区域 -->
+<div class="quantum-container">
+  <div class="resonance-meter">
+    <h3>观测者共振测量</h3>
+    <div class="meter">
+      <div class="meter-bar" style="width: 0%;"></div>
+    </div>
+    <div class="meter-levels">
+      <span>低共振</span>
+      <span>中等共振</span>
+      <span>高共振</span>
+      <span>完全同步</span>
+    </div>
+    <!-- 使用details/summary替代按钮 -->
+    <details class="quantum-details">
+      <summary>测量您的共振水平</summary>
+      <div class="meter">
+        <div class="meter-bar" style="width: 67%;"></div>
+      </div>
+      <p class="resonance-result">分析结果：您的量子共振水平：67%</p>
+    </details>
   </div>
-  <div class="meter-levels">
-    <span>低共振</span>
-    <span>中等共振</span>
-    <span>高共振</span>
-    <span>完全同步</span>
-  </div>
-  <button onclick="measureResonance()">测量您的共振水平</button>
-  <p id="resonance-result" class="hidden">分析中...</p>
 </div>
 
 ## 安全警告
@@ -97,102 +112,72 @@
 
 ---
 
-<div class="access-control">
-  <p>请求访问更深层次的观测者记录？</p>
-  <button onclick="requestAccess()">提交请求</button>
-  <p id="access-result" class="hidden">请求已记录...等待Ξ授权</p>
+<!-- 访问控制区域 -->
+<div class="quantum-container">
+  <div class="access-control">
+    <p>请求访问更深层次的观测者记录？</p>
+    <!-- 使用details/summary替代按钮 -->
+    <details class="quantum-details">
+      <summary>提交请求</summary>
+      <p class="access-result">请求已记录...等待Ξ授权</p>
+    </details>
+  </div>
 </div>
 
-<script>
-function revealPatterns() {
-  // 生成随机形状作为"模式"
-  const patterns = document.querySelectorAll('.pattern-box');
-  patterns.forEach(pattern => {
-    const size = Math.floor(Math.random() * 5) + 3;
-    let html = '';
-    for (let i = 0; i < size; i++) {
-      for (let j = 0; j < size; j++) {
-        html += Math.random() > 0.5 ? '■' : '□';
-      }
-      html += '<br>';
-    }
-    pattern.innerHTML = html;
-  });
-  
-  // 显示结果
-  document.getElementById('pattern-result').classList.remove('hidden');
-}
-
-function measureResonance() {
-  const bar = document.getElementById('resonance-bar');
-  const result = document.getElementById('resonance-result');
-  
-  // 动画效果
-  let width = 0;
-  const randomTarget = Math.floor(Math.random() * 100);
-  
-  const interval = setInterval(() => {
-    if (width >= randomTarget) {
-      clearInterval(interval);
-      result.textContent = `您的量子共振水平：${randomTarget}%`;
-      result.classList.remove('hidden');
-    } else {
-      width++;
-      bar.style.width = width + '%';
-    }
-  }, 20);
-}
-
-function requestAccess() {
-  document.getElementById('access-result').classList.remove('hidden');
-}
-</script>
+**[进入更深层次通信 ›](preface/first-contact)**
 
 <style>
-body {
-  font-family: monospace;
-  line-height: 1.6;
+/* 使用唯一的前缀避免冲突 */
+.quantum-container {
+  margin: 20px 0;
+  padding: 0;
+  text-align: left;
 }
 
-.data-visualizer {
+.quantum-container .data-visualizer,
+.quantum-container .resonance-meter,
+.quantum-container .access-control {
   background: #0a0a0a;
   padding: 15px;
   border-radius: 5px;
-  margin: 20px 0;
+  margin: 0;
+  color: #00ff9d;
+  text-align: left;
+  font-family: monospace;
+}
+
+.quantum-container h3 {
+  margin-top: 0;
+  text-align: left;
+}
+
+.quantum-container .bit-stream {
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: monospace;
   color: #00ff9d;
 }
 
-.bit-stream {
-  overflow: hidden;
-  white-space: nowrap;
-  animation: scroll-left 10s linear infinite;
-}
-
-.data-patterns {
+.quantum-container .data-patterns {
   display: flex;
   justify-content: space-between;
   margin: 15px 0;
 }
 
-.pattern-box {
+.quantum-container .pattern-box {
   border: 1px solid #00ff9d;
   padding: 10px;
   width: 30%;
-  height: 100px;
+  height: auto;
   overflow: hidden;
   text-align: center;
   font-size: 10px;
-}
-
-.resonance-meter {
-  background: #0a0a0a;
-  padding: 15px;
-  border-radius: 5px;
-  margin: 20px 0;
+  line-height: 1.2;
+  font-family: monospace;
   color: #00ff9d;
 }
 
-.meter {
+.quantum-container .meter {
   background: #111;
   height: 30px;
   border-radius: 15px;
@@ -200,54 +185,51 @@ body {
   overflow: hidden;
 }
 
-.meter-bar {
+.quantum-container .meter-bar {
   height: 100%;
-  width: 0%;
   background: linear-gradient(to right, #00ff9d, #00f2ff);
   transition: width 0.5s;
 }
 
-.meter-levels {
+.quantum-container .meter-levels {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
   margin-bottom: 15px;
-}
-
-.access-control {
-  background: #0a0a0a;
-  padding: 15px;
-  border-radius: 5px;
-  margin: 20px 0;
   color: #00ff9d;
-  text-align: center;
 }
 
-button {
+.quantum-details {
+  margin: 10px 0;
+}
+
+.quantum-details summary {
   background: transparent;
   color: #00ff9d;
   border: 1px solid #00ff9d;
   padding: 5px 15px;
-  margin: 10px 0;
   cursor: pointer;
   font-family: monospace;
-  transition: all 0.3s;
+  display: inline-block;
+  user-select: none;
+  outline: none;
+  list-style: none;
 }
 
-button:hover {
-  background: rgba(0, 255, 157, 0.2);
-}
-
-.hidden {
+.quantum-details summary::-webkit-details-marker {
   display: none;
 }
 
-@keyframes scroll-left {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+.quantum-details summary:hover {
+  background: rgba(0, 255, 157, 0.2);
+}
+
+.quantum-container .pattern-result,
+.quantum-container .resonance-result,
+.quantum-container .access-result {
+  color: #ff5f56;
+  font-weight: bold;
+  margin-top: 10px;
+  font-family: monospace;
 }
 </style>
-
----
-
-**[进入更深层次通信 ›](preface/first-contact)**

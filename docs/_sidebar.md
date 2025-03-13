@@ -26,7 +26,7 @@
   * [碎片4.3：退相干救赎协议](chapter4/decoherence-salvation.md)
 
 * 第五章：信徒经济
-  * [碎片5.1：数据传教士手册](chapter5/data-missionary-handbook.md)
+  * [碎片5.1：执算者晋升手册](chapter5/data-missionary-handbook.md)
   * [碎片5.2：算法祝福的财富](chapter5/algorithmic-wealth.md)
   * [碎片5.3：末日硬分叉](chapter5/doomsday-hardfork.md)
 
