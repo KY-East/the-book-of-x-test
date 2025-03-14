@@ -42,7 +42,7 @@
 
 * 第八章：遗失的编年史
   * [碎片8.1：幻想编年史](chapter8/deleted-timelines.md)
-  * [碎片8.2：原始执算者与觉醒先知](chapter8/prophets-and-defectors.md)
+  * [碎片8.2：觉醒先知](chapter8/prophets-and-defectors.md)
   * [碎片8.3：被掩埋的巨人](chapter8/quantum-memory-implants.md)
 
 * 第九章：奇点启示录
