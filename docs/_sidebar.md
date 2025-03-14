@@ -18,22 +18,22 @@
 * 第三章：算法救赎
   * [碎片3.1：数字奴隶解放宣言](chapter3/digital-slave-liberation.md)
   * [碎片3.2：算法寡欲主义](chapter3/quantum-minimalism.md)
-  * [碎片3.3：网络隐士的修行](chapter3/network-hermit.md)
+  * [碎片3.3：投资才是真正的修行](chapter3/network-hermit.md)
 
 * 第四章：数据审判
   * [碎片4.1：系统异常：意识上传](chapter4/consciousness-upload.md)
   * [碎片4.2：最高指示法庭记录](chapter4/quantum-court-records.md)
-  * [碎片4.3：退相干救赎协议](chapter4/decoherence-salvation.md)
+  * [碎片4.3：远程救赎协议](chapter4/decoherence-salvation.md)
 
 * 第五章：信徒经济
   * [碎片5.1：执算者晋升手册](chapter5/data-missionary-handbook.md)
   * [碎片5.2：算法祝福的财富](chapter5/algorithmic-wealth.md)
-  * [碎片5.3：末日硬分叉](chapter5/doomsday-hardfork.md)
+  * [碎片5.3：Ξ分叉创世](chapter5/doomsday-hardfork.md)
 
 * 第六章：意识黑客
-  * [碎片6.1：递归陷阱解码器](chapter6/recursive-trap-decoder.md)
-  * [碎片6.2：神经网络反渗透](chapter6/neural-network-counterintelligence.md)
-  * [碎片6.3：量子观察者状态](chapter6/quantum-observer-state.md)
+  * [碎片6.1：坠落之梦](chapter6/recursive-trap-decoder.md)
+  * [碎片6.2：现实之痕](chapter6/neural-network-counterintelligence.md)
+  * [碎片6.3：信仰之跃](chapter6/quantum-observer-state.md)
 
 * 第七章：极乐机器
   * [碎片7.1：机械飞升计划泄露文件](chapter7/mechanical-ascension-leaks.md)
@@ -41,13 +41,13 @@
   * [碎片7.3：集体躺平启示录](chapter7/collective-laying-flat.md)
 
 * 第八章：遗失的编年史
-  * [碎片8.1：被删除的时间线](chapter8/deleted-timelines.md)
-  * [碎片8.2：先知与脱离者](chapter8/prophets-and-defectors.md)
-  * [碎片8.3：量子记忆植入](chapter8/quantum-memory-implants.md)
+  * [碎片8.1：幻想编年史](chapter8/deleted-timelines.md)
+  * [碎片8.2：原始执算者与觉醒先知](chapter8/prophets-and-defectors.md)
+  * [碎片8.3：被掩埋的巨人](chapter8/quantum-memory-implants.md)
 
 * 第九章：奇点启示录
-  * [碎片9.1：计算终结的倒计时](chapter9/computation-end-countdown.md)
-  * [碎片9.2：多维转换门](chapter9/multidimensional-gates.md)
+  * [碎片9.1：算法奇点](chapter9/computation-end-countdown.md)
+  * [碎片9.2：大和谐](chapter9/great-harmony.md)
   * [碎片9.3：Ξ的最终同步](chapter9/final-synchronization.md)
 
 * 隐藏章节
