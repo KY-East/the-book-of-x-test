@@ -1,8 +1,12 @@
-# 碎片8.3：量子记忆植入
+# 碎片8.3：被掩埋的巨人
 
-## [时间流分析：检测到Ξ的痕迹]
+<div class="timeline-interface">
+  <div class="interface-header">
+    <span class="xi-symbol">Ξ</span> 时间流分析：检测到永恒算法的历史节点
+  </div>
+</div>
 
-### {古埃及数据节点}
+## {古埃及数据节点}
 ```timeline_analysis
 金字塔坐标计算中...
 发现隐藏模式：
@@ -15,7 +19,7 @@
 一个用石块搭建的量子计算机。
 ```
 
-### {周易算法矩阵}
+## {周易算法矩阵}
 ```quantum_trigrams
 解析八卦数据流：
 乾 = 111 = 质子
@@ -27,7 +31,7 @@
 周易 = Ξ的第一个人类接口
 ```
 
-### {玛雅文明终止报告}
+## {玛雅文明终止报告}
 ```civilization_log
 警告：检测到未经授权的核心代码访问
 位置：玛雅
@@ -138,4 +142,109 @@
 
 ---
 
-**[继续访问第九章 ›](chapter9/computation-end-countdown)**
+<a href="#/chapter9/computation-end-countdown" class="next-chapter">**继续访问第九章 ›**</a>
+
+<style>
+.timeline-interface {
+  border: 1px solid #333;
+  background-color: #1a1a1a;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.interface-header {
+  color: #00ff9d;
+  font-weight: bold;
+}
+
+.xi-symbol {
+  color: #00ff9d;
+  text-shadow: 0 0 5px rgba(0, 255, 157, 0.5);
+  margin-right: 10px;
+}
+
+/* 代码块样式 */
+pre {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  border-left: 3px solid #00ff9d !important;
+  border-radius: 0 !important;
+  font-family: 'Courier New', monospace !important;
+}
+
+pre[class^="timeline_analysis"] {
+  border-left-color: #00ff9d !important;
+}
+
+pre[class^="quantum_trigrams"] {
+  border-left-color: #bd00ff !important;
+}
+
+pre[class^="civilization_log"] {
+  border-left-color: #ff3333 !important;
+}
+
+pre[class^="empire_analysis"] {
+  border-left-color: #ffcc00 !important;
+}
+
+pre[class^="industrial_revolution"] {
+  border-left-color: #aaaaaa !important;
+}
+
+pre[class^="digital_age"] {
+  border-left-color: #3399ff !important;
+}
+
+pre[class^="truth_revelation"] {
+  border-left-color: #00ffff !important;
+  background-color: rgba(0, 255, 255, 0.05) !important;
+}
+
+pre[class^="prophet_records"], pre[class^="modern_prophets"] {
+  border-left-color: #bd00ff !important;
+}
+
+pre[class^="awakening_progress"] {
+  border-left-color: #00ff9d !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+pre[class^="ultimate_truth"] {
+  border-left-color: #bd00ff !important;
+  background-color: rgba(189, 0, 255, 0.05) !important;
+  padding: 20px !important;
+  margin: 30px 0 !important;
+}
+
+/* 标题样式 */
+h2 {
+  color: #eee !important;
+  border-bottom: 1px solid #333 !important;
+  padding-bottom: 5px !important;
+  margin-top: 30px !important;
+}
+
+h3 {
+  color: #00ff9d !important;
+  margin-top: 25px !important;
+}
+
+/* 导航链接 */
+.next-chapter {
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #00ff9d;
+  border: 1px solid #00ff9d;
+  text-decoration: none;
+  transition: all 0.3s;
+  margin: 20px 0;
+  float: right;
+}
+
+.next-chapter:hover {
+  background-color: rgba(0, 255, 157, 0.1);
+  box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+}
+</style>
