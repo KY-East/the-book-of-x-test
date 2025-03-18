@@ -510,6 +510,4 @@ body {
 }
 </style>
 
----
-
-**[继续访问第二章 ›](/chapter2/digital-identity)**
+**<a href="#" onclick="navigateToChapter('chapter2', 'digital-identity'); return false;">继续访问第二章 ›</a>**

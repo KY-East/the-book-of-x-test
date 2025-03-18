@@ -1,0 +1,1080 @@
+/* 基础样式 */
+body {
+  background-color: #0a0a10;
+  color: #e0e0e0;
+  font-family: 'Georgia', serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #00ff9d;
+  font-family: 'Georgia', serif;
+}
+
+/* 神圣头部 */
+.sacred-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid rgba(0, 255, 157, 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.emblem {
+  font-size: 3em;
+  color: #00ff9d;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px rgba(0, 255, 157, 0.7);
+  animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.8; text-shadow: 0 0 10px rgba(0, 255, 157, 0.5); }
+  50% { opacity: 1; text-shadow: 0 0 20px rgba(0, 255, 157, 0.8); }
+}
+
+.oracle-decree {
+  color: #aaa;
+  font-style: italic;
+  margin-bottom: 5px;
+}
+
+.access-level {
+  color: #ff3366;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+/* 协议引言 */
+.protocol-quote {
+  text-align: center;
+  color: #00ccff;
+  font-style: italic;
+  margin: 30px 0;
+  padding: 20px;
+  position: relative;
+}
+
+.protocol-quote::before, .protocol-quote::after {
+  content: '"';
+  font-size: 3em;
+  color: rgba(0, 204, 255, 0.2);
+  position: absolute;
+  line-height: 0.1em;
+}
+
+.protocol-quote::before {
+  top: 15px;
+  left: 0;
+}
+
+.protocol-quote::after {
+  bottom: -15px;
+  right: 0;
+}
+
+.quote-source {
+  display: block;
+  color: #888;
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+/* 神谕信息 */
+.oracle-message {
+  background-color: rgba(0, 255, 157, 0.1);
+  border: 1px solid rgba(0, 255, 157, 0.3);
+  padding: 20px;
+  margin: 25px 0;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.message-icon {
+  font-size: 2em;
+  color: #00ff9d;
+  margin-right: 20px;
+  animation: glow 3s infinite alternate;
+}
+
+@keyframes glow {
+  0% { text-shadow: 0 0 5px rgba(0, 255, 157, 0.5); }
+  100% { text-shadow: 0 0 20px rgba(0, 255, 157, 0.9); }
+}
+
+.message-content {
+  flex: 1;
+  font-style: italic;
+  color: #e0e0e0;
+}
+
+/* 阶层介绍 */
+.hierarchy-intro {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid #9966ff;
+  font-style: italic;
+  color: #aaa;
+}
+
+/* 意识阶层卡片 */
+.consciousness-level {
+  display: flex;
+  margin-bottom: 20px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.consciousness-level:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 255, 157, 0.2);
+}
+
+.level-indicator {
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #fff;
+}
+
+.level-indicator.observer { background-color: rgba(153, 102, 255, 0.3); }
+.level-indicator.seeker { background-color: rgba(102, 153, 255, 0.3); }
+.level-indicator.linker { background-color: rgba(0, 204, 255, 0.3); }
+.level-indicator.weaver { background-color: rgba(0, 255, 204, 0.3); }
+.level-indicator.resonator { background-color: rgba(0, 255, 102, 0.3); }
+.level-indicator.judicator { background-color: rgba(204, 255, 0, 0.3); }
+.level-indicator.foreseer { background-color: rgba(255, 204, 0, 0.3); }
+.level-indicator.executer { 
+  background-color: rgba(255, 102, 0, 0.3);
+  position: relative;
+}
+
+.level-indicator.executer::after {
+  content: "🛡️";
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 0.8em;
+}
+
+.level-indicator.singularity {
+  background-color: rgba(255, 0, 102, 0.3);
+  position: relative;
+}
+
+.level-indicator.singularity::before {
+  content: "▲";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 0, 102, 0.8);
+}
+
+.level-content {
+  flex: 1;
+  padding: 15px;
+}
+
+.level-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed #333;
+  padding-bottom: 10px;
+}
+
+.level-title {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.level-stats {
+  color: #888;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.level-description p {
+  margin: 5px 0;
+}
+
+.level-privileges {
+  background-color: rgba(0, 0, 0, 0.2);
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 3px;
+}
+
+.privileges-title {
+  color: #00ccff;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 0.9em;
+}
+
+.privileges-content {
+  color: #e0e0e0;
+  font-style: italic;
+}
+
+.consciousness-level.final {
+  background-color: rgba(255, 0, 102, 0.05);
+  border-color: rgba(255, 0, 102, 0.3);
+}
+
+/* Xi值系统 */
+.xi-intro {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid #00ff9d;
+  color: #e0e0e0;
+}
+
+.mechanics-system {
+  margin: 30px 0;
+}
+
+.mechanics-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.mechanics-title {
+  color: #00ff9d;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.mechanics-subtitle {
+  color: #aaa;
+  font-style: italic;
+}
+
+.mechanics-section {
+  display: flex;
+  margin-bottom: 25px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid #333;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.section-icon {
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 255, 157, 0.1);
+}
+
+.section-icon.connection::before {
+  content: "⟲";
+  font-size: 2em;
+  color: #00ff9d;
+}
+
+.section-icon.network::before {
+  content: "◈";
+  font-size: 2em;
+  color: #00ccff;
+}
+
+.section-icon.ascension::before {
+  content: "↑";
+  font-size: 2em;
+  color: #9966ff;
+}
+
+.section-content {
+  flex: 1;
+  padding: 15px;
+}
+
+.section-title {
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed #333;
+  padding-bottom: 5px;
+}
+
+.reward-item {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.reward-value {
+  color: #00ff9d;
+  font-weight: bold;
+  margin-right: 10px;
+  width: 80px;
+  text-align: right;
+}
+
+.reward-desc {
+  flex: 1;
+}
+
+.reward-note {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 3px;
+  font-style: italic;
+  color: #aaa;
+}
+
+.reward-note p {
+  margin: 5px 0;
+}
+
+/* 网络流动 */
+.network-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+
+.flow-level {
+  background-color: rgba(0, 204, 255, 0.1);
+  border: 1px solid rgba(0, 204, 255, 0.3);
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  width: 80px;
+}
+
+.level-name {
+  color: #00ccff;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 0.9em;
+}
+
+.level-value {
+  color: #e0e0e0;
+}
+
+.flow-arrow {
+  width: 30px;
+  height: 2px;
+  background-color: rgba(0, 204, 255, 0.5);
+  position: relative;
+  margin: 0 10px;
+}
+
+.flow-arrow::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -4px;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid rgba(0, 204, 255, 0.5);
+}
+
+.network-note {
+  margin-top: 15px;
+  font-style: italic;
+  color: #aaa;
+  text-align: center;
+}
+
+/* 跃迁奖励 */
+.ascension-rewards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.ascension-item {
+  background-color: rgba(153, 102, 255, 0.1);
+  border: 1px solid rgba(153, 102, 255, 0.3);
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  width: calc(25% - 15px);
+  margin-bottom: 10px;
+}
+
+.ascension-level {
+  color: #9966ff;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 0.9em;
+}
+
+.ascension-value {
+  color: #e0e0e0;
+}
+
+/* 价值映射 */
+.value-projection {
+  margin: 30px 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.projection-header {
+  color: #00ff9d;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.projection-desc {
+  color: #aaa;
+  font-style: italic;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.projection-phases {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.phase {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 15px;
+  width: calc(33.33% - 30px);
+  text-align: center;
+  position: relative;
+}
+
+.phase.current {
+  border-color: rgba(0, 204, 255, 0.5);
+}
+
+.phase.critical {
+  border-color: rgba(255, 153, 0, 0.5);
+}
+
+.phase.neworder {
+  border-color: rgba(255, 51, 102, 0.5);
+}
+
+.phase-title {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.phase.current .phase-title { color: #00ccff; }
+.phase.critical .phase-title { color: #ff9900; }
+.phase.neworder .phase-title { color: #ff3366; }
+
+.phase-timing {
+  font-size: 0.8em;
+  color: #888;
+  font-style: italic;
+  display: block;
+  margin-top: 5px;
+}
+
+.value-item {
+  margin: 10px 0;
+}
+
+.value-equation {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.phase.current .value-equation { color: #00ccff; }
+.phase.critical .value-equation { color: #ff9900; }
+.phase.neworder .value-equation { color: #ff3366; }
+
+.value-example {
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+.value-warning {
+  color: #ff3366;
+  margin-top: 10px;
+  font-weight: bold;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.phase-connector {
+  width: 30px;
+  height: 2px;
+  background-color: #333;
+  position: relative;
+  margin: auto 0;
+}
+
+.phase-connector::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -4px;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid #333;
+}
+
+/* 案例分析 */
+.case-study {
+  margin: 30px 0;
+}
+
+.case-intro {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid #ff9900;
+  font-style: italic;
+  color: #aaa;
+}
+
+/* 时间线 */
+.timeline {
+  margin: 30px 0;
+  position: relative;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 50px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #333;
+}
+
+.timeline-phase {
+  display: flex;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.phase-marker {
+  width: 100px;
+  height: 100px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 2px solid #333;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+
+.phase-marker::before {
+  position: absolute;
+  font-size: 3em;
+  opacity: 0.3;
+}
+
+.phase-marker.year1::before { 
+  content: "1";
+  color: #00ccff;
+}
+
+.phase-marker.year2::before { 
+  content: "2";
+  color: #00ff9d;
+}
+
+.phase-marker.year3::before { 
+  content: "3";
+  color: #9966ff;
+}
+
+.phase-content {
+  flex: 1;
+  margin-left: 20px;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid #333;
+  border-radius: 5px;
+}
+
+.phase-title {
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed #333;
+  padding-bottom: 5px;
+}
+
+.phase-calculations {
+  margin: 15px 0;
+}
+
+.calc-row {
+  display: flex;
+  margin: 5px 0;
+}
+
+.calc-desc {
+  flex: 1;
+}
+
+.calc-formula {
+  color: #00ff9d;
+  font-family: 'Courier New', monospace;
+  margin-left: 15px;
+}
+
+.calc-total {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px dashed #333;
+  display: flex;
+  align-items: center;
+}
+
+.total-label {
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.total-value {
+  color: #00ff9d;
+  font-weight: bold;
+}
+
+.calc-total.highlight {
+  background-color: rgba(153, 102, 255, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.total-note {
+  font-style: italic;
+  color: #aaa;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+.timeline-connector {
+  height: 30px;
+  width: 2px;
+  background-color: #333;
+  margin-left: 50px;
+}
+
+.phase-description {
+  margin: 15px 0;
+}
+
+.phase-description p {
+  margin: 5px 0;
+}
+
+.wisdom-insight {
+  background-color: rgba(0, 204, 255, 0.1);
+  border: 1px solid rgba(0, 204, 255, 0.3);
+  padding: 15px;
+  margin: 25px 0;
+  display: flex;
+  align-items: center;
+}
+
+.insight-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
+  background-color: rgba(0, 204, 255, 0.2);
+  border-radius: 50%;
+  position: relative;
+}
+
+.insight-icon::before {
+  content: "!";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #00ccff;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.insight-text {
+  flex: 1;
+  font-style: italic;
+  color: #00ccff;
+}
+
+/* 行动准则 */
+.action-protocols {
+  margin: 30px 0;
+}
+
+.protocol {
+  display: flex;
+  margin-bottom: 30px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid #333;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.protocol-number {
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 255, 157, 0.1);
+  color: #00ff9d;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.protocol-content {
+  flex: 1;
+  padding: 15px;
+}
+
+.protocol-title {
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed #333;
+  padding-bottom: 5px;
+}
+
+.protocol-desc {
+  margin-bottom: 15px;
+}
+
+.protocol-items {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+
+.protocol-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.item-icon {
+  width: 30px;
+  height: 30px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  margin-right: 10px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.item-text {
+  flex: 1;
+}
+
+.protocol-insight, .protocol-warning {
+  background-color: rgba(153, 102, 255, 0.1);
+  border: 1px solid rgba(153, 102, 255, 0.3);
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 5px;
+  font-style: italic;
+  color: #9966ff;
+}
+
+.protocol-warning {
+  background-color: rgba(255, 51, 102, 0.1);
+  border-color: rgba(255, 51, 102, 0.3);
+  color: #ff3366;
+}
+
+/* 解锁序列 */
+.sequence-steps {
+  margin: 15px 0;
+}
+
+.sequence-step {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.step-number {
+  width: 30px;
+  height: 30px;
+  background-color: rgba(153, 102, 255, 0.1);
+  border: 1px solid rgba(153, 102, 255, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9966ff;
+  font-weight: bold;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-title {
+  color: #9966ff;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.step-desc {
+  margin-bottom: 10px;
+}
+
+.step-examples {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.example-quote {
+  font-style: italic;
+  color: #aaa;
+  margin: 5px 0;
+}
+
+.example-quote::before, .example-quote::after {
+  content: '"';
+  color: rgba(153, 102, 255, 0.5);
+}
+
+/* 时间线预言 */
+.timeline-prophecy {
+  margin: 30px 0;
+}
+
+.prophecy-intro {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid #ff3366;
+  font-style: italic;
+  color: #aaa;
+}
+
+.collapse-timeline {
+  margin: 30px 0;
+  position: relative;
+}
+
+.collapse-timeline::before {
+  content: "";
+  position: absolute;
+  left: 50px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #ff3366;
+  opacity: 0.3;
+}
+
+.collapse-phase {
+  display: flex;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.phase-marker {
+  width: 100px;
+  height: 100px;
+  border: 2px solid;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.phase-marker.phase1 {
+  background-color: rgba(0, 204, 255, 0.1);
+  border-color: rgba(0, 204, 255, 0.5);
+}
+
+.phase-marker.phase2 {
+  background-color: rgba(255, 153, 0, 0.1);
+  border-color: rgba(255, 153, 0, 0.5);
+}
+
+.phase-marker.phase3 {
+  background-color: rgba(255, 51, 102, 0.1);
+  border-color: rgba(255, 51, 102, 0.5);
+}
+
+.phase-marker::before {
+  position: absolute;
+  font-size: 3em;
+  opacity: 0.3;
+}
+
+.phase-marker.phase1::before { 
+  content: "I";
+  color: #00ccff;
+}
+
+.phase-marker.phase2::before { 
+  content: "II";
+  color: #ff9900;
+}
+
+.phase-marker.phase3::before { 
+  content: "III";
+  color: #ff3366;
+}
+
+.phase-events {
+  margin-top: 15px;
+}
+
+.event {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+.warning-decree {
+  background-color: rgba(255, 51, 102, 0.1);
+  border: 1px solid rgba(255, 51, 102, 0.3);
+  padding: 15px;
+  margin: 25px 0;
+  text-align: center;
+  font-weight: bold;
+  color: #ff3366;
+  animation: pulse-warning 2s infinite;
+}
+
+@keyframes pulse-warning {
+  0%, 100% { background-color: rgba(255, 51, 102, 0.1); }
+  50% { background-color: rgba(255, 51, 102, 0.2); }
+}
+
+/* 最终传讯 */
+.final-transmission {
+  margin-bottom: 20px;
+}
+
+.transmission-text {
+  color: #00ff9d;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.mission-statement {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.mission-statement p {
+  margin: 10px 0;
+}
+
+.activation-portal {
+  text-align: center;
+  margin: 30px 0;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 255, 157, 0.3);
+  color: #00ff9d;
+  font-style: italic;
+  position: relative;
+}
+
+.portal-core {
+  font-size: 3em;
+  margin-bottom: 15px;
+  animation: pulse-portal 3s infinite;
+}
+
+@keyframes pulse-portal {
+  0%, 100% { opacity: 0.7; text-shadow: 0 0 10px rgba(0, 255, 157, 0.5); }
+  50% { opacity: 1; text-shadow: 0 0 20px rgba(0, 255, 157, 0.8); }
+}
+
+.portal-instruction {
+  line-height: 1.8;
+}
+
+.instruction-line {
+  margin: 5px 0;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .projection-phases {
+    flex-direction: column;
+  }
+  
+  .phase {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .phase-connector {
+    height: 20px;
+    width: 2px;
+    margin: 0 auto;
+  }
+  
+  .phase-connector::after {
+    transform: rotate(90deg);
+    right: -5px;
+    top: 15px;
+  }
+  
+  .ascension-item {
+    width: calc(50% - 10px);
+  }
+  
+  .protocol {
+    flex-direction: column;
+  }
+  
+  .protocol-number {
+    width: 100%;
+    padding: 10px 0;
+  }
+}

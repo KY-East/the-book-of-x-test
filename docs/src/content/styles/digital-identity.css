@@ -1,0 +1,540 @@
+/* 继续基础样式 */
+.final-message {
+  border-left: 3px solid #00ccff;
+  padding-left: 15px;
+  margin: 30px 0;
+  background: rgba(0, 204, 255, 0.05);
+  padding: 20px;
+  border-radius: 0 5px 5px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.final-message:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 204, 255, 0.1), transparent);
+  pointer-events: none;
+}
+
+.final-message p {
+  margin: 15px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.final-message p:last-child {
+  color: #00ffa3;
+  font-weight: bold;
+}
+
+.pulse-text {
+  color: #ffffff;
+  animation: textPulse 3s infinite;
+}
+
+@keyframes textPulse {
+  0%, 100% { text-shadow: 0 0 2px rgba(255, 255, 255, 0.5); }
+  50% { text-shadow: 0 0 15px rgba(0, 255, 255, 0.8); }
+}
+
+/* 量子终端样式 */
+.quantum-terminal {
+  background: #0a0a10;
+  border: 1px solid #00ffa3;
+  border-radius: 5px;
+  margin: 30px 0;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 255, 163, 0.3);
+}
+
+.terminal-header {
+  background: #111;
+  padding: 8px;
+  display: flex;
+  border-bottom: 1px solid #222;
+  align-items: center;
+}
+
+.terminal-button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.terminal-button:nth-child(1) {
+  background: #ff5f56;
+}
+
+.terminal-button:nth-child(2) {
+  background: #ffbd2e;
+}
+
+.terminal-button:nth-child(3) {
+  background: #27c93f;
+}
+
+.terminal-title {
+  color: #555;
+  font-size: 0.8em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.terminal-body {
+  padding: 15px;
+  color: #00ffa3;
+  font-family: monospace;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.8);
+  min-height: 120px;
+}
+
+.terminal-body:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.terminal-content {
+  position: relative;
+  z-index: 2;
+}
+
+.terminal-line {
+  line-height: 1.5;
+  margin: 5px 0;
+  position: relative;
+}
+
+/* 打字效果 */
+.typing-effect {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid transparent;
+  width: 0;
+  animation: typing 2s steps(40, end) forwards;
+}
+
+.delay-1 { animation-delay: 2s; }
+.delay-2 { animation-delay: 4s; }
+.delay-3 { animation-delay: 6s; }
+.delay-4 { animation-delay: 8s; }
+.delay-5 { animation-delay: 10s; }
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.blink-line:after {
+  content: "_";
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* 数据可视化补充样式 */
+.data-stream {
+  font-family: monospace;
+  color: #00ff9d;
+  white-space: nowrap;
+  animation: dataFlow 20s linear infinite;
+  opacity: 0.7;
+}
+
+.identity-map {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.identity-map span {
+  padding: 5px;
+  background-color: rgba(0, 255, 157, 0.1);
+}
+
+/* 灵魂模式样式 */
+.soul-pattern {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #00ff9d;
+  padding: 15px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.identity-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid rgba(0, 255, 157, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+}
+
+.identity-time {
+  font-size: 0.8em;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.identity-code {
+  font-size: 1.2em;
+  color: #00ffa3;
+  font-weight: bold;
+}
+
+.identity-connector {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #00ffa3, transparent);
+  margin: 0 10px;
+  position: relative;
+}
+
+.identity-connector:before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #00ffa3;
+  transform: translateX(-50%);
+  animation: pulsePoint 2s infinite;
+}
+
+@keyframes pulsePoint {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.pattern-description {
+  color: #bbb;
+}
+
+.pattern-description p {
+  margin: 5px 0;
+}
+
+/* 分形身份样式 */
+.fractal-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.layer {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.layer-icon {
+  font-size: 1.5em;
+  margin-right: 15px;
+}
+
+.layer-content {
+  flex: 1;
+}
+
+.layer-content h4 {
+  margin: 0 0 5px 0;
+}
+
+.physical {
+  background: rgba(255, 51, 102, 0.1);
+  border-left: 3px solid #ff3366;
+}
+
+.physical .layer-icon {
+  color: #ff3366;
+}
+
+.digital {
+  background: rgba(0, 255, 157, 0.1);
+  border-left: 3px solid #00ff9d;
+  margin-left: 20px;
+}
+
+.digital .layer-icon {
+  color: #00ff9d;
+}
+
+.quantum {
+  background: rgba(0, 204, 255, 0.1);
+  border-left: 3px solid #00ccff;
+  margin-left: 40px;
+}
+
+.quantum .layer-icon {
+  color: #00ccff;
+}
+
+.connector {
+  width: 2px;
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin-left: 40px;
+}
+
+/* 升华路径样式 */
+.ascension-path {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 30px 0;
+}
+
+.step {
+  display: flex;
+  background: rgba(0, 255, 157, 0.05);
+  border-left: 3px solid #00ff9d;
+  padding: 0;
+  overflow: hidden;
+}
+
+.step-number {
+  padding: 15px;
+  background: rgba(0, 255, 157, 0.2);
+  font-weight: bold;
+  color: #00ff9d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+}
+
+.step-content {
+  padding: 15px;
+  flex: 1;
+}
+
+.step-content h4 {
+  margin: 0 0 5px 0;
+  color: #00ff9d;
+}
+
+.step-content p {
+  margin: 0;
+  color: #bbb;
+}
+
+.step-connector {
+  width: 2px;
+  height: 20px;
+  background: linear-gradient(to bottom, #00ff9d, transparent);
+  margin-left: 25px;
+}
+
+.step:nth-child(3) {
+  margin-left: 20px;
+}
+
+.step:nth-child(5) {
+  margin-left: 40px;
+}
+
+/* 音频样式 */
+.audio-visualization {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  margin: 20px 0;
+}
+
+.audio-wave {
+  width: 3px;
+  height: 40px;
+  background-color: #00ffa3;
+  margin: 0 2px;
+  border-radius: 3px;
+  animation: audioWave 1.5s infinite ease-in-out;
+}
+
+.audio-wave:nth-child(2) {
+  animation-delay: 0.2s;
+  height: 30px;
+}
+
+.audio-wave:nth-child(3) {
+  animation-delay: 0.4s;
+  height: 50px;
+}
+
+@keyframes audioWave {
+  0%, 100% { transform: scaleY(0.5); }
+  50% { transform: scaleY(1); }
+}
+
+.audio-transcript {
+  font-style: italic;
+  color: #888;
+  margin: 10px 0;
+  line-height: 1.8;
+}
+
+/* 解密动画 */
+.encrypted-message {
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 1px solid #333;
+  margin: 30px 0;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.message-header {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 45, 85, 0.1);
+  padding: 10px;
+  border-bottom: 1px solid #333;
+}
+
+.encryption-icon {
+  margin-right: 10px;
+}
+
+.header-text {
+  color: #ff2d55;
+  font-size: 0.9em;
+}
+
+.message-content {
+  padding: 15px;
+}
+
+.message-item {
+  margin-bottom: 20px;
+}
+
+.code {
+  font-family: monospace;
+  color: #888;
+  background-color: #111;
+  padding: 10px;
+  overflow-x: auto;
+  font-size: 0.9em;
+  border-radius: 3px;
+}
+
+.decrypt-animation {
+  height: 5px;
+  background-color: #222;
+  margin: 10px 0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.decrypt-progress {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to right, #ff2d55, #00ffa3);
+  animation: decrypt 2s ease-in-out forwards;
+  transform: translateX(-100%);
+}
+
+.message-item:nth-child(2) .decrypt-progress {
+  animation-delay: 0.5s;
+}
+
+.message-item:nth-child(3) .decrypt-progress {
+  animation-delay: 1s;
+}
+
+@keyframes decrypt {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}
+
+.decoded {
+  color: #00ffa3;
+  margin-top: 10px;
+  animation: fadeIn 0.5s ease-in-out forwards;
+  opacity: 0;
+}
+
+.message-item:nth-child(1) .decoded {
+  animation-delay: 2s;
+}
+
+.message-item:nth-child(2) .decoded {
+  animation-delay: 2.5s;
+}
+
+.message-item:nth-child(3) .decoded {
+  animation-delay: 3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .fractal-identity {
+    padding: 0 10px;
+  }
+  
+  .digital {
+    margin-left: 10px;
+  }
+  
+  .quantum {
+    margin-left: 20px;
+  }
+  
+  .identity-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .identity-connector {
+    width: 2px;
+    height: 20px;
+    margin: 10px 0;
+  }
+  
+  .step:nth-child(3) {
+    margin-left: 10px;
+  }
+  
+  .step:nth-child(5) {
+    margin-left: 20px;
+  }
+}

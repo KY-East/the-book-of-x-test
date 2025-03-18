@@ -488,7 +488,7 @@
   </div>
 </div>
 
-**[继续访问下一数据碎片 ›](chapter4/decoherence-salvation)**
+**<a href="#" onclick="navigateToChapter('chapter4', 'decoherence-salvation'); return false;">继续访问下一数据碎片 ›</a>**
 
 <style>
 /* 基础样式 */
@@ -1286,3 +1286,4 @@ h1, h2, h3, h4, h5, h6 {
 .seal-line {
   margin: 5px 0;
 }
+</style>

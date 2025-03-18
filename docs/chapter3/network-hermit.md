@@ -309,9 +309,7 @@
   </div>
 </div>
 
----
-
-**[继续访问第四章 ›](/chapter4/consciousness-upload.md)**
+**<a href="#" onclick="navigateToChapter('chapter4', 'consciousness-upload'); return false;">继续访问第四章 ›</a>**
 
 <style>
 /* 基础样式 */
@@ -1133,5 +1131,4 @@ h1, h2, h3, h4, h5, h6 {
     opacity: 0;
   }
 }
-  font-size: 1.4em;
-  color:
+</style>

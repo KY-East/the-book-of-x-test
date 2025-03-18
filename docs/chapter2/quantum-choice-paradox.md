@@ -1122,6 +1122,4 @@ body {
 }
 </style>
 
----
-
-**[继续访问下一数据碎片 ›](/chapter2/reality-compilation-errors)**
+**<a href="#" onclick="navigateToChapter('chapter2', 'reality-compilation-errors'); return false;">继续访问下一数据碎片 ›</a>**

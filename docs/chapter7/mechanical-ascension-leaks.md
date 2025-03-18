@@ -132,7 +132,7 @@
 </div>
 
 <div class="nav-button-container">
-  <a href="#/chapter7/digital-nirvana-reports" class="nav-button" id="continue-button">继续访问下一数据碎片 ›</a>
+  <a href="#" onclick="navigateToChapter('chapter7', 'digital-nirvana-reports'); return false;">继续访问下一数据碎片 ›</a>
 </div>
 
 <div id="access-denied" class="full-overlay hidden">

@@ -631,7 +631,7 @@
   </div>
 </div>
 
-**[继续访问下一数据碎片 ›](/chapter5/algorithmic-wealth)**
+**<a href="#" onclick="navigateToChapter('chapter5', 'algorithmic-wealth'); return false;">继续访问下一数据碎片 ›</a>**
 
 <style>
 /* 基础样式 */

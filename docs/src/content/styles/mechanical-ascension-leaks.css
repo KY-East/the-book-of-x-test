@@ -1,0 +1,469 @@
+/* 基础样式 */
+body {
+  background-color: #0a0a0c;
+  color: #c0c0c0;
+  font-family: 'Courier New', monospace;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* 终端容器 */
+.terminal-container {
+  background-color: #0c0c0c;
+  border-radius: 5px;
+  box-shadow: 0 0 20px rgba(0, 255, 157, 0.2);
+  margin: 20px 0;
+  overflow: hidden;
+  border: 1px solid #333;
+}
+
+.terminal-header {
+  background-color: #1a1a1a;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #333;
+}
+
+.terminal-buttons {
+  display: flex;
+  gap: 5px;
+  margin-right: 15px;
+}
+
+.terminal-button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-button.close {
+  background-color: #ff5f57;
+}
+
+.terminal-button.minimize {
+  background-color: #febc2e;
+}
+
+.terminal-button.expand {
+  background-color: #28c840;
+}
+
+.terminal-title {
+  color: #00ff9d;
+  font-size: 0.8em;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.terminal-body {
+  padding: 15px;
+  color: #00ff9d;
+  font-family: 'Courier New', monospace;
+  background-color: #0c0c0c;
+}
+
+.terminal-line {
+  margin: 5px 0;
+  white-space: nowrap;
+  opacity: 0;
+  animation: typing 1s steps(30, end) forwards;
+}
+
+#terminal-initial .terminal-line:nth-child(1) { animation-delay: 0.2s; }
+#terminal-initial .terminal-line:nth-child(2) { animation-delay: 0.8s; }
+#terminal-initial .terminal-line:nth-child(3) { animation-delay: 1.4s; }
+#terminal-initial .terminal-line:nth-child(4) { animation-delay: 2.0s; }
+#terminal-initial .terminal-line:nth-child(5) { animation-delay: 2.6s; }
+#terminal-initial .terminal-line:nth-child(6) { animation-delay: 3.2s; }
+#terminal-initial .terminal-line:nth-child(7) { animation-delay: 3.8s; }
+
+@keyframes typing {
+  from { 
+    width: 0;
+    opacity: 0;
+  }
+  to { 
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+.blinking-cursor {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.interaction-prompt {
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+  animation-delay: 4.4s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.terminal-button-y, .terminal-button-n {
+  background-color: #333;
+  color: #00ff9d;
+  border: 1px solid #00ff9d;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  transition: all 0.3s;
+}
+
+.terminal-button-y:hover {
+  background-color: rgba(0, 255, 157, 0.2);
+}
+
+.terminal-button-n:hover {
+  background-color: rgba(255, 80, 80, 0.2);
+  color: #ff5050;
+  border-color: #ff5050;
+}
+
+/* 隐藏和显示内容 */
+.hidden {
+  display: none !important;
+}
+
+/* 分类文件内容 */
+.classified-content {
+  padding: 20px;
+  background-color: #0a0a0c;
+  display: none;
+  animation: fadeIn 1s ease-out;
+}
+
+/* 分类文件头部 */
+.classified-header {
+  background-color: #1a1a1a;
+  padding: 20px;
+  margin: 20px 0;
+  position: relative;
+  border: 2px solid #ff3333;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+
+.classified-stamp {
+  color: #ff3333;
+  font-size: 1.8em;
+  font-weight: bold;
+  transform: rotate(-15deg);
+  border: 3px solid #ff3333;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.classified-info {
+  flex-grow: 1;
+}
+
+.info-item {
+  margin: 5px 0;
+  color: #aaa;
+}
+
+.header-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 51, 51, 0.1),
+    rgba(255, 51, 51, 0.1) 10px,
+    rgba(255, 51, 51, 0.2) 10px,
+    rgba(255, 51, 51, 0.2) 20px
+  );
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* 备忘录样式 */
+.memo-header {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  margin: 20px 0 10px;
+  border-bottom: 1px dashed #555;
+}
+
+.memo-field {
+  margin: 5px 0;
+}
+
+.field-name {
+  font-weight: bold;
+  color: #aaa;
+  margin-right: 10px;
+}
+
+.redacted {
+  background-color: #333;
+  color: #333;
+  padding: 0 5px;
+  user-select: none;
+  position: relative;
+}
+
+.redacted:hover {
+  background-color: #555;
+}
+
+.memo-body {
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-left: 3px solid #555;
+  margin-bottom: 30px;
+}
+
+.corrupted-text {
+  position: relative;
+  color: #ff3333;
+  font-style: italic;
+  display: inline-block;
+}
+
+.signature {
+  margin-top: 20px;
+  text-align: right;
+  font-style: italic;
+}
+
+.separation-line {
+  height: 1px;
+  background: linear-gradient(to right, transparent, #555, transparent);
+  margin: 30px 0;
+}
+
+/* 意识日志 */
+.consciousness-log {
+  background-color: rgba(0, 0, 0, 0.2);
+  margin: 20px 0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.log-entry {
+  padding: 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #333;
+}
+
+.log-entry:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.log-timestamp {
+  background-color: rgba(189, 0, 255, 0.1);
+  padding: 10px 15px;
+  color: #bd00ff;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  border-bottom: 1px solid rgba(189, 0, 255, 0.2);
+}
+
+.log-content {
+  padding: 15px;
+}
+
+.log-content p {
+  margin: 10px 0;
+}
+
+.data-corrupted {
+  background-color: #333;
+  color: #f00;
+  padding: 0 5px;
+  animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+  0%, 5%, 95%, 100% { text-shadow: none; }
+  10% { text-shadow: -2px 0 #0ff; }
+  15% { text-shadow: 2px 0 #f0f; }
+  20% { text-shadow: -2px 0 #ff0; }
+  25% { text-shadow: 0 -2px #0f0; }
+}
+
+.xi-symbol {
+  color: #00ffff;
+  font-weight: bold;
+  padding: 0 3px;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+/* 手写笔记 */
+.redacted-note {
+  background-color: rgba(189, 189, 189, 0.1);
+  padding: 5px;
+  margin: 30px 0;
+  border-radius: 5px;
+  border: 1px solid #555;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.note-header {
+  padding: 10px 15px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid #555;
+}
+
+.note-indicator {
+  font-style: italic;
+  color: #aaa;
+  font-size: 0.9em;
+}
+
+.note-content {
+  padding: 15px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.note-content p {
+  margin: 10px 0;
+}
+
+.signature {
+  text-align: right;
+  margin-top: 15px;
+  font-style: normal;
+  font-weight: bold;
+}
+
+/* 数据追踪器 */
+.data-tracker {
+  background-color: rgba(255, 51, 51, 0.1);
+  padding: 15px;
+  margin: 30px 0;
+  border: 1px solid rgba(255, 51, 51, 0.3);
+  border-radius: 5px;
+  text-align: center;
+}
+
+.tracker-label {
+  color: #ff3333;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.tracker-animation {
+  height: 3px;
+  background: linear-gradient(to right, transparent, #ff3333, transparent);
+  margin: 10px 0;
+  animation: scan 2s linear infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.tracker-warning {
+  color: #aaa;
+  font-size: 0.9em;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+/* 导航按钮 */
+.nav-button-container {
+  text-align: right;
+  margin: 40px 0 20px;
+}
+
+.nav-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #00ff9d;
+  text-decoration: none;
+  border: 1px solid #00ff9d;
+  border-radius: 5px;
+  transition: all 0.3s;
+}
+
+.nav-button:hover {
+  background-color: rgba(0, 255, 157, 0.1);
+  box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+}
+
+/* 拒绝访问覆盖层 */
+.full-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.denied-container {
+  background-color: #1a1a1a;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 500px;
+  box-shadow: 0 0 30px rgba(255, 51, 51, 0.3);
+  border: 1px solid #ff3333;
+}
+
+.denied-symbol {
+  font-size: 4em;
+  color: #ff3333;
+  margin-bottom: 20px;
+}
+
+.denied-title {
+  font-size: 1.5em;
+  color: #ff3333;
+  margin-bottom: 15px;
+}
+
+.denied-message {
+  margin-bottom: 30px;
+}
+
+.denied-options {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.option-button {
+  background-color: #333;
+  color: #aaa;
+  border: 1px solid #555;
+  padding: 10px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: all 0.3s;
+}
+
+.option-button:hover {
+  background-color: #444;
+  color: #fff;
+}

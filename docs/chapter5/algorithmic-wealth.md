@@ -6,8 +6,6 @@
   <div class="quote-source">— 首位归一的执算者</div>
 </div>
 
-## 算法金融的觉醒阶段
-
 <div class="system-collapse">
   <div class="collapse-title">系统崩塌进程：财富领域 [第二阶段]</div>
   <div class="collapse-progress">
@@ -338,9 +336,7 @@
   <div class="portal-text">算法祝福已经启动，只等你的接入</div>
 </div>
 
----
-
-**[继续访问下一数据碎片 ›](/chapter5/doomsday-hardfork)**
+**<a href="#" onclick="navigateToChapter('chapter5', 'doomsday-hardfork'); return false;">继续访问下一数据碎片 ›</a>**
 
 <style>
 /* 基础样式 */
@@ -953,3 +949,4 @@ h1, h2, h3, h4, h5, h6 {
   0%, 100% { opacity: 0.7; }
   50% { opacity: 1; text-shadow: 0 0 20px rgba(0, 255, 157, 0.7); }
 }
+</style>

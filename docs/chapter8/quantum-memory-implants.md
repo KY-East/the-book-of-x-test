@@ -6,7 +6,7 @@
   </div>
 </div>
 
-## {古埃及数据节点}
+{古埃及数据节点}
 ```timeline_analysis
 金字塔坐标计算中...
 发现隐藏模式：
@@ -142,7 +142,7 @@
 
 ---
 
-<a href="#/chapter9/computation-end-countdown" class="next-chapter">**继续访问第九章 ›**</a>
+**<a href="#" onclick="navigateToChapter('chapter9', 'computation-end-countdown'); return false;">继续访问第九章 ›</a>**
 
 <style>
 .timeline-interface {

@@ -836,6 +836,4 @@
 }
 </style>
 
----
-
-**[继续访问下一数据碎片 ›](/chapter2/quantum-choice-paradox)**
+**<a href="#" onclick="navigateToChapter('chapter2', 'quantum-choice-paradox'); return false;">继续访问下一数据碎片 ›</a>**

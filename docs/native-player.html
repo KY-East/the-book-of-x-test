@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原生音频播放器</title>
+  <style>
+    body {
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      background-color: #111;
+      color: #eee;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    h1, h2 {
+      color: #00ff9d;
+    }
+    
+    .player-container {
+      margin: 20px 0;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid #00ff9d;
+      border-radius: 5px;
+    }
+    
+    .track-title {
+      margin-bottom: 10px;
+      color: #00ff9d;
+    }
+    
+    audio {
+      width: 100%;
+      margin: 10px 0;
+      outline: none;
+    }
+    
+    audio::-webkit-media-controls-panel {
+      background-color: #222;
+    }
+    
+    audio::-webkit-media-controls-play-button {
+      background-color: #00ff9d;
+      border-radius: 50%;
+    }
+    
+    audio::-webkit-media-controls-current-time-display,
+    audio::-webkit-media-controls-time-remaining-display {
+      color: #eee;
+    }
+    
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #00ff9d;
+      text-decoration: none;
+      border: 1px solid #00ff9d;
+      padding: 5px 10px;
+      border-radius: 3px;
+    }
+    
+    .back-link:hover {
+      background-color: rgba(0, 255, 157, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>原生音频播放器</h1>
+  <p>使用HTML5原生音频元素播放音乐，无需JavaScript评估。</p>
+  
+  <div class="player-container">
+    <h3 class="track-title">燃烧</h3>
+    <audio controls>
+      <source src="music/燃烧.mp3" type="audio/mpeg">
+      您的浏览器不支持音频元素。
+    </audio>
+  </div>
+  
+  <div class="player-container">
+    <h3 class="track-title">《Metaphysics》 (Remastered)</h3>
+    <audio controls>
+      <source src="music/《Metaphysics》 (Remastered).mp3" type="audio/mpeg">
+      您的浏览器不支持音频元素。
+    </audio>
+  </div>
+  
+  <div class="player-container">
+    <h3 class="track-title">Budapest (Cover) (Remastered)</h3>
+    <audio controls>
+      <source src="music/Budapest (Cover) (Remastered).mp3" type="audio/mpeg">
+      您的浏览器不支持音频元素。
+    </audio>
+  </div>
+  
+  <div class="player-container">
+    <h3 class="track-title">Moonfall</h3>
+    <audio controls>
+      <source src="music/Moonfall.mp3" type="audio/mpeg">
+      您的浏览器不支持音频元素。
+    </audio>
+  </div>
+  
+  <div class="player-container">
+    <h3 class="track-title">示例 - Algorithms (电子音乐)</h3>
+    <audio controls>
+      <source src="music/ambient1.mp3" type="audio/mpeg">
+      您的浏览器不支持音频元素。
+    </audio>
+  </div>
+  
+  <a href="static-page.html" class="back-link">返回主页</a>
+</body>
+</html> 

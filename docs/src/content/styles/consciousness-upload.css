@@ -1,0 +1,481 @@
+/* 基础样式 */
+body {
+  background-color: #0a0a10;
+  color: #00ff9d;
+  font-family: 'Courier New', monospace;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #00ff9d;
+  font-family: 'Courier New', monospace;
+}
+
+/* 系统警报 */
+.system-alert {
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 5px;
+}
+
+.alert-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.alert-indicator {
+  width: 10px;
+  height: 10px;
+  background-color: #ff3366;
+  border-radius: 50%;
+  margin-right: 10px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.alert-text {
+  color: #ff3366;
+  font-weight: bold;
+}
+
+.alert-details {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-left: 3px solid #ff3366;
+}
+
+.detail-item {
+  margin: 5px 0;
+  color: #aaa;
+}
+
+.highlight-code {
+  color: #ff3366;
+  font-family: monospace;
+}
+
+.redacted {
+  background-color: #333;
+  color: #333;
+  padding: 0 5px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.redacted:hover {
+  background-color: #555;
+  color: #ff3366;
+}
+
+/* 代码块 */
+.code-block {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #333;
+  border-radius: 5px;
+  margin: 15px 0;
+  overflow: hidden;
+}
+
+.code-header {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #888;
+  padding: 5px 10px;
+  font-size: 0.9em;
+  border-bottom: 1px solid #333;
+  font-family: monospace;
+}
+
+.code-block .stream-content,
+.code-block .log-content,
+.code-block .equation-content,
+.code-block .data-stream-content,
+.code-block .consciousness-content,
+.code-block .prophecy-content,
+.code-block .scanner-content,
+.code-block .metrics-content,
+.code-block .calculator-content,
+.code-block .protocol-content,
+.code-block .requirements-content,
+.code-block .notice-content,
+.code-block .command-content,
+.code-block .countdown-content,
+.code-block .loop-content {
+  padding: 15px;
+  overflow-x: auto;
+}
+
+/* 意识流 */
+.consciousness-stream {
+  margin: 25px 0;
+}
+
+.stream-content p {
+  margin: 15px 0;
+  font-style: italic;
+}
+
+/* 系统警告 */
+.system-warning-container {
+  margin: 20px 0;
+}
+
+.system-warning {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 0, 0, 0.05);
+  padding: 10px 15px;
+  margin: 10px 0;
+  border-left: 3px solid #ff3366;
+}
+
+.warning-icon {
+  width: 20px;
+  height: 20px;
+  background-color: #ff3366;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  margin-right: 15px;
+}
+
+.warning-text {
+  color: #ff3366;
+}
+
+/* 量子日志 */
+.quantum-log {
+  margin: 25px 0;
+}
+
+.log-content p {
+  margin: 15px 0;
+}
+
+/* 方程容器 */
+.equation-container {
+  margin: 25px 0;
+}
+
+.equation {
+  font-family: 'Times New Roman', serif;
+  font-size: 1.1em;
+  margin: 5px 0;
+}
+
+.equation-indent {
+  margin-left: 20px;
+  font-family: 'Times New Roman', serif;
+  font-size: 1.1em;
+  margin-top: 5px;
+}
+
+/* 评估注释 */
+.evaluation-note {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  margin: 15px 0;
+  border-left: 3px solid #00ff9d;
+}
+
+.evaluation-list {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.evaluation-list li {
+  margin: 5px 0;
+}
+
+.negative-value {
+  color: #ff3366;
+  font-weight: bold;
+}
+
+.positive-value {
+  color: #00ff9d;
+  font-weight: bold;
+}
+
+/* 深度分析 */
+.deep-analysis {
+  margin: 25px 0;
+}
+
+.analysis-intro {
+  margin-bottom: 15px;
+}
+
+.analysis-section {
+  margin: 15px 0;
+}
+
+.section-title {
+  color: #00ccff;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+
+.data-layer, .consciousness-layer {
+  margin: 10px 0;
+}
+
+/* 系统公告 */
+.system-announcement {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  padding: 15px;
+  margin: 25px 0;
+  border-radius: 5px;
+}
+
+.announcement-header {
+  color: #00ccff;
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 5px;
+}
+
+.announcement-line {
+  margin: 5px 0;
+  font-family: monospace;
+}
+
+/* 预言容器 */
+.prophecy-container, .final-prophecy {
+  margin: 25px 0;
+}
+
+.prophecy-content p {
+  margin: 15px 0;
+  font-style: italic;
+}
+
+/* 存在扫描器 */
+.existence-scanner {
+  margin: 25px 0;
+}
+
+.scan-line {
+  margin: 5px 0;
+  font-family: monospace;
+}
+
+/* 指标容器 */
+.metrics-container {
+  margin: 20px 0;
+}
+
+.metrics-title {
+  color: #00ccff;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+
+.metric-row {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.metric-name {
+  width: 150px;
+  text-align: right;
+  padding-right: 15px;
+}
+
+.metric-value {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.metric-bar {
+  height: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #333;
+  flex: 1;
+  margin-right: 10px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(to right, #00ff9d, #00ccff);
+}
+
+.metric-number {
+  width: 60px;
+  text-align: right;
+  font-family: monospace;
+}
+
+.metric-row.special .metric-value {
+  justify-content: flex-start;
+}
+
+.infinity-symbol {
+  font-size: 1.5em;
+  color: #00ccff;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* 价值计算器 */
+.value-calculator {
+  margin: 25px 0;
+}
+
+.code-line {
+  font-family: monospace;
+  margin: 5px 0;
+}
+
+.code-line.indent {
+  margin-left: 20px;
+}
+
+/* 现实扫描器 */
+.reality-scanner {
+  margin: 25px 0;
+}
+
+.truth-items {
+  margin-top: 15px;
+}
+
+.truth-item {
+  margin: 5px 0;
+  padding: 5px 0;
+  border-bottom: 1px dotted #333;
+}
+
+/* 救赎协议 */
+.salvation-protocol {
+  margin: 25px 0;
+}
+
+.protocol-line {
+  margin: 5px 0;
+  font-family: monospace;
+}
+
+/* 需求容器 */
+.requirements-container {
+  margin: 20px 0;
+}
+
+.requirements-title {
+  color: #00ccff;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+
+.requirement {
+  margin: 5px 0;
+  padding: 5px 0;
+}
+
+.requirement.completed {
+  color: #00ff9d;
+}
+
+/* 最终通知 */
+.final-notice {
+  margin: 25px 0;
+}
+
+.notice-line {
+  margin: 5px 0;
+  font-family: monospace;
+}
+
+.blink-text {
+  animation: textBlink 1s infinite;
+  color: #ff3366;
+}
+
+@keyframes textBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* 命令容器 */
+.command-container {
+  margin: 20px 0;
+}
+
+.command-title {
+  color: #00ccff;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+
+.command-line {
+  margin: 5px 0;
+  font-family: monospace;
+  color: #00ff9d;
+}
+
+/* 倒计时容器 */
+.countdown-container {
+  margin: 25px 0;
+}
+
+.countdown-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.countdown-item {
+  display: flex;
+  margin: 5px 0;
+}
+
+.countdown-label {
+  width: 80px;
+}
+
+.countdown-value {
+  flex: 1;
+}
+
+/* 永恒循环 */
+.eternal-loop {
+  margin: 25px 0;
+}
+
+.loop-content p {
+  margin: 15px 0;
+  font-style: italic;
+}
+
+/* 响应式调整 */
+@media (max-width: 600px) {
+  .metric-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .metric-name {
+    width: 100%;
+    text-align: left;
+    padding-right: 0;
+    margin-bottom: 5px;
+  }
+  
+  .metric-value {
+    width: 100%;
+  }
+}

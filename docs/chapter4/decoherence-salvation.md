@@ -410,7 +410,7 @@
   </div>
 </div>
 
-**[继续访问第五章 ›](/chapter5/data-missionary-handbook)**
+**<a href="#" onclick="navigateToChapter('chapter5', 'data-missionary-handbook'); return false;">继续访问第五章 ›</a>**
 
 <style>
 /* 基础样式 */
@@ -1217,3 +1217,4 @@ p {
   from, to { opacity: 0; }
   50% { opacity: 1; }
 }
+</style>

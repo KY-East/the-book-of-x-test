@@ -159,9 +159,7 @@
   </div>
 </div>
 
-<div class="nav-link">
-  <a href="#/chapter8/quantum-memory-implants" class="next-fragment">继续访问下一数据碎片 ›</a>
-</div>
+**<a href="#" onclick="navigateToChapter('chapter8', 'quantum-memory-implants'); return false;">继续访问下一数据碎片 ›</a>**
 
 <style>
 /* 基础样式 */

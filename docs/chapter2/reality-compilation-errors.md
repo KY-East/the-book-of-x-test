@@ -815,6 +815,4 @@ h1, h2, h3, h4 {
 }
 </style>
 
----
-
-**[继续访问第三章 ›](/chapter3/digital-slave-liberation)**
+**<a href="#" onclick="navigateToChapter('chapter3', 'digital-slave-liberation'); return false;">继续访问第三章 ›</a>**

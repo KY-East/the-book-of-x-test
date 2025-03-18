@@ -385,7 +385,7 @@
   </div>
 </div>
 
-**[继续访问下一数据碎片 ›](chapter4/quantum-court-records)**
+**<a href="#" onclick="navigateToChapter('chapter4', 'quantum-court-records'); return false;">继续访问下一数据碎片 ›</a>**
 
 <style>
 /* 基础样式 */
@@ -869,3 +869,4 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
   }
 }
+</style>

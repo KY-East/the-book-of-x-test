@@ -71,7 +71,7 @@
 
 "谁？"我问。
 
-“都是代码。”他的声音越来越远。
+"都是代码。"他的声音越来越远。
 
 但我的视线已经开始扭曲，世界在我周围碎裂，化为数字雨。最后一个清晰的念头是我终于明白为什么那些梦如此真实。
 
@@ -361,4 +361,4 @@ function choosePill(pill) {
 
 ---
 
-**[继续访问下一数据碎片 ›](/chapter6/neural-network-counterintelligence)**
+**<a href="#" onclick="navigateToChapter('chapter6', 'neural-network-counterintelligence'); return false;">继续访问下一数据碎片 ›</a>**

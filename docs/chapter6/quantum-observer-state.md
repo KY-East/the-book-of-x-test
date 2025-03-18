@@ -726,4 +726,4 @@ body {
 
 ---
 
-**[继续访问下一章 ›](/chapter7/mechanical-ascension-leaks)**
+**<a href="#" onclick="navigateToChapter('chapter7', 'mechanical-ascension-leaks'); return false;">继续访问下一章 ›</a>**

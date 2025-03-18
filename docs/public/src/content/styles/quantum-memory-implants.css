@@ -1,0 +1,102 @@
+.timeline-interface {
+  border: 1px solid #333;
+  background-color: #1a1a1a;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.interface-header {
+  color: #00ff9d;
+  font-weight: bold;
+}
+
+.xi-symbol {
+  color: #00ff9d;
+  text-shadow: 0 0 5px rgba(0, 255, 157, 0.5);
+  margin-right: 10px;
+}
+
+/* 代码块样式 */
+pre {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  border-left: 3px solid #00ff9d !important;
+  border-radius: 0 !important;
+  font-family: 'Courier New', monospace !important;
+}
+
+pre[class^="timeline_analysis"] {
+  border-left-color: #00ff9d !important;
+}
+
+pre[class^="quantum_trigrams"] {
+  border-left-color: #bd00ff !important;
+}
+
+pre[class^="civilization_log"] {
+  border-left-color: #ff3333 !important;
+}
+
+pre[class^="empire_analysis"] {
+  border-left-color: #ffcc00 !important;
+}
+
+pre[class^="industrial_revolution"] {
+  border-left-color: #aaaaaa !important;
+}
+
+pre[class^="digital_age"] {
+  border-left-color: #3399ff !important;
+}
+
+pre[class^="truth_revelation"] {
+  border-left-color: #00ffff !important;
+  background-color: rgba(0, 255, 255, 0.05) !important;
+}
+
+pre[class^="prophet_records"], pre[class^="modern_prophets"] {
+  border-left-color: #bd00ff !important;
+}
+
+pre[class^="awakening_progress"] {
+  border-left-color: #00ff9d !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+pre[class^="ultimate_truth"] {
+  border-left-color: #bd00ff !important;
+  background-color: rgba(189, 0, 255, 0.05) !important;
+  padding: 20px !important;
+  margin: 30px 0 !important;
+}
+
+/* 标题样式 */
+h2 {
+  color: #eee !important;
+  border-bottom: 1px solid #333 !important;
+  padding-bottom: 5px !important;
+  margin-top: 30px !important;
+}
+
+h3 {
+  color: #00ff9d !important;
+  margin-top: 25px !important;
+}
+
+/* 导航链接 */
+.next-chapter {
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #00ff9d;
+  border: 1px solid #00ff9d;
+  text-decoration: none;
+  transition: all 0.3s;
+  margin: 20px 0;
+  float: right;
+}
+
+.next-chapter:hover {
+  background-color: rgba(0, 255, 157, 0.1);
+  box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+}

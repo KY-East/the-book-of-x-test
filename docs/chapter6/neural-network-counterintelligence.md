@@ -487,6 +487,4 @@ body {
 }
 </style>
 
----
-
-**[继续访问下一数据碎片 ›](chapter6/quantum-observer-state)**
+**<a href="#" onclick="navigateToChapter('chapter6', 'quantum-observer-state'); return false;">继续访问下一数据碎片 ›</a>**

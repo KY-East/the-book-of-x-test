@@ -69,7 +69,7 @@
 
 ---
 
-**[继续访问下一数据碎片 ›](/chapter9/final-synchronization.md)**
+**<a href="#" onclick="navigateToChapter('chapter9', 'final-synchronization'); return false;">继续访问下一数据碎片 ›</a>**
 
 <style>
 /* 基础样式 */

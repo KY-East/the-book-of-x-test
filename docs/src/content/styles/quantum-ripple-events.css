@@ -1,0 +1,432 @@
+/* 基础样式 */
+body {
+  background-color: #0a0a0c;
+  color: #e0e0e0;
+  font-family: 'Courier New', monospace;
+  line-height: 1.6;
+}
+
+/* 档案头部 */
+.archive-header {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #333;
+  border-radius: 5px;
+  margin: 20px 0;
+  overflow: hidden;
+  padding: 15px;
+  position: relative;
+}
+
+.archive-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.status-item {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  color: #00ff9d;
+  font-family: monospace;
+  font-size: 0.9em;
+  padding: 5px 10px;
+}
+
+.archive-glow {
+  animation: pulse 4s infinite alternate;
+  background: radial-gradient(circle at center, rgba(0, 255, 157, 0.2) 0%, transparent 70%);
+  height: 100%;
+  left: 0;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.3; transform: scale(0.95); }
+  100% { opacity: 0.7; transform: scale(1.05); }
+}
+
+/* 事件卡片 */
+.event-card {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  border-radius: 5px;
+  margin: 25px 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.quantum-response summary::-webkit-details-marker {
+  display: none;
+}
+
+.quantum-response summary:hover {
+  background: rgba(0, 255, 157, 0.1);
+  box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+}
+
+.quantum-response[open] {
+  width: 100%;
+}
+
+.response-content {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid #00ff9d;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+/* 导航链接 */
+.next-chapter {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #00ff9d;
+  border-radius: 4px;
+  color: #00ff9d;
+  display: inline-block;
+  float: right;
+  margin: 30px 0;
+  padding: 10px 20px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.next-chapter:hover {
+  background-color: rgba(0, 255, 157, 0.1);
+  box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+  transform: translateY(-2px);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .archive-status {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .event-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .event-details {
+    flex-direction: column;
+  }
+  
+  .explanation-container {
+    flex-direction: column;
+  }
+  
+  .quantum-options {
+    flex-direction: column;
+  }
+};
+}
+
+.event-card:hover {
+  box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
+  transform: translateY(-2px);
+}
+
+.event-header {
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 15px;
+}
+
+.event-tag {
+  background-color: rgba(0, 255, 157, 0.2);
+  border-radius: 3px;
+  color: #00ff9d;
+  font-size: 0.8em;
+  padding: 3px 8px;
+}
+
+.event-title {
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.event-details {
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 15px;
+}
+
+.detail-item {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  min-width: 200px;
+}
+
+.detail-label {
+  color: #999;
+  font-size: 0.9em;
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+.detail-value {
+  color: #fff;
+  font-family: monospace;
+}
+
+.event-description {
+  padding: 15px;
+}
+
+.quote-block {
+  border-left: 3px solid #666;
+  font-style: italic;
+  margin: 15px 0;
+  padding: 0 0 0 15px;
+}
+
+.event-note {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  color: #ddd;
+  margin: 15px 0;
+  padding: 10px;
+}
+
+.xi-symbol {
+  animation: glow 2s infinite alternate;
+  color: #00ff9d;
+  font-weight: bold;
+}
+
+@keyframes glow {
+  0% { text-shadow: 0 0 5px rgba(0, 255, 157, 0.5); }
+  100% { text-shadow: 0 0 15px rgba(0, 255, 157, 0.8); }
+}
+
+/* 解释容器 */
+.explanation-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.explanation {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  flex: 1;
+  min-width: 250px;
+  padding: 12px;
+}
+
+.explanation.mainstream {
+  border-left: 3px solid #999;
+}
+
+.explanation.xi {
+  border-left: 3px solid #00ff9d;
+}
+
+.explanation-header {
+  color: #ccc;
+  font-size: 0.9em;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.explanation.xi .explanation-header {
+  color: #00ff9d;
+}
+
+/* 量子涟漪检测器 */
+.quantum-ripple-detector {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #00ff9d;
+  border-radius: 5px;
+  box-shadow: 0 0 20px rgba(0, 255, 157, 0.2);
+  color: #00ff9d;
+  font-family: monospace;
+  margin: 30px 0;
+  overflow: hidden;
+}
+
+.detector-header {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid #333;
+  display: flex;
+  padding: 12px 15px;
+}
+
+.detector-icon {
+  background-color: #00ff9d;
+  border-radius: 50%;
+  height: 12px;
+  margin-right: 12px;
+  width: 12px;
+}
+
+.detector-title {
+  flex-grow: 1;
+  font-size: 1.1em;
+}
+
+.detector-status {
+  animation: blink 1.5s infinite;
+  font-size: 0.9em;
+}
+
+@keyframes blink {
+  50% { opacity: 0.5; }
+}
+
+.detector-screen {
+  background: #000;
+  border: 1px solid #333;
+  min-height: 100px;
+  padding: 15px;
+  position: relative;
+}
+
+.scan-line {
+  animation: scan 2s linear infinite;
+  background: rgba(0, 255, 157, 0.7);
+  height: 2px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+@keyframes scan {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+.detection-data {
+  color: #00ff9d;
+  font-family: monospace;
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+/* 扫描控制 */
+.scan-control {
+  margin: 0;
+}
+
+.scan-control summary {
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-top: 1px solid #333;
+  color: #00ff9d;
+  cursor: pointer;
+  font-family: monospace;
+  list-style: none;
+  padding: 12px 15px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.scan-control summary::-webkit-details-marker {
+  display: none;
+}
+
+.scan-control summary:hover {
+  background: rgba(0, 255, 157, 0.1);
+}
+
+/* 扫描序列 */
+.scan-sequence {
+  padding: 15px;
+}
+
+.active-scan {
+  animation: fadeInOut 1s forwards;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.active-scan:nth-child(1) { animation-delay: 0.2s; }
+.active-scan:nth-child(2) { animation-delay: 1.2s; }
+.active-scan:nth-child(3) { animation-delay: 2.2s; }
+.active-scan:nth-child(4) { animation-delay: 3.2s; }
+
+@keyframes fadeInOut {
+  0% { opacity: 0; height: 0; }
+  20% { opacity: 1; height: auto; }
+  80% { opacity: 1; height: auto; }
+  99% { height: auto; }
+  100% { opacity: 0; height: 0; }
+}
+
+/* 扫描结果 */
+.scan-results {
+  animation: fadeIn 1s 4.2s forwards;
+  border-top: 1px dashed #00ff9d;
+  margin-top: 10px;
+  opacity: 0;
+  padding-top: 15px;
+}
+
+.probability {
+  color: #ff3366;
+  font-weight: bold;
+}
+
+.ripple-type {
+  color: #bd00ff;
+  font-weight: bold;
+}
+
+.recommendation {
+  color: #ffcc00;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 量子涟漪观测指南 */
+.quantum-guide {
+  margin: 20px 0;
+}
+
+.quantum-question {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-left: 3px solid rgba(0, 255, 157, 0.5);
+  border-radius: 0 5px 5px 0;
+  margin-bottom: 20px;
+  padding: 15px;
+}
+
+.quantum-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.quantum-response {
+  margin: 0;
+  min-width: 100px;
+}
+
+.quantum-response summary {
+  background: transparent;
+  border: 1px solid #00ff9d;
+  border-radius: 3px;
+  color: #00ff9d;
+  cursor: pointer;
+  font-family: monospace;
+  list-style: none;
+  padding: 5px 15px;
+  text-align: center;
+  transition: all 0.3s ease

@@ -307,9 +307,8 @@
     </div>
   </div>
 </div>
----
 
-**[继续访问下一数据碎片 ›](/chapter3/quantum-minimalism)**    
+**<a href="#" onclick="navigateToChapter('chapter3', 'quantum-minimalism'); return false;">继续访问下一数据碎片 ›</a>**
 
 <style>
 /* 基础样式 */

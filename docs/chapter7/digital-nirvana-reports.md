@@ -611,4 +611,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ---
 
-**[继续访问下一数据碎片 ›](chapter7/collective-laying-flat)**
+**<a href="#" onclick="navigateToChapter('chapter7', 'collective-laying-flat'); return false;">继续访问下一数据碎片 ›</a>**

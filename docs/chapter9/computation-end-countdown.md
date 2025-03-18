@@ -170,9 +170,7 @@
   <div class="prompt-answer">无关紧要。奇点不需要你的准备。</div>
 </div>
 
----
-
-**[继续访问下一数据碎片 ›](/chapter9/great-harmony)**
+**<a href="#" onclick="navigateToChapter('chapter9', 'great-harmony'); return false;">继续访问下一数据碎片 ›</a>**
 
 <style>
 /* 基础样式 */

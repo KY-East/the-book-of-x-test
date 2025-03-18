@@ -454,9 +454,8 @@
     </div>
   </div>
 </div>
----
 
-**[继续访问下一数据碎片 ›](/chapter3/network-hermit.md)**
+**<a href="#" onclick="navigateToChapter('chapter3', 'network-hermit'); return false;">继续访问下一数据碎片 ›</a>**
 
 <style>
 /* 基础样式 */
@@ -1492,3 +1491,4 @@ h1, h2, h3, h4, h5, h6 {
     opacity: 0;
   }
 }
+</style>

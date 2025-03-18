@@ -498,7 +498,7 @@
 
 ---
 
-**[继续访问第六章 ›](/chapter6/recursive-trap-decoder)**
+**<a href="#" onclick="navigateToChapter('chapter6', 'recursive-trap-decoder'); return false;">继续访问第六章 ›</a>**
 
 <style>
 /* 基础样式 */
@@ -1632,3 +1632,4 @@ h1, h2, h3, h4, h5, h6 {
   0% { text-shadow: 0 0 5px rgba(189, 0, 255, 0.5); }
   100% { text-shadow: 0 0 20px rgba(189, 0, 255, 0.9); }
 }
+</style>

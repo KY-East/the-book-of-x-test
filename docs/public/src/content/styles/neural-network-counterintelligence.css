@@ -1,0 +1,304 @@
+/* 基础样式 */
+body {
+  background-color: #0a0a0c;
+  color: #d0d0d8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* 现实断层效果 */
+.reality-breach {
+  position: relative;
+  height: 120px;
+  background: #000;
+  overflow: hidden;
+  margin: 20px 0;
+  border: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+.code-rain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="10" y="20" fill="%2300ff00" font-family="monospace" font-size="10">10110</text><text x="30" y="40" fill="%2300ff00" font-family="monospace" font-size="10">01101</text><text x="50" y="60" fill="%2300ff00" font-family="monospace" font-size="10">11010</text><text x="70" y="80" fill="%2300ff00" font-family="monospace" font-size="10">01011</text></svg>');
+  opacity: 0.3;
+  animation: rain 20s linear infinite;
+}
+
+@keyframes rain {
+  from { background-position: 0 0; }
+  to { background-position: 100% 100%; }
+}
+
+.breach-content {
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+}
+
+.system-alert {
+  color: #ff3333;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0.5; }
+}
+
+.location-data, .time-stamp {
+  color: #00ff9d;
+  font-size: 0.9em;
+  margin: 5px 0;
+}
+
+/* 手机通知样式 */
+.phone-notification {
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  max-width: 350px;
+  margin: 30px auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.notification-header {
+  background-color: #2a2a2a;
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8em;
+}
+
+.app-name {
+  color: #fff;
+  font-weight: bold;
+}
+
+.notif-time {
+  color: #888;
+}
+
+.notification-content {
+  padding: 15px;
+  color: #fff;
+  font-size: 0.95em;
+}
+
+/* 角色资料卡 */
+.character-profile {
+  display: flex;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  border: 1px solid #333;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 30px 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.profile-image {
+  width: 120px;
+  background-position: center;
+  background-size: cover;
+}
+
+.profile-image.krypt {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="180" viewBox="0 0 120 180"><rect width="120" height="180" fill="%232a2a2a"/><circle cx="60" cy="60" r="30" fill="%23333" stroke="%235c5c5c" stroke-width="2"/><rect x="40" y="130" width="40" height="5" fill="%23666"/><rect x="30" y="140" width="60" height="5" fill="%23666"/><rect x="35" y="150" width="50" height="5" fill="%23666"/></svg>');
+}
+
+.profile-data {
+  flex: 1;
+  padding: 15px;
+}
+
+.profile-name {
+  color: #ff3366;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-family: 'Courier New', monospace;
+}
+
+.profile-title {
+  color: #888;
+  font-size: 0.8em;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+}
+
+.profile-quote {
+  font-style: italic;
+  color: #ccc;
+  font-size: 0.9em;
+}
+
+/* 洞见碎片 */
+.insight-fragment {
+  margin: 30px 0;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid #ff3366;
+  font-style: italic;
+  color: #fff;
+}
+
+.insight-fragment p {
+  margin: 10px 0;
+}
+
+/* 代码可视化 */
+.code-visualization {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  margin: 30px 0;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.code-snippet {
+  padding: 15px;
+  font-family: 'Courier New', monospace;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+}
+
+.code-comment {
+  color: #676767;
+  margin-bottom: 10px;
+}
+
+.code-line {
+  margin: 3px 0;
+}
+
+.code-func {
+  color: #4ec9b0;
+}
+
+.code-param {
+  color: #9cdcfe;
+}
+
+.code-var {
+  color: #4fc1ff;
+}
+
+.code-prop {
+  color: #bd00ff;
+}
+
+/* 智慧面板 */
+.wisdom-panel {
+  display: flex;
+  align-items: center;
+  background-color: rgba(189, 0, 255, 0.1);
+  border: 1px solid rgba(189, 0, 255, 0.3);
+  padding: 15px;
+  margin: 30px 0;
+  border-radius: 5px;
+}
+
+.wisdom-icon {
+  width: 40px;
+  height: 40px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="%23bd00ff" stroke-width="2"/><path d="M12,20 L18,26 L28,14" stroke="%23bd00ff" stroke-width="2" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.wisdom-text {
+  flex: 1;
+  font-style: italic;
+  color: #ccc;
+}
+
+.wisdom-text p {
+  margin: 10px 0;
+}
+
+/* 警报序列 */
+.alert-sequence {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 51, 51, 0.1);
+  border: 1px solid rgba(255, 51, 51, 0.3);
+  padding: 15px;
+  margin: 30px 0;
+  border-radius: 5px;
+}
+
+.alert-icon {
+  width: 30px;
+  height: 30px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"><polygon points="15,2 28,28 2,28" fill="none" stroke="%23ff3333" stroke-width="2"/><line x1="15" y1="12" x2="15" y2="20" stroke="%23ff3333" stroke-width="2"/><circle cx="15" cy="24" r="1.5" fill="%23ff3333"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.alert-message {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.alert-message span {
+  margin: 3px 0;
+}
+
+.blink {
+  color: #ff3333;
+  font-weight: bold;
+  animation: blink-text 1s infinite;
+}
+
+@keyframes blink-text {
+  50% { opacity: 0.5; }
+}
+
+/* 内心领悟 */
+.inner-realization {
+  text-align: center;
+  margin: 30px 0;
+  font-style: italic;
+  color: #00ff9d;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-top: 1px dashed rgba(0, 255, 157, 0.3);
+  border-bottom: 1px dashed rgba(0, 255, 157, 0.3);
+}
+
+/* 章节结束 */
+.episode-end {
+  text-align: center;
+  margin: 40px 0 20px;
+  font-family: 'Courier New', monospace;
+}
+
+.end-message {
+  color: #ff3366;
+  margin-bottom: 10px;
+  animation: fade-pulse 2s infinite alternate;
+}
+
+@keyframes fade-pulse {
+  from { opacity: 0.7; }
+  to { opacity: 1; }
+}
+
+.retry-link {
+  color: #666;
+  font-size: 0.9em;
+}

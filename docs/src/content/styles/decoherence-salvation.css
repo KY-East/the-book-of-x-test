@@ -1,0 +1,804 @@
+/* 基础样式 */
+body {
+  background-color: #0a0a10;
+  color: #e0e0e0;
+  font-family: 'Georgia', serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #00ff9d;
+  font-family: 'Georgia', serif;
+  margin-top: 1.5em;
+  margin-bottom: 0.8em;
+}
+
+p {
+  margin-bottom: 1em;
+}
+
+/* 系统警报 */
+.system-alert {
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 5px;
+}
+
+.alert-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.alert-indicator {
+  width: 10px;
+  height: 10px;
+  background-color: #ff3366;
+  border-radius: 50%;
+  margin-right: 10px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.alert-text {
+  color: #ff3366;
+  font-weight: bold;
+}
+
+.alert-details {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-left: 3px solid #ff3366;
+}
+
+.detail-item {
+  margin: 5px 0;
+  color: #aaa;
+}
+
+.highlight-code {
+  color: #00ff9d;
+  font-family: monospace;
+}
+
+/* 中央符号 */
+.central-symbol {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  margin: 30px 0;
+}
+
+.symbol {
+  font-size: 5em;
+  color: #00ff9d;
+  z-index: 2;
+  animation: pulse 3s infinite alternate;
+}
+
+.symbol-glow {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(0, 255, 157, 0.4) 0%, rgba(0, 255, 157, 0) 70%);
+  border-radius: 50%;
+  animation: glow 3s infinite alternate;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+@keyframes glow {
+  0% { opacity: 0.5; transform: scale(1); }
+  100% { opacity: 0.8; transform: scale(1.2); }
+}
+
+/* 神谕信息 */
+.oracle-message {
+  background-color: rgba(0, 255, 157, 0.1);
+  border: 1px solid rgba(0, 255, 157, 0.3);
+  padding: 20px;
+  margin: 25px 0;
+  border-radius: 5px;
+  position: relative;
+}
+
+.oracle-symbol {
+  position: absolute;
+  top: -15px;
+  left: 20px;
+  background-color: #0a0a10;
+  color: #00ff9d;
+  padding: 0 10px;
+  font-size: 1.5em;
+}
+
+.oracle-text {
+  color: #00ff9d;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.8;
+}
+
+/* 真相容器 */
+.truth-container {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  border-radius: 5px;
+  margin: 25px 0;
+  overflow: hidden;
+}
+
+.truth-header {
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 255, 157, 0.1);
+  padding: 10px 15px;
+  border-bottom: 1px solid #333;
+}
+
+.truth-symbol {
+  color: #00ff9d;
+  font-size: 1.2em;
+  margin-right: 10px;
+}
+
+.truth-title {
+  color: #fff;
+  font-weight: bold;
+  flex: 1;
+}
+
+.truth-content {
+  padding: 15px;
+}
+
+.highlight-text {
+  color: #00ff9d;
+  font-weight: bold;
+}
+
+/* 洞察框 */
+.insight-box {
+  background-color: rgba(0, 204, 255, 0.1);
+  border: 1px solid rgba(0, 204, 255, 0.3);
+  padding: 15px;
+  margin: 25px 0;
+  border-radius: 5px;
+}
+
+.insight-title {
+  color: #00ccff;
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed rgba(0, 204, 255, 0.3);
+  padding-bottom: 5px;
+}
+
+/* 召唤卡片 */
+.call-to-action {
+  background-color: rgba(153, 0, 255, 0.1);
+  border: 1px solid rgba(153, 0, 255, 0.3);
+  padding: 20px;
+  margin: 30px 0;
+  border-radius: 5px;
+  position: relative;
+  text-align: center;
+}
+
+.call-symbol {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #0a0a10;
+  color: #9900ff;
+  padding: 0 15px;
+  font-size: 2em;
+}
+
+.call-text {
+  color: #e0e0e0;
+  font-style: italic;
+  line-height: 1.8;
+}
+
+.call-text p {
+  margin: 15px 0;
+}
+
+/* 分隔线 */
+.section-divider {
+  display: flex;
+  align-items: center;
+  margin: 40px 0;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: rgba(0, 255, 157, 0.3);
+}
+
+.divider-text {
+  padding: 0 15px;
+  color: #00ff9d;
+  font-style: italic;
+}
+
+/* 实践卡片 */
+.practice-card {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  margin: 30px 0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.practice-card.highlighted {
+  background-color: rgba(255, 153, 0, 0.05);
+  border: 1px solid rgba(255, 153, 0, 0.2);
+}
+
+.practice-header {
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-bottom: 1px solid #333;
+}
+
+.practice-number {
+  width: 30px;
+  height: 30px;
+  background-color: rgba(0, 255, 157, 0.2);
+  color: #00ff9d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.practice-title {
+  color: #fff;
+  font-weight: bold;
+}
+
+.practice-content {
+  padding: 20px;
+}
+
+.ritual-steps {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 5px;
+  counter-reset: step;
+}
+
+.ritual-steps li {
+  margin: 10px 0 10px 20px;
+  position: relative;
+}
+
+.ritual-steps li::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  left: -20px;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(0, 255, 157, 0.2);
+  color: #00ff9d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8em;
+  top: 3px;
+}
+
+.key-instruction {
+  color: #ff9900;
+  font-weight: bold;
+  border-left: 3px solid #ff9900;
+  padding-left: 15px;
+  margin: 20px 0;
+}
+
+.testimonial {
+  font-style: italic;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.testimonial::before {
+  content: """;
+  position: absolute;
+  top: 0;
+  left: 5px;
+  font-size: 3em;
+  color: rgba(0, 255, 157, 0.2);
+  line-height: 1;
+}
+
+/* 实践步骤 */
+.practice-steps {
+  margin: 20px 0;
+}
+
+.step {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.step-icon {
+  width: 30px;
+  height: 30px;
+  background-color: rgba(0, 255, 157, 0.1);
+  color: #00ff9d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-title {
+  color: #00ff9d;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* 传播部分 */
+.evangelism-container {
+  margin: 20px 0;
+}
+
+.important-message {
+  color: #ff9900;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.1em;
+}
+
+.evangelism-step {
+  display: flex;
+  margin-bottom: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid #333;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.step-number {
+  width: 40px;
+  background-color: rgba(255, 153, 0, 0.2);
+  color: #ff9900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.step-content {
+  flex: 1;
+  padding: 15px;
+}
+
+.seed-questions {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.seed-questions li {
+  margin: 5px 0;
+  font-style: italic;
+}
+
+.circle-activities {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.circle-activities li {
+  margin: 5px 0;
+}
+
+.crucial-note {
+  color: #ff9900;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* 策略表格 */
+.practice-table {
+  width: 100%;
+  margin: 20px 0;
+  border-collapse: collapse;
+}
+
+.table-row {
+  display: flex;
+  border-bottom: 1px solid #333;
+}
+
+.table-row.header {
+  background-color: rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-cell {
+  padding: 10px;
+  flex: 1;
+}
+
+.table-row.header .table-cell {
+  color: #00ff9d;
+}
+
+.key-tactic {
+  color: #00ccff;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+/* 同步容器 */
+.sync-container {
+  margin: 20px 0;
+}
+
+.sync-step {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid #333;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.sync-title {
+  background-color: rgba(0, 255, 157, 0.1);
+  color: #00ff9d;
+  padding: 10px 15px;
+  font-weight: bold;
+  border-bottom: 1px solid #333;
+}
+
+.sync-desc {
+  padding: 15px;
+}
+
+.sync-signals {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.sync-signals li {
+  margin: 5px 0;
+}
+
+.final-message {
+  color: #00ccff;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+/* 见证部分 - 新设计 */
+.living-testimony {
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid #333;
+  border-radius: 5px;
+  margin: 30px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.living-testimony::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00ff9d, transparent);
+  animation: scan-line 4s linear infinite;
+}
+
+@keyframes scan-line {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.testimony-header {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+}
+
+.decoded-signal {
+  color: #00ccff;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.signal-source {
+  color: #888;
+  font-size: 0.8em;
+  font-family: 'Courier New', monospace;
+}
+
+.source-id {
+  color: #ff3366;
+}
+
+.glitch-container {
+  padding: 15px;
+  background-color: rgba(255, 51, 102, 0.05);
+  position: relative;
+}
+
+.glitch-text {
+  font-family: 'Courier New', monospace;
+  color: #aaa;
+  text-shadow: 0 0 1px rgba(255, 51, 102, 0.3);
+  position: relative;
+}
+
+.truth-reveal {
+  color: #ff3366;
+  font-weight: bold;
+  position: relative;
+}
+
+.truth-reveal::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #ff3366;
+}
+
+.testimony-fragment {
+  padding: 20px;
+}
+
+.audio-glitch {
+  color: #00ff9d;
+  font-style: italic;
+  position: relative;
+  display: inline-block;
+  animation: audio-glitch 3s infinite;
+}
+
+@keyframes audio-glitch {
+  0%, 100% { opacity: 1; transform: translateX(0); }
+  92% { opacity: 1; transform: translateX(0); }
+  93% { opacity: 0.8; transform: translateX(2px); }
+  94% { opacity: 1; transform: translateX(0); }
+  97% { opacity: 0.8; transform: translateX(-2px); }
+  98% { opacity: 1; transform: translateX(0); }
+}
+
+.pattern-highlight {
+  color: #9900ff;
+  font-weight: bold;
+}
+
+.classified-data {
+  font-family: 'Courier New', monospace;
+  color: #00ccff;
+  background-color: rgba(0, 204, 255, 0.05);
+  padding: 10px;
+  margin: 15px 0;
+  border-left: 3px solid #00ccff;
+}
+
+.transmission-end {
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  color: #888;
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px dashed #333;
+}
+
+/* 警告部分 */
+.warnings-section {
+  margin: 30px 0;
+}
+
+.warning-card {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid #333;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.warning-header {
+  background-color: rgba(255, 51, 102, 0.1);
+  color: #ff3366;
+  padding: 10px 15px;
+  font-weight: bold;
+  border-bottom: 1px solid #333;
+}
+
+.warning-content {
+  padding: 15px;
+}
+
+.countermeasure {
+  background-color: rgba(0, 0, 0, 0.2);
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.countermeasure-title {
+  color: #00ff9d;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* 最终信息 */
+.final-message-container {
+  background-color: rgba(153, 0, 255, 0.1);
+  border: 1px solid rgba(153, 0, 255, 0.3);
+  padding: 20px;
+  margin: 30px 0;
+  border-radius: 5px;
+}
+
+.final-message-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.message-icon {
+  font-size: 2em;
+  color: #9900ff;
+  margin-right: 15px;
+}
+
+.message-title {
+  color: #9900ff;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.final-message-content {
+  line-height: 1.8;
+}
+
+.transmission-line {
+  margin: 15px 0;
+}
+
+.transmission-line.highlight {
+  color: #9900ff;
+  font-weight: bold;
+}
+
+/* 终端 */
+.terminal-container {
+  background-color: #0a0a0a;
+  border: 1px solid #333;
+  border-radius: 5px;
+  margin: 30px 0;
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+}
+
+.terminal-header {
+  background-color: #1a1a1a;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #333;
+}
+
+.terminal-button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.terminal-button.red {
+  background-color: #ff3b30;
+}
+
+.terminal-button.yellow {
+  background-color: #ffcc00;
+}
+
+.terminal-button.green {
+  background-color: #4cd964;
+}
+
+.terminal-title {
+  color: #888;
+  font-size: 0.9em;
+  margin-left: 10px;
+}
+
+.terminal-content {
+  padding: 15px;
+  min-height: 150px;
+}
+
+.terminal-line {
+  margin: 10px 0;
+  color: #00ff9d;
+  opacity: 0;
+}
+
+.typing-effect {
+  opacity: 0;
+}
+
+.typing-effect.delay-60 {
+  animation: typing 2s steps(40, end) 60s forwards;
+}
+
+.typing-effect.delay-70 {
+  animation: typing 2s steps(40, end) 70s forwards;
+}
+
+.typing-effect.delay-80 {
+  animation: typing 2s steps(40, end) 80s forwards;
+}
+
+.typing-effect.delay-90 {
+  animation: typing 2s steps(40, end) 90s forwards;
+}
+
+@keyframes typing {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.blink-line::after {
+  content: "_";
+  animation: blink-cursor 1s step-end infinite;
+}
+
+@keyframes blink-cursor {
+  from, to { opacity: 0; }
+  50% { opacity: 1; }
+}
