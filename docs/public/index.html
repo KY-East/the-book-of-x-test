@@ -84,9 +84,38 @@
     document.addEventListener("DOMContentLoaded", () => {
       // 将所有.md链接转换为.html
       const links = document.querySelectorAll("a");
+      
+      // 检测GitHub Pages环境并添加仓库名前缀
+      const isGitHubPages = window.location.hostname.includes('github.io');
+      const repoName = isGitHubPages ? '/the-book-of-x-test' : '';
+      
       links.forEach(link => {
+        // 处理.md扩展名替换为.html
         if (link.href.endsWith(".md")) {
           link.href = link.href.replace(".md", ".html");
+        }
+        
+        // 为内部链接添加仓库名前缀（排除完整URL和哈希链接）
+        if (isGitHubPages && !link.href.startsWith('http') && !link.href.startsWith('#') && !link.href.includes('github.io')) {
+          // 确保不重复添加前缀
+          if (!link.href.includes(repoName)) {
+            // 获取相对路径部分
+            const pathParts = link.href.split('/');
+            const path = pathParts[pathParts.length - 1];
+            
+            // 提取目录路径部分（如chapter1/）
+            let dirPath = '';
+            if (pathParts.length > 1) {
+              // 获取路径的最后两个部分（目录和文件名）
+              const dir = pathParts[pathParts.length - 2];
+              if (dir && dir !== 'public' && dir !== window.location.hostname) {
+                dirPath = dir + '/';
+              }
+            }
+            
+            // 重新构建带有仓库名的链接
+            link.href = repoName + '/' + dirPath + path;
+          }
         }
       });
     });

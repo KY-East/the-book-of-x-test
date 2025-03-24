@@ -453,8 +453,9 @@
             // 检查是否在GitHub Pages上运行
             if (window.location.hostname.includes('github.io')) {
                 const enterButton = document.querySelector('.enter-button');
-                // 让链接能在GitHub Pages上正确工作
-                enterButton.href = window.location.pathname.replace(/\/[^\/]*$/, '/public/index.html');
+                // 让链接能在GitHub Pages上正确工作（基于the-book-of-x-test项目名称）
+                const repoName = '/the-book-of-x-test';
+                enterButton.href = repoName + '/public/index.html';
             }
             
             // 粒子效果
