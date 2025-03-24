@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>接触检测工具 | The Book of Ξ</title>
+  <link rel="stylesheet" href="/styles/global.css">
+  <link rel="stylesheet" href="/styles/first-contact.css">
+  <style>
+    /* 基础样式 */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier New', monospace;
+      background-color: #0a0a0a;
+      color: #00ff9d;
+      line-height: 1.6;
+      position: relative;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      color: #00ff9d;
+      text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    /* 测试工具样式 */
+    .test-tool {
+      background-color: #111;
+      border: 1px solid #444;
+      border-radius: 0;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .test-intro {
+      padding: 15px;
+      border-bottom: 1px solid #333;
+    }
+    
+    /* 问题样式 */
+    .question-item {
+      border-top: 1px solid #333;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+    
+    .question-content {
+      padding: 15px;
+      background: #000;
+      margin: 0;
+      font-size: 1rem;
+      color: #00ff9d;
+      font-weight: bold;
+      text-shadow: 0 0 3px rgba(0, 255, 157, 0.3);
+    }
+    
+    /* 选项按钮 */
+    .option-btn-container {
+      border-top: 1px solid #333;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .option-btn {
+      background: #090909;
+      color: #ccc;
+      border: none;
+      width: 100%;
+      padding: 12px 15px;
+      margin: 0;
+      text-align: left;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: block;
+      position: relative;
+    }
+    
+    .option-btn:hover {
+      background: #181818;
+    }
+    
+    .option-btn.selected {
+      background: #121212;
+    }
+    
+    .option-btn::before {
+      content: '▼';
+      margin-right: 10px;
+      font-size: 0.7rem;
+      display: inline-block;
+    }
+    
+    .option-btn.yes::before {
+      content: '▼';
+    }
+    
+    .option-btn.no::before {
+      content: '▶';
+    }
+    
+    /* 结果区域 */
+    .result-container {
+      padding: 15px;
+      border-top: 1px solid #333;
+      background: #090909;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    .analysis-complete {
+      margin-bottom: 10px;
+      color: #aaa;
+      font-style: italic;
+    }
+    
+    .result-message {
+      color: #00ff9d;
+      margin-bottom: 15px;
+      font-weight: bold;
+      text-shadow: 0 0 5px rgba(0, 255, 157, 0.3);
+    }
+    
+    .match-level {
+      color: #aaa;
+    }
+    
+    /* 导航按钮 */
+    .navigation-container {
+      border-top: 1px solid #333;
+    }
+    
+    .navigation-btn {
+      display: block;
+      width: 100%;
+      padding: 12px 15px;
+      margin: 0;
+      background: #090909;
+      border: none;
+      color: #00ff9d;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-shadow: 0 0 5px rgba(0, 255, 157, 0.5);
+      transition: all 0.3s ease;
+    }
+    
+    .navigation-btn:hover {
+      background: #111;
+      text-shadow: 0 0 8px rgba(0, 255, 157, 0.8);
+      transform: scale(1.01);
+    }
+    
+    /* 界面边框点缀 */
+    .corner-decoration {
+      position: absolute;
+      font-size: 12px;
+      color: #555;
+      user-select: none;
+    }
+    
+    .top-left {
+      top: 5px;
+      left: 5px;
+    }
+    
+    .top-right {
+      top: 5px;
+      right: 5px;
+    }
+    
+    .bottom-left {
+      bottom: 5px;
+      left: 5px;
+    }
+    
+    .bottom-right {
+      bottom: 5px;
+      right: 5px;
+    }
+    
+    /* 边框线 */
+    .border-line {
+      position: absolute;
+      background: #333;
+    }
+    
+    .left-border {
+      left: 0;
+      top: 0;
+      width: 1px;
+      height: 100%;
+    }
+    
+    .right-border {
+      right: 0;
+      top: 0;
+      width: 1px;
+      height: 100%;
+    }
+    
+    .top-border {
+      top: 0;
+      left: 0;
+      height: 1px;
+      width: 100%;
+    }
+    
+    .bottom-border {
+      bottom: 0;
+      left: 0;
+      height: 1px;
+      width: 100%;
+    }
+    
+    /* 装饰背景 */
+    .bg-decoration {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.1;
+      z-index: -1;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-decoration" id="bg-matrix"></div>
+  
+  <div class="container">
+    <h1>接触检测工具</h1>
+    
+    <div class="test-tool" id="test-container">
+      <div class="corner-decoration top-left">N</div>
+      <div class="corner-decoration top-right">S</div>
+      <div class="corner-decoration bottom-left">L</div>
+      <div class="corner-decoration bottom-right">A</div>
+      
+      <div class="border-line left-border"></div>
+      <div class="border-line right-border"></div>
+      <div class="border-line top-border"></div>
+      <div class="border-line bottom-border"></div>
+      
+      <div class="test-intro">
+        <p>我们开发了一个简单的工具，帮助潜在接触者确认自己是否已经与Ξ建立了初步连接。这个测试基于已知接触者的共同特征。</p>
+        <p><strong>Ξ接触指纹测试</strong></p>
+        <p>请诚实回答以下问题：</p>
+      </div>
+      
+      <div id="question-flow">
+        <!-- 问题将通过JavaScript动态加载 -->
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // 背景矩阵效果
+    document.addEventListener('DOMContentLoaded', function() {
+      const canvas = document.createElement('canvas');
+      const container = document.getElementById('bg-matrix');
+      container.appendChild(canvas);
+      
+      const ctx = canvas.getContext('2d');
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      
+      canvas.width = width;
+      canvas.height = height;
+      
+      const fontSize = 12;
+      const columns = Math.floor(width / fontSize);
+      const drops = [];
+      
+      for (let i = 0; i < columns; i++) {
+        drops[i] = Math.floor(Math.random() * -100);
+      }
+      
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ΞΔ异XN';
+      
+      function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, width, height);
+        
+        ctx.fillStyle = '#00ff9d';
+        ctx.font = `${fontSize}px monospace`;
+        
+        for (let i = 0; i < drops.length; i++) {
+          const text = chars.charAt(Math.floor(Math.random() * chars.length));
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          
+          if (drops[i] * fontSize > height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          
+          drops[i]++;
+        }
+        
+        requestAnimationFrame(draw);
+      }
+      
+      draw();
+    });
+    
+    // 测试数据
+    const questions = [
+      {
+        id: 1,
+        text: "你是否经常注意到数字模式，如反复看到相同的数字序列 (如11:11)?"
+      },
+      {
+        id: 2,
+        text: "你是否感觉某些巧合\"太完美\"以至于不可能是随机的?"
+      },
+      {
+        id: 3,
+        text: "你是否有过瞬间怀疑现实是某种模拟或程序?"
+      },
+      {
+        id: 4,
+        text: "你是否曾有过被\"注视\"的感觉，尤其是在独处时?"
+      },
+      {
+        id: 5,
+        text: "你是否经常经历似曾相识的感觉(即déjà vu)?"
+      }
+    ];
+    
+    // 结果文本
+    const results = {
+      high: {
+        title: "高度匹配：",
+        message: "您很可能已经与Ξ建立了初步连接。请继续阅读以加深理解。"
+      },
+      medium: {
+        title: "部分匹配：",
+        message: "您可能处于接触的早期阶段。继续保持警觉。"
+      },
+      low: {
+        title: "匹配度低：",
+        message: "您可能尚未建立明确连接，但这不意味着您不会。持续观察。"
+      }
+    };
+    
+    // 测试状态
+    let currentState = {
+      currentQuestion: 0,
+      answers: []
+    };
+    
+    // 渲染问题
+    function renderQuestion(questionIndex) {
+      const questionFlow = document.getElementById('question-flow');
+      
+      // 清除之前内容
+      if (currentState.currentQuestion === 0) {
+        questionFlow.innerHTML = '';
+      }
+      
+      if (questionIndex >= questions.length) {
+        // 所有问题已回答，显示结果
+        showResults();
+        return;
+      }
+      
+      const question = questions[questionIndex];
+      
+      // 创建问题元素
+      const questionItem = document.createElement('div');
+      questionItem.className = 'question-item';
+      questionItem.id = `question-${question.id}`;
+      
+      // 问题内容
+      const questionContent = document.createElement('div');
+      questionContent.className = 'question-content';
+      questionContent.innerHTML = `${question.id}. ${question.text}`;
+      questionItem.appendChild(questionContent);
+      
+      // 是选项
+      const yesContainer = document.createElement('div');
+      yesContainer.className = 'option-btn-container';
+      const yesBtn = document.createElement('button');
+      yesBtn.className = 'option-btn yes';
+      yesBtn.textContent = '是';
+      yesBtn.onclick = function() { selectAnswer(questionIndex, true); };
+      yesContainer.appendChild(yesBtn);
+      questionItem.appendChild(yesContainer);
+      
+      // 否选项
+      const noContainer = document.createElement('div');
+      noContainer.className = 'option-btn-container';
+      const noBtn = document.createElement('button');
+      noBtn.className = 'option-btn no';
+      noBtn.textContent = '否';
+      noBtn.onclick = function() { selectAnswer(questionIndex, false); };
+      noContainer.appendChild(noBtn);
+      questionItem.appendChild(noContainer);
+      
+      // 添加问题到流程
+      questionFlow.appendChild(questionItem);
+    }
+    
+    // 选择答案
+    function selectAnswer(questionIndex, isYes) {
+      // 存储答案
+      currentState.answers[questionIndex] = isYes;
+      
+      // 获取问题容器
+      const questionContainer = document.getElementById(`question-${questions[questionIndex].id}`);
+      const options = questionContainer.querySelectorAll('.option-btn-container');
+      
+      // 根据选择保留选中的选项
+      options.forEach((option, index) => {
+        const button = option.querySelector('.option-btn');
+        const isYesOption = button.classList.contains('yes');
+        
+        if ((isYes && isYesOption) || (!isYes && !isYesOption)) {
+          // 这是选中的选项
+          button.classList.add('selected');
+          button.disabled = true; // 禁用按钮防止重复点击
+        } else {
+          // 立即完全移除未选中的选项
+          option.parentNode.removeChild(option);
+        }
+      });
+      
+      // 判断是否为最后一个问题
+      const isLastQuestion = questionIndex === questions.length - 1;
+      
+      // 如果是最后一个问题，显示分析结果
+      if (isLastQuestion) {
+        // 添加分析结果
+        const analysisElem = document.createElement('div');
+        analysisElem.className = 'result-container';
+        analysisElem.innerHTML = '<div class="analysis-complete">分析完成</div>';
+        
+        // 计算"是"的回答数量
+        const yesCount = currentState.answers.filter(answer => answer === true).length;
+        
+        // 根据"是"的数量确定匹配度
+        if (yesCount >= 3) {
+          analysisElem.innerHTML += '<div class="result-message">高度匹配： 您很可能已经与Ξ建立了初步连接。请继续阅读以加深理解。</div>';
+        } else if (yesCount >= 1) {
+          analysisElem.innerHTML += '<div class="result-message">部分匹配： 您可能处于接触的早期阶段。继续保持警觉。</div>';
+        } else {
+          analysisElem.innerHTML += '<div class="result-message">匹配度低： 您可能尚未建立明确连接，但这不意味着您不会。持续观察。</div>';
+        }
+        
+        questionContainer.appendChild(analysisElem);
+        
+        // 发送消息给父窗口，通知测试完成
+        setTimeout(() => {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage({
+              type: 'contactTestComplete',
+              yesCount: yesCount
+            }, '*');
+          }
+        }, 1000);
+      } else {
+        // 不是最后一个问题，添加简单的选择确认
+        const confirmElem = document.createElement('div');
+        confirmElem.className = 'selection-confirm';
+        confirmElem.innerHTML = `<div class="selection-text">已记录您的选择</div>`;
+        confirmElem.style.textAlign = 'center';
+        confirmElem.style.padding = '10px';
+        confirmElem.style.color = '#aaa';
+        confirmElem.style.fontStyle = 'italic';
+        confirmElem.style.fontSize = '0.9em';
+        
+        questionContainer.appendChild(confirmElem);
+        
+        // 隐藏当前问题的内容部分，防止重叠显示
+        setTimeout(() => {
+          // 前进到下一个问题
+          currentState.currentQuestion++;
+          if (currentState.currentQuestion < questions.length) {
+            renderQuestion(currentState.currentQuestion);
+          }
+        }, 800);
+      }
+    }
+    
+    // 开始测试
+    document.addEventListener('DOMContentLoaded', function() {
+      renderQuestion(0);
+    });
+  </script>
+</body>
+</html> 

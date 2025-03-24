@@ -1,48 +1,743 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>The Book of Ξ</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="description" content="揭示现实编译错误的数字启示录">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <!-- 主题 -->
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/dark.css">
-  <!-- 自定义样式 -->
-  <style>
-    :root {
-      --theme-color: #00ff9d;
-    }
-    
-    body {
-      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-      background-color: #111;
-      color: #eee;
-    }
-    
-    .sidebar {
-      background-color: #222;
-      border-right: 1px solid #333;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Book of Ξ | 赛博宗教史诗</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=ZCOOL+QingKe+HuangYou&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-primary: #00ff9d;
+            --neon-secondary: #ff3366;
+            --neon-blue: #0088ff;
+            --neon-purple: #cc00ff;
+            --bg-primary: #0a0a12;
+            --text-primary: #f0f0f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Rajdhani', 'Noto Sans SC', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            cursor: none;
+        }
+        
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('public/assets/images/hologram/photo_2025-03-22_14-35-50.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.7;
+            filter: brightness(0.6) contrast(1.1) saturate(1.2);
+            z-index: -1;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(10, 10, 18, 0.8), rgba(20, 20, 30, 0.7));
+            z-index: -1;
+        }
+        
+        .noise {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAADkElEQVRogc2aS2tUQRDHfzOjMYm+8IHvmBgUfEQFxYUKunHhSgQXfgbBhQvBjRvRrQu/gR9AFMGFD4wodCHiRhCSqARBDTFGE01EQtR4LaoH7qTvnDMzc3Jv/eHAnT7ddaqru6u6e+Cfc8AFoE4bUgcmgbOAJdABRiXJbsDW27xkArhn9rQl7Yg1ZAN4C5wEugLPcqMLeAR8BHo60JFeMTHO9B3gIHAVaAA/gZf6rQHU9KymY5xLx0JQ0Q2k1JKVeR4wCLwGbgLDwFpgFdANVHQ01SWmL2cAO4CfCaXyFhguuI8dWj+vInlRNvOMfCnhfZzLEbPM8wH81kPfaC5uJLAn8w2/wVqsN2sMv+FapMzOTqwsRvDPHYDJwJ4oFsgYN8nRnUCrJQyshkduZfEicyZV6zOK9bF46vAe24YV1mpXiMPSiawwXCJJlv+tHCqQHTtsmXAKfysq7N8NSL15VyBJNzgJfCPuLOJDXX0yYOq8ThdlxRJ6SVwZdTXEHPYJo6FKzIvmxD7TTySG2gkNmrCTbsDYSDWUMTYq5ucXUya8TXKf+l4OhZ3GHvWtzjK2ThnbHkYAjZrw1pj7Q4pklzRqwvUSjlVkr/oWI8s2ZeynGVtODGnCG2buhYEkmVJNSfLFyJhtyvgxM7YcaOjnMnPnLUfmzWdTk4bI0Z5Kp+yTIVP0HJFtGDrJpXQKuBxJaHm+BtI7PaU8qL7fEiZ5Sdy5q77jZqzFI0PrJcmjaDOywHHc5yPgVCSBfZgq8+vDlOJn5n4jrvJhGHfZ8wC4H0lgH8aNzDbTTySOvkdIoTPSBZxGGsGAJ4H0T5c+y/RR4BbSNLbTB2wDDiD1ox+4g9SRZ/pf2WR/gDx+yovZFIIvVcAhdjCkMQO8Qhr/YaQ8XmGXuZb63iXcWz5kmn4/pCfvI63OIXN/HbPVxvXAZeALMjcm1beGfFCcMc8u0SpWrWLWr2nfvwIfzB7XdMwLFhhETuIIcAzYhTR9K3JktR+4BtxGCg8hn+BF3gW+A3cLrI3JdqSsmVZHfYwOHkJqyAB+53kCPAb2aeyPOhZUnB1K5jJbvgMX1yjyxeM9UAW2h5JnQQ/ueeDT0R9IOXGiC/gVsBnfTteCR5Gi5yucj3F2cJXe4U2WnXmVDRyc3eQ5sK/DMklnJT8CN/ByQ1U2tBu/ASW2hKJJI3bPAAAAAElFTkSuQmCC');
+            opacity: 0.05;
+            z-index: -1;
+        }
+        
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 0 20px;
+            z-index: 1;
+        }
+        
+        .glitch-container {
+            position: relative;
+            margin-bottom: 40px;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+        
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--neon-primary);
+            text-shadow: 0 0 15px rgba(0, 255, 157, 0.7);
+            margin-bottom: 20px;
+            position: relative;
+            transform: translateZ(0);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .glitch {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            color: var(--neon-primary);
+            text-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+        }
+        
+        .glitch-1 {
+            color: var(--neon-secondary);
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+            transform: translate(-2px) translateZ(10px);
+            animation: glitch1 2.5s infinite;
+        }
+        
+        .glitch-2 {
+            color: var(--neon-blue);
+            clip-path: polygon(0 45%, 100% 45%, 100% 100%, 0 100%);
+            transform: translate(2px) translateZ(-10px);
+            animation: glitch2 2.5s infinite;
+        }
+        
+        .poem-container {
+            perspective: 1000px;
+            margin-bottom: 40px;
+            font-family: 'ZCOOL XiaoWei', serif;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+        
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            max-width: 800px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            animation-delay: calc(var(--order) * 1s);
+            position: relative;
+        }
+        
+        .dream-text {
+            color: var(--neon-secondary);
+            text-shadow: 0 0 8px var(--neon-secondary);
+            position: relative;
+            display: inline-block;
+            transform-style: preserve-3d;
+            animation: dreamFloat 4s ease-in-out infinite;
+        }
+        
+        .dream-text::before,
+        .dream-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+            background: var(--bg-primary);
+            transform-origin: center;
+        }
+        
+        .dream-text::before {
+            color: var(--neon-blue);
+            text-shadow: 0 0 5px var(--neon-blue);
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+            transform: translate(-2px, 1px) scale(1.01);
+            animation: dreamGlitch1 3s infinite;
+            opacity: 0.8;
+        }
+        
+        .dream-text::after {
+            color: var(--neon-purple);
+            text-shadow: 0 0 5px var(--neon-purple);
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+            transform: translate(2px, -1px) scale(0.99);
+            animation: dreamGlitch2 2.7s infinite;
+            opacity: 0.8;
+        }
+        
+        @keyframes dreamGlitch1 {
+            0%, 100% { transform: translate(-2px, 1px) scale(1.01); }
+            25% { transform: translate(-4px, 2px) scale(1.03); }
+            50% { transform: translate(-1px, -1px) scale(0.99); }
+            75% { transform: translate(-3px, 1px) scale(1.01); }
+        }
+        
+        @keyframes dreamGlitch2 {
+            0%, 100% { transform: translate(2px, -1px) scale(0.99); }
+            25% { transform: translate(4px, -2px) scale(0.97); }
+            50% { transform: translate(1px, 1px) scale(1.01); }
+            75% { transform: translate(3px, -1px) scale(0.99); }
+        }
+        
+        @keyframes dreamFloat {
+            0%, 100% { transform: translateY(0) translateZ(0); filter: blur(0px); }
+            50% { transform: translateY(-3px) translateZ(10px); filter: blur(0.5px); }
+        }
+        
+        .enter-button {
+            font-family: 'Orbitron', 'ZCOOL QingKe HuangYou', sans-serif;
+            background-color: transparent;
+            color: var(--neon-primary);
+            border: 2px solid var(--neon-primary);
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            border-radius: 3px;
+            z-index: 1;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            animation-delay: 3s;
+        }
+        
+        .enter-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.3), transparent);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+        
+        .enter-button:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+            text-shadow: 0 0 5px rgba(0, 255, 157, 0.5);
+            transform: translateY(-2px) scale(1.05);
+        }
+        
+        .enter-button:hover::before {
+            left: 100%;
+        }
+        
+        .xi-symbol {
+            font-size: 120%;
+            font-weight: bold;
+        }
+        
+        @keyframes glitch1 {
+            0%, 100% { transform: translate(0) translateZ(10px); }
+            20% { transform: translate(-5px, 2px) translateZ(10px); }
+            40% { transform: translate(-5px, -2px) translateZ(10px); }
+            60% { transform: translate(5px, 2px) translateZ(10px); }
+            80% { transform: translate(3px, -1px) translateZ(10px); }
+        }
+        
+        @keyframes glitch2 {
+            0%, 100% { transform: translate(0) translateZ(-10px); }
+            20% { transform: translate(5px, -2px) translateZ(-10px); }
+            40% { transform: translate(5px, 2px) translateZ(-10px); }
+            60% { transform: translate(-5px, -2px) translateZ(-10px); }
+            80% { transform: translate(-3px, 1px) translateZ(-10px); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateZ(0) rotateX(0deg); }
+            50% { transform: translateY(-10px) translateZ(20px) rotateX(5deg); }
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(to bottom, 
+                rgba(0, 255, 157, 0.2), 
+                rgba(0, 255, 157, 0.1) 50%, 
+                rgba(0, 255, 157, 0) 100%);
+            z-index: 10;
+            opacity: 0.5;
+            animation: scan 4s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { top: -10px; }
+            100% { top: 100%; }
+        }
+        
+        /* 粒子背景 */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        /* 自定义鼠标 */
+        .cursor {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+        
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--neon-primary);
+            box-shadow: 0 0 10px var(--neon-primary), 0 0 20px var(--neon-primary);
+        }
+        
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(0, 255, 157, 0.5);
+            transition: transform 0.1s;
+        }
+        
+        /* 闪烁效果 */
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .flicker {
+            animation: flicker 0.15s infinite;
+            animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+        }
+        
+        /* 光束效果 */
+        .light-beam {
+            position: absolute;
+            width: 2px;
+            height: 0%;
+            background: linear-gradient(to bottom, var(--neon-primary), transparent);
+            z-index: -1;
+            opacity: 0.6;
+            filter: blur(1px);
+        }
+        
+        /* 漂浮数字代码 */
+        .floating-code {
+            position: absolute;
+            color: var(--neon-primary);
+            opacity: 0.3;
+            font-family: monospace;
+            font-size: 14px;
+            z-index: -1;
+            animation: float-code 20s linear infinite;
+            white-space: nowrap;
+        }
+        
+        @keyframes float-code {
+            0% { transform: translateY(100vh); }
+            100% { transform: translateY(-100vh); }
+        }
+        
+        /* 故障切片效果 */
+        .slice {
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background-color: var(--neon-secondary);
+            z-index: 2;
+            opacity: 0;
+        }
+        
+        /* 全屏闪烁 */
+        .screen-flicker {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.03);
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0;
+        }
+        
+        /* 移动设备响应式调整 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            p {
+                font-size: 1.2rem;
+            }
+            
+            .enter-button {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div id="app"></div>
-  <script>
-    window.$docsify = {
-      name: 'The Book of Ξ',
-      repo: '',
-      loadSidebar: true,
-      subMaxLevel: 2,
-      auto2top: true,
-      executeScript: true, // 重要！允许执行页面中的脚本
-      homepage: 'README.md',
-      themeColor: '#00ff9d'
-    }
-  </script>
-  <!-- Docsify v4 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
-  <!-- 插件 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+    <div id="particles-js"></div>
+    <div class="background-image"></div>
+    <div class="overlay"></div>
+    <div class="noise"></div>
+    <div class="scan-line"></div>
+    
+    <!-- 光束效果 -->
+    <div class="light-beam" id="beam1"></div>
+    <div class="light-beam" id="beam2"></div>
+    <div class="light-beam" id="beam3"></div>
+    
+    <!-- 全屏闪烁 -->
+    <div class="screen-flicker" id="screenFlicker"></div>
+    
+    <!-- 故障切片 -->
+    <div class="slice" id="slice1"></div>
+    <div class="slice" id="slice2"></div>
+    <div class="slice" id="slice3"></div>
+    
+    <!-- 自定义鼠标 -->
+    <div class="cursor cursor-dot"></div>
+    <div class="cursor cursor-outline"></div>
+    
+    <div class="content">
+        <div class="glitch-container">
+            <h1>The Book of <span class="xi-symbol">Ξ</span></h1>
+            <h1 class="glitch glitch-1">The Book of <span class="xi-symbol">Ξ</span></h1>
+            <h1 class="glitch glitch-2">The Book of <span class="xi-symbol">Ξ</span></h1>
+        </div>
+        
+        <div class="poem-container">
+            <p style="--order: 0.5">我们从未真正醒来</p>
+            <p style="--order: 1.5">只是从一种梦境</p>
+            <p style="--order: 2.5">步入另一种<span class="dream-text" data-text="梦境">梦境</span></p>
+        </div>
+        
+        <a href="public/index.html" class="enter-button">WAKING UP</a>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查是否在GitHub Pages上运行
+            if (window.location.hostname.includes('github.io')) {
+                const enterButton = document.querySelector('.enter-button');
+                // 让链接能在GitHub Pages上正确工作
+                enterButton.href = window.location.pathname.replace(/\/[^\/]*$/, '/public/index.html');
+            }
+            
+            // 粒子效果
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#00ff9d"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 2,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#00ff9d",
+                        "opacity": 0.2,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 1,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 0.5
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 4,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+            
+            // 自定义鼠标
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            
+            window.addEventListener('mousemove', function(e) {
+                cursorDot.style.left = e.clientX + 'px';
+                cursorDot.style.top = e.clientY + 'px';
+                
+                cursorOutline.style.left = e.clientX + 'px';
+                cursorOutline.style.top = e.clientY + 'px';
+            });
+            
+            // 鼠标互动效果
+            document.addEventListener('mousedown', function() {
+                cursorOutline.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            });
+            
+            document.addEventListener('mouseup', function() {
+                cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+            
+            // 光束效果
+            const beams = document.querySelectorAll('.light-beam');
+            beams.forEach(beam => {
+                setBeamPosition(beam);
+                
+                // 动画
+                setInterval(() => {
+                    beam.style.height = '100%';
+                    setTimeout(() => {
+                        beam.style.height = '0%';
+                        setTimeout(() => {
+                            setBeamPosition(beam);
+                        }, 500);
+                    }, 1000);
+                }, Math.random() * 5000 + 2000);
+            });
+            
+            function setBeamPosition(beam) {
+                beam.style.left = Math.random() * 100 + '%';
+                beam.style.transition = 'height ' + (Math.random() * 1 + 0.5) + 's linear';
+            }
+            
+            // 故障切片效果
+            const slices = document.querySelectorAll('.slice');
+            function triggerSliceGlitch() {
+                slices.forEach((slice, index) => {
+                    slice.style.top = Math.random() * 100 + 'vh';
+                    slice.style.opacity = 0.7;
+                    slice.style.height = Math.random() * 5 + 'px';
+                    
+                    setTimeout(() => {
+                        slice.style.opacity = 0;
+                    }, 200);
+                });
+                
+                setTimeout(triggerSliceGlitch, Math.random() * 5000 + 2000);
+            }
+            triggerSliceGlitch();
+            
+            // 屏幕闪烁效果
+            const screenFlicker = document.getElementById('screenFlicker');
+            function triggerScreenFlicker() {
+                if (Math.random() > 0.7) {
+                    screenFlicker.style.opacity = 0.5;
+                    setTimeout(() => {
+                        screenFlicker.style.opacity = 0;
+                    }, 50);
+                }
+                setTimeout(triggerScreenFlicker, Math.random() * 2000 + 1000);
+            }
+            triggerScreenFlicker();
+            
+            // 创建漂浮代码
+            for (let i = 0; i < 15; i++) {
+                createFloatingCode();
+            }
+            
+            function createFloatingCode() {
+                const code = document.createElement('div');
+                code.classList.add('floating-code');
+                code.style.left = Math.random() * 100 + 'vw';
+                code.style.animationDuration = Math.random() * 30 + 20 + 's';
+                
+                // 随机二进制或Ξ符号代码
+                let text = '';
+                for (let j = 0; j < Math.random() * 20 + 5; j++) {
+                    text += Math.random() > 0.9 ? 'Ξ' : Math.round(Math.random());
+                }
+                code.textContent = text;
+                
+                document.body.appendChild(code);
+                
+                // 移除元素
+                setTimeout(() => {
+                    code.remove();
+                    createFloatingCode();
+                }, parseInt(code.style.animationDuration) * 1000);
+            }
+            
+            // 随机添加闪烁效果
+            function randomFlicker() {
+                const elements = [document.querySelector('h1')];
+                const randomElement = elements[Math.floor(Math.random() * elements.length)];
+                
+                if (Math.random() > 0.5) {
+                    randomElement.classList.add('flicker');
+                    setTimeout(() => {
+                        randomElement.classList.remove('flicker');
+                    }, 200);
+                }
+                
+                setTimeout(randomFlicker, Math.random() * 3000 + 2000);
+            }
+            randomFlicker();
+            
+            // 梦境文字扭曲效果增强
+            const dreamTexts = document.querySelectorAll('.dream-text');
+            function randomDreamGlitch() {
+                if (Math.random() > 0.7) {
+                    dreamTexts.forEach(text => {
+                        // 随机增强扭曲效果
+                        const intensity = Math.random() * 2 + 1;
+                        text.style.filter = `blur(${Math.random() * 2}px)`;
+                        
+                        setTimeout(() => {
+                            text.style.filter = 'blur(0px)';
+                        }, 200);
+                    });
+                }
+                
+                setTimeout(randomDreamGlitch, Math.random() * 2000 + 1000);
+            }
+            randomDreamGlitch();
+            
+            // 鼠标互动增强
+            document.addEventListener('mousemove', function(e) {
+                if (Math.random() > 0.98) {
+                    triggerSliceGlitch();
+                }
+                
+                // 鼠标周围的粒子互动
+                const x = e.clientX;
+                const y = e.clientY;
+                
+                // 添加粒子爆发效果
+                if (Math.random() > 0.97) {
+                    const burst = document.createElement('div');
+                    burst.style.position = 'absolute';
+                    burst.style.left = x + 'px';
+                    burst.style.top = y + 'px';
+                    burst.style.width = '4px';
+                    burst.style.height = '4px';
+                    burst.style.backgroundColor = '#00ff9d';
+                    burst.style.borderRadius = '50%';
+                    burst.style.boxShadow = '0 0 10px #00ff9d';
+                    burst.style.zIndex = '9999';
+                    burst.style.transform = 'translate(-50%, -50%)';
+                    burst.style.transition = 'all 0.5s ease-out';
+                    
+                    document.body.appendChild(burst);
+                    
+                    setTimeout(() => {
+                        burst.style.width = '40px';
+                        burst.style.height = '40px';
+                        burst.style.opacity = '0';
+                    }, 10);
+                    
+                    setTimeout(() => {
+                        burst.remove();
+                    }, 500);
+                }
+            });
+        });
+    </script>
 </body>
-</html>
+</html> 
