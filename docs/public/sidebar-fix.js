@@ -20,23 +20,6 @@
       return;
     }
     
-    // GitHub Pages链接修复
-    if (window.location.hostname.includes('github.io')) {
-      console.log("检测到GitHub Pages环境，修复链接...");
-      const links = sidebar.querySelectorAll('a');
-      const repoName = '/the-book-of-x-test';
-      
-      links.forEach(link => {
-        // 避免处理外部链接和已修复的链接
-        const href = link.getAttribute('href');
-        if (href && !href.startsWith('http') && !href.startsWith(repoName) && !href.startsWith('#')) {
-          // 修复链接路径
-          link.href = repoName + '/' + href;
-          console.log(`修复链接: ${href} -> ${link.href}`);
-        }
-      });
-    }
-    
     // 移除所有可能存在的事件监听器
     const newSidebarToggle = sidebarToggle.cloneNode(true);
     sidebarToggle.parentNode.replaceChild(newSidebarToggle, sidebarToggle);
@@ -65,28 +48,11 @@
     });
     
     // 高亮当前页面链接
-    let currentUrl = window.location.pathname;
-    // 针对GitHub Pages环境特殊处理
-    if (window.location.hostname.includes('github.io')) {
-      const repoName = '/the-book-of-x-test';
-      if (currentUrl.startsWith(repoName)) {
-        currentUrl = currentUrl.substring(repoName.length);
-      }
-    }
-    
+    const currentUrl = window.location.pathname;
     const links = sidebar.querySelectorAll('a');
     links.forEach(link => {
-      let href = link.getAttribute('href');
-      
-      // 如果在GitHub Pages环境中，移除仓库名前缀再比较
-      if (window.location.hostname.includes('github.io')) {
-        const repoName = '/the-book-of-x-test';
-        if (href && href.startsWith(repoName)) {
-          href = href.substring(repoName.length);
-        }
-      }
-      
-      if (href === currentUrl || currentUrl.endsWith(href)) {
+      if (link.getAttribute('href') === currentUrl || 
+          currentUrl.endsWith(link.getAttribute('href'))) {
         link.style.color = '#00ff9d';
         link.style.fontWeight = 'bold';
       }

@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 
 <html lang="zh-CN">
-<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>观测者记录 | The Book of Ξ</title>
-<!-- GitHub Pages路径修复脚本 -->
-<script src="/the-book-of-x-test/github-pages-fix.js"></script>
 
 
 <style>
@@ -1799,37 +1796,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 另一条数据流线
         ctx.beginPath();
-        ctx.moveTo(0, canvas.height * 0.7 + canvas.height * 0.05 * Math.cos(time * 1.5));
-        
-        for (let x = 0; x < canvas.width; x += canvas.width / 30) {
-          const y = canvas.height * 0.7 + canvas.height * 0.05 * Math.cos(time * 1.5 + x * 0.02);
-          ctx.lineTo(x, y);
-        }
-        
-        ctx.strokeStyle = 'rgba(0, 242, 255, 0.5)';
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-        
-        // 添加一些随机的二进制代码
-        ctx.font = '10px monospace';
-        ctx.fillStyle = 'rgba(0, 255, 157, 0.7)';
-        
-        for (let i = 0; i < 20; i++) {
-          const x = Math.random() * canvas.width;
-          const y = Math.random() * canvas.height;
-          const digit = Math.random() > 0.5 ? '1' : '0';
-          const alpha = Math.random() * 0.7 + 0.3;
-          
-          ctx.fillStyle = `rgba(0, 255, 157, ${alpha})`;
-          ctx.fillText(digit, x, y);
-        }
-        
-        requestAnimationFrame(drawDataFlow);
-      }
-      
-      drawDataFlow();
-    }
-  });
 </script>
 </body>
 </html>

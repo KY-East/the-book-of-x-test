@@ -31,24 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
   
-  // 为GitHub Pages修复链接
-  if (window.location.hostname.includes('github.io')) {
-    const links = sidebar.querySelectorAll('a');
-    const repoName = '/the-book-of-x-test';
-    
-    links.forEach(link => {
-      // 避免处理外部链接
-      if (!link.href.startsWith('http') || link.href.includes(window.location.hostname)) {
-        // 解析链接路径
-        let path = link.getAttribute('href');
-        if (path && !path.startsWith(repoName) && !path.startsWith('#')) {
-          // 修复路径
-          link.href = repoName + '/' + path;
-        }
-      }
-    });
-  }
-  
   // 绑定点击事件
   toggle.onclick = function(e) {
     e.preventDefault();
