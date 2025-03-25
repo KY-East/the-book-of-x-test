@@ -1,0 +1,356 @@
+/* 章节系统样式 */
+.chapter-container {
+  position: relative;
+  margin: 0 auto;
+  padding: 20px 0;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  will-change: opacity, transform;
+}
+
+.hidden-chapter {
+  display: none;
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.loading-chapter {
+  display: block;
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.active-chapter {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 章节间隔线 */
+.chapter-divider {
+  position: relative;
+  height: 1px;
+  width: 80%;
+  margin: 40px auto;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.3), transparent);
+  overflow: hidden;
+}
+
+.chapter-divider::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.8), transparent);
+  animation: glowScan 3s infinite;
+  transform: translateX(-100%);
+}
+
+@keyframes glowScan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* 继续阅读按钮 */
+.continue-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px auto;
+  padding: 12px 25px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid #00ff9d;
+  color: #00ff9d;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 255, 157, 0.2);
+  max-width: 250px;
+  text-align: center;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.continue-button .button-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+}
+
+.continue-button .continue-text {
+  margin-right: 10px;
+}
+
+.continue-button .continue-icon {
+  font-size: 1.2em;
+  transition: transform 0.3s ease;
+}
+
+.continue-button .button-shine {
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 120%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    rgba(0, 255, 157, 0) 0%, 
+    rgba(0, 255, 157, 0.1) 50%,
+    rgba(0, 255, 157, 0) 100%);
+  transform: skewX(-30deg);
+  transition: all 0.6s ease;
+  z-index: 1;
+}
+
+.continue-button:hover {
+  background: rgba(0, 255, 157, 0.1);
+  box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+  transform: translateX(-50%) scale(1.05);
+}
+
+.continue-button:hover .continue-icon {
+  transform: translateY(3px);
+}
+
+.continue-button:hover .button-shine {
+  left: 150%;
+}
+
+.continue-button:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+/* 阅读进度指示器 */
+.reading-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+}
+
+.reading-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #00ff9d, #00a864);
+  transition: width 0.2s;
+  z-index: 1;
+}
+
+.chapter-marker {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 0 2px;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.chapter-marker:hover {
+  transform: scale(1.5);
+  background: rgba(0, 255, 157, 0.5);
+}
+
+.chapter-marker.active {
+  background: #00ff9d;
+  box-shadow: 0 0 5px rgba(0, 255, 157, 0.8);
+}
+
+/* 滚动指示器 */
+.scroll-indicator {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #00ff9d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  animation: indicatorPulse 2s infinite;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-indicator:after {
+  content: "⇣";
+  color: #00ff9d;
+  font-size: 20px;
+}
+
+.scroll-indicator.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes indicatorPulse {
+  0%, 100% { 
+    transform: translateX(-50%) scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.7);
+  }
+  50% { 
+    transform: translateX(-50%) scale(1.1);
+    box-shadow: 0 0 0 10px rgba(0, 255, 157, 0);
+  }
+}
+
+/* 性能调整样式 */
+.low-performance-device .animate-on-scroll {
+  transition-duration: 0.4s !important; /* 减少过渡时间 */
+}
+
+.low-performance-device .matrix-rain canvas,
+.medium-performance-device .matrix-rain canvas {
+  opacity: 0.8; /* 降低透明度提高性能 */
+}
+
+.low-performance-device .glitch-effect,
+.low-performance-device .pulse-effect {
+  animation-duration: 2s !important; /* 降低动画频率 */
+}
+
+/* 简化版动画样式 */
+.simple-animation {
+  animation-duration: 0.5s !important;
+  animation-iteration-count: 1 !important;
+}
+
+.simple-animation.fade-in {
+  animation: simpleFadeIn 0.5s forwards !important;
+}
+
+@keyframes simpleFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 章节过渡效果 */
+.chapter-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.chapter-transition.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.chapter-transition-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #00ff9d;
+  font-size: 2rem;
+  text-align: center;
+  animation: pulseFade 2s infinite;
+}
+
+@keyframes pulseFade {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .continue-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+  
+  .chapter-marker {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .scroll-indicator {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .scroll-indicator:after {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .continue-button {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    max-width: 200px;
+  }
+  
+  .chapter-divider {
+    width: 95%;
+    margin: 30px auto;
+  }
+  
+  .reading-progress-container {
+    height: 2px;
+  }
+  
+  .chapter-marker {
+    width: 5px;
+    height: 5px;
+    margin: 0 1px;
+  }
+}
+
+/* 章节内容动画效果 */
+.chapter-title {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.active-chapter .chapter-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chapter-subtitle {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+}
+
+.active-chapter .chapter-subtitle {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chapter-content {
+  opacity: 0;
+  transition: opacity 0.8s ease 0.4s;
+}
+
+.active-chapter .chapter-content {
+  opacity: 1;
+}

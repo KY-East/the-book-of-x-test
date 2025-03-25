@@ -2152,6 +2152,10 @@ function setupMusicPlayer() {
     var anomalyItems = document.querySelectorAll('.anomaly-item');
     if (anomalyItems.length > 0) {
       anomalyItems.forEach(function(item, index) {
+        // 独立个体量子比特纠缠指数上升设置为6秒后启动
+        const isFirstAnomaly = item.querySelector('.anomaly-label')?.textContent.includes('独立个体量子比特纠缠指数上升');
+        const delay = isFirstAnomaly ? 6000 : index * 500;
+        
         setTimeout(function() {
           var value = parseInt(item.getAttribute('data-value') || '0');
           var valueElement = item.querySelector('.anomaly-value');
@@ -2184,11 +2188,11 @@ function setupMusicPlayer() {
               clearInterval(valueInterval);
             }
           }, 20);
-        }, index * 500);
+        }, delay);
       });
     }
 
-    // 终端进度条动画
+    // 终端进度条动画 - NODE TERMINAL改为8秒后启动
     var progressBar = document.getElementById('progress-bar');
     var progressEmpty = document.getElementById('progress-empty');
     var progressPercent = document.getElementById('progress-percent');
@@ -2208,28 +2212,31 @@ function setupMusicPlayer() {
       // 初始化进度条
       updateProgress();
 
-      // 使用更可靠的动画方式
-      var terminalInterval = setInterval(function() {
-        if (progress < 78) {
-          progress += 1;
-          updateProgress();
-        } else if (progress === 78) {
-          clearInterval(terminalInterval);
-          setTimeout(function() {
-            var slowInterval = setInterval(function() {
-              if (progress < 100) {
-                progress += 1;
-                updateProgress();
-              } else {
-                clearInterval(slowInterval);
-                if (terminalComplete) {
-                  terminalComplete.classList.remove('hidden');
+      // 8秒后开始终端动画
+      setTimeout(function() {
+        // 使用更可靠的动画方式
+        var terminalInterval = setInterval(function() {
+          if (progress < 78) {
+            progress += 1;
+            updateProgress();
+          } else if (progress === 78) {
+            clearInterval(terminalInterval);
+            setTimeout(function() {
+              var slowInterval = setInterval(function() {
+                if (progress < 100) {
+                  progress += 1;
+                  updateProgress();
+                } else {
+                  clearInterval(slowInterval);
+                  if (terminalComplete) {
+                    terminalComplete.classList.remove('hidden');
+                  }
                 }
-              }
-            }, 100);
-          }, 1000);
-        }
-      }, 50);
+              }, 100);
+            }, 1000);
+          }
+        }, 50);
+      }, 8000);
     }
 
     // 扫描按钮功能
@@ -2397,6 +2404,16 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-</div></div>
+<!-- 添加优化的滚动系统 -->
+<script>
+// 滚动系统配置
+window.scrollSystemConfig = {
+  triggerThreshold: 0.85, // 提前触发比例 (0-1)，值越大越早触发
+  debug: false,         // 调试模式关闭
+  safetyTimeout: 10000  // 10秒后如无内容显示则强制显示
+};
+</script>
+<script src="/scripts/scroll-system/optimized-scroll.js"></script>
+
 </body>
 </html>

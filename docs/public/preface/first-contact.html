@@ -2025,10 +2025,32 @@ body::before {
       // 设置音频属性
       audioPlayer.volume = 0.3;
       
-      // 进度条点击事件
+      // 进度条点击和拖动事件
       progressBar.addEventListener('click', function(e) {
         const percentage = (e.offsetX / this.offsetWidth);
         audioPlayer.currentTime = percentage * audioPlayer.duration;
+      });
+      
+      // 添加拖动支持
+      let isDragging = false;
+      
+      progressBar.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        const percentage = (e.offsetX / this.offsetWidth);
+        audioPlayer.currentTime = percentage * audioPlayer.duration;
+      });
+      
+      document.addEventListener('mousemove', function(e) {
+        if (isDragging) {
+          const rect = progressBar.getBoundingClientRect();
+          const offsetX = e.clientX - rect.left;
+          const percentage = Math.max(0, Math.min(1, offsetX / progressBar.offsetWidth));
+          audioPlayer.currentTime = percentage * audioPlayer.duration;
+        }
+      });
+      
+      document.addEventListener('mouseup', function() {
+        isDragging = false;
       });
       
       // 绑定事件

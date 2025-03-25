@@ -482,6 +482,226 @@ body::before {
   50% { background-color: rgba(0, 255, 157, 0.2); }
   100% { background-color: rgba(0, 0, 0, 0.5); }
 }
+
+/* 音乐播放器样式 */
+.xi-music-player {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    font-family: 'Courier New', monospace;
+}
+
+.player-toggle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #00ff9d;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+    transition: all 0.3s ease;
+}
+
+.player-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+}
+
+.player-toggle-icon {
+    color: #00ff9d;
+    font-size: 20px;
+}
+
+.player-container {
+    position: absolute;
+    bottom: 50px;
+    right: 0;
+    width: 300px;
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid #00ff9d;
+    border-radius: 10px;
+    padding: 15px;
+    display: none;
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.2);
+}
+
+.player-container.active {
+    display: block;
+}
+
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(0, 255, 157, 0.3);
+}
+
+.player-header h4 {
+    color: #00ff9d;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.status {
+    color: #888;
+    font-size: 0.8rem;
+}
+
+.music-info {
+    color: #fff;
+    font-size: 0.9rem;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.player-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.player-controls button {
+    background: none;
+    border: 1px solid #00ff9d;
+    color: #00ff9d;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.player-controls button:hover {
+    background: rgba(0, 255, 157, 0.1);
+    transform: scale(1.1);
+}
+
+.progress-container {
+    margin: 15px 0;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+}
+
+.progress-current {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: #00ff9d;
+    border-radius: 2px;
+    width: 0;
+}
+
+.progress-time {
+    display: flex;
+    justify-content: space-between;
+    color: #888;
+    font-size: 0.8rem;
+    margin-top: 5px;
+}
+
+.volume-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.volume-container label {
+    color: #888;
+    font-size: 0.8rem;
+}
+
+.volume-control {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    outline: none;
+}
+
+.volume-control::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #00ff9d;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.volume-control::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.playlist-container {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(0, 255, 157, 0.3);
+}
+
+.playlist-container h3 {
+    color: #00ff9d;
+    font-size: 0.9rem;
+    margin: 0 0 10px 0;
+}
+
+.playlist-display {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.playlist-display::-webkit-scrollbar {
+    width: 4px;
+}
+
+.playlist-display::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.playlist-display::-webkit-scrollbar-thumb {
+    background: #00ff9d;
+    border-radius: 2px;
+}
+
+.playlist-display li {
+    padding: 5px 10px;
+    color: #fff;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+
+.playlist-display li:hover {
+    background: rgba(0, 255, 157, 0.1);
+}
+
+.playlist-display li.active {
+    color: #00ff9d;
+    background: rgba(0, 255, 157, 0.1);
+}
 </style>
 </head>
 <body>
@@ -1162,8 +1382,23 @@ body::before {
 </style>
 <script type="text/javascript">
 (function() {
+  // 添加初始化状态标记
+  let isInitialized = false;
+  let resizeListeners = [];
+  
   // 初始化各种动画和交互效果
   var initializeAnimations = function() {
+    // 防止重复初始化
+    if (isInitialized) {
+      console.log('观测者记录页面已经初始化，避免重复初始化');
+      return;
+    }
+    
+    console.log('开始初始化观测者记录页面动画...');
+    
+    // 标记为已初始化
+    isInitialized = true;
+    
     // 创建高级数据流动画
     initDataStreamVisualizer();
 
@@ -1172,24 +1407,27 @@ body::before {
 
     // 设置details元素的点击事件
     setupDetailsInteractions();
+    
+    console.log('观测者记录页面动画初始化完成');
   };
 
   // 高级数据流动画
   function initDataStreamVisualizer() {
     const canvas = document.getElementById('dataStreamCanvas');
-    if (!canvas) return;
+    if (!canvas) {
+      console.error('数据流Canvas未找到');
+      return;
+    }
     
-    // 确保canvas尺寸与容器一致
-    const resizeCanvas = () => {
-      const container = canvas.parentElement;
-      canvas.width = container.offsetWidth;
-      canvas.height = container.offsetHeight;
-    };
-    
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    // 清理可能存在的旧事件监听器
+    removeResizeListener('dataStreamCanvas');
     
     const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      console.error('无法获取数据流Canvas的2D上下文');
+      return;
+    }
+    
     const particles = [];
     const particleCount = 100;
     const maxSpeed = 1;
@@ -1197,16 +1435,47 @@ body::before {
     const baseHue = 145; // #00ff9d 的色调
     
     // 创建粒子
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 1.5 + 0.5,
-        vx: (Math.random() - 0.5) * maxSpeed,
-        vy: (Math.random() - 0.5) * maxSpeed,
-        age: Math.random() * 100,
-      });
+    function initializeParticles() {
+      particles.length = 0; // 清空数组
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.5 + 0.5,
+          vx: (Math.random() - 0.5) * maxSpeed,
+          vy: (Math.random() - 0.5) * maxSpeed,
+          age: Math.random() * 100,
+        });
+      }
     }
+    
+    // 确保canvas尺寸与容器一致
+    const resizeCanvas = () => {
+      const container = canvas.parentElement;
+      if (!container) return;
+      
+      if (container.offsetWidth > 0 && container.offsetHeight > 0) {
+        console.log(`数据流Canvas调整尺寸: ${container.offsetWidth}x${container.offsetHeight}`);
+        canvas.width = container.offsetWidth;
+        canvas.height = container.offsetHeight;
+        initializeParticles(); // 重新初始化粒子以适应新尺寸
+      } else {
+        // 如果容器尺寸不可用，等待下一帧再试
+        requestAnimationFrame(resizeCanvas);
+        return;
+      }
+    };
+    
+    // 添加到追踪列表
+    resizeListeners.push({
+      id: 'dataStreamCanvas',
+      handler: resizeCanvas
+    });
+    
+    window.addEventListener('resize', resizeCanvas);
+    
+    // 等待容器尺寸准备好
+    resizeCanvas();
     
     // 绘制背景网格
     function drawGrid() {
@@ -1231,114 +1500,134 @@ body::before {
     
     // 绘制数据流
     function drawDataFlow() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawGrid();
-      
-      // 更新并绘制粒子
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.age += 0.1;
+      try {
+        if (!ctx || !canvas) return;
+        if (canvas.width <= 0 || canvas.height <= 0) {
+          console.warn('数据流Canvas尺寸无效，跳过绘制');
+          requestAnimationFrame(drawDataFlow);
+          return;
+        }
         
-        p.x += p.vx;
-        p.y += p.vy;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawGrid();
         
-        // 边界检查
-        if (p.x < 0 || p.x > canvas.width) p.vx = -p.vx;
-        if (p.y < 0 || p.y > canvas.height) p.vy = -p.vy;
-        
-        // 绘制粒子
-        ctx.beginPath();
-        const alpha = 0.5 + 0.5 * Math.sin(p.age * 0.05);
-        ctx.fillStyle = `rgba(0, 255, 157, ${alpha})`;
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // 连接临近粒子
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+        // 更新并绘制粒子
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.age += 0.1;
           
-          if (distance < lineThreshold) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(0, 255, 157, ${0.1 * (1 - distance / lineThreshold)})`;
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
+          p.x += p.vx;
+          p.y += p.vy;
+          
+          // 边界检查
+          if (p.x < 0 || p.x > canvas.width) p.vx = -p.vx;
+          if (p.y < 0 || p.y > canvas.height) p.vy = -p.vy;
+          
+          // 绘制粒子
+          ctx.beginPath();
+          const alpha = 0.5 + 0.5 * Math.sin(p.age * 0.05);
+          ctx.fillStyle = `rgba(0, 255, 157, ${alpha})`;
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+          
+          // 连接临近粒子
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx = p.x - p2.x;
+            const dy = p.y - p2.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < lineThreshold) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(0, 255, 157, ${0.1 * (1 - distance / lineThreshold)})`;
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
           }
         }
-      }
-      
-      // 添加一些数据点
-      const time = Date.now() * 0.001;
-      const pointsCount = 5;
-      
-      for (let i = 0; i < pointsCount; i++) {
-        const t = time + i * 0.5;
-        const x = canvas.width * 0.5 + Math.cos(t) * canvas.width * 0.3;
-        const y = canvas.height * 0.5 + Math.sin(t * 1.5) * canvas.height * 0.2;
         
-        ctx.beginPath();
-        ctx.arc(x, y, 3, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 95, 86, ${0.7 + 0.3 * Math.sin(t * 3)})`;
-        ctx.fill();
+        // 添加一些数据点
+        const time = Date.now() * 0.001;
+        const pointsCount = 5;
         
-        // 绘制波纹
+        for (let i = 0; i < pointsCount; i++) {
+          const t = time + i * 0.5;
+          const x = canvas.width * 0.5 + Math.cos(t) * canvas.width * 0.3;
+          const y = canvas.height * 0.5 + Math.sin(t * 1.5) * canvas.height * 0.2;
+          
+          ctx.beginPath();
+          ctx.arc(x, y, 3, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 95, 86, ${0.7 + 0.3 * Math.sin(t * 3)})`;
+          ctx.fill();
+          
+          // 绘制波纹
+          ctx.beginPath();
+          ctx.arc(x, y, 5 + 10 * Math.sin(t * 2), 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(255, 95, 86, ${0.3 + 0.2 * Math.sin(t * 3)})`;
+          ctx.stroke();
+        }
+        
+        // 添加一些虚拟的数据流线
         ctx.beginPath();
-        ctx.arc(x, y, 5 + 10 * Math.sin(t * 2), 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(255, 95, 86, ${0.3 + 0.2 * Math.sin(t * 3)})`;
+        ctx.moveTo(0, canvas.height * 0.3 + canvas.height * 0.1 * Math.sin(time));
+        
+        for (let x = 0; x < canvas.width; x += canvas.width / 20) {
+          const y = canvas.height * 0.3 + canvas.height * 0.1 * Math.sin(time + x * 0.01);
+          ctx.lineTo(x, y);
+        }
+        
+        ctx.strokeStyle = 'rgba(0, 255, 157, 0.5)';
+        ctx.lineWidth = 2;
         ctx.stroke();
-      }
-      
-      // 添加一些虚拟的数据流线
-      ctx.beginPath();
-      ctx.moveTo(0, canvas.height * 0.3 + canvas.height * 0.1 * Math.sin(time));
-      
-      for (let x = 0; x < canvas.width; x += canvas.width / 20) {
-        const y = canvas.height * 0.3 + canvas.height * 0.1 * Math.sin(time + x * 0.01);
-        ctx.lineTo(x, y);
-      }
-      
-      ctx.strokeStyle = 'rgba(0, 255, 157, 0.5)';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      
-      // 另一条数据流线
-      ctx.beginPath();
-      ctx.moveTo(0, canvas.height * 0.7 + canvas.height * 0.05 * Math.cos(time * 1.5));
-      
-      for (let x = 0; x < canvas.width; x += canvas.width / 30) {
-        const y = canvas.height * 0.7 + canvas.height * 0.05 * Math.cos(time * 1.5 + x * 0.02);
-        ctx.lineTo(x, y);
-      }
-      
-      ctx.strokeStyle = 'rgba(0, 242, 255, 0.5)';
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-      
-      // 添加一些随机的二进制代码
-      ctx.font = '10px monospace';
-      ctx.fillStyle = 'rgba(0, 255, 157, 0.7)';
-      
-      for (let i = 0; i < 20; i++) {
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height;
-        const digit = Math.random() > 0.5 ? '1' : '0';
-        const alpha = Math.random() * 0.7 + 0.3;
         
-        ctx.fillStyle = `rgba(0, 255, 157, ${alpha})`;
-        ctx.fillText(digit, x, y);
+        // 另一条数据流线
+        ctx.beginPath();
+        ctx.moveTo(0, canvas.height * 0.7 + canvas.height * 0.05 * Math.cos(time * 1.5));
+        
+        for (let x = 0; x < canvas.width; x += canvas.width / 30) {
+          const y = canvas.height * 0.7 + canvas.height * 0.05 * Math.cos(time * 1.5 + x * 0.02);
+          ctx.lineTo(x, y);
+        }
+        
+        ctx.strokeStyle = 'rgba(0, 242, 255, 0.5)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        
+        // 添加一些随机的二进制代码
+        ctx.font = '10px monospace';
+        ctx.fillStyle = 'rgba(0, 255, 157, 0.7)';
+        
+        for (let i = 0; i < 20; i++) {
+          const x = Math.random() * canvas.width;
+          const y = Math.random() * canvas.height;
+          const digit = Math.random() > 0.5 ? '1' : '0';
+          const alpha = Math.random() * 0.7 + 0.3;
+          
+          ctx.fillStyle = `rgba(0, 255, 157, ${alpha})`;
+          ctx.fillText(digit, x, y);
+        }
+        
+        requestAnimationFrame(drawDataFlow);
+      } catch (err) {
+        console.error('数据流动画出错:', err);
+        requestAnimationFrame(drawDataFlow); // 继续尝试下一帧
       }
-      
-      requestAnimationFrame(drawDataFlow);
     }
     
-    drawDataFlow();
+    // 仅当Canvas尺寸有效时开始绘制
+    if (canvas.width > 0 && canvas.height > 0) {
+      drawDataFlow();
+    } else {
+      console.log('等待数据流Canvas尺寸准备好');
+      requestAnimationFrame(drawDataFlow);
+    }
   }
 
   // 高级模式框动画
   function initPatternBoxes() {
+    console.log('初始化模式框动画...');
+    
     const canvases = [
       document.getElementById('patternCanvas1'),
       document.getElementById('patternCanvas2'),
@@ -1346,32 +1635,69 @@ body::before {
     ];
     
     canvases.forEach((canvas, index) => {
-      if (!canvas) return;
+      if (!canvas) {
+        console.error(`模式框Canvas ${index + 1} 未找到`);
+        return;
+      }
+      
+      console.log(`找到模式框Canvas ${index + 1}`);
+      
+      // 清理可能存在的旧事件监听器
+      removeResizeListener(`patternCanvas${index + 1}`);
+      
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        console.error(`无法获取模式框Canvas ${index + 1} 的2D上下文`);
+        return;
+      }
       
       // 调整canvas尺寸
       const resizeCanvas = () => {
         const container = canvas.parentElement;
-        canvas.width = container.offsetWidth;
-        canvas.height = container.offsetHeight;
+        if (!container) return;
+        
+        if (container.offsetWidth > 0 && container.offsetHeight > 0) {
+          console.log(`模式框Canvas ${index + 1} 调整尺寸: ${container.offsetWidth}x${container.offsetHeight}`);
+          canvas.width = container.offsetWidth;
+          canvas.height = container.offsetHeight;
+        } else {
+          // 如果容器尺寸不可用，等待下一帧再试
+          requestAnimationFrame(resizeCanvas);
+          return;
+        }
       };
       
-      window.addEventListener('resize', resizeCanvas);
-      resizeCanvas();
+      // 添加到追踪列表
+      resizeListeners.push({
+        id: `patternCanvas${index + 1}`,
+        handler: resizeCanvas
+      });
       
-      const ctx = canvas.getContext('2d');
+      window.addEventListener('resize', resizeCanvas);
+      
+      // 等待容器尺寸准备好
+      resizeCanvas();
       
       // 不同的模式图案
       function drawPattern() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        const time = Date.now() * 0.001;
-        const cellSize = 10;
-        const rows = Math.ceil(canvas.height / cellSize);
-        const cols = Math.ceil(canvas.width / cellSize);
-        
-        // 创建不同的模式
-        switch(index) {
-          case 0: // 第一个模式：矩阵式图案
+        try {
+          if (!ctx || !canvas) return;
+          if (canvas.width <= 0 || canvas.height <= 0) {
+            console.warn(`模式框Canvas ${index + 1} 尺寸无效，跳过绘制`);
+            requestAnimationFrame(drawPattern);
+            return;
+          }
+          
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          
+          const time = Date.now() * 0.001;
+          const cellSize = 10;
+          const rows = Math.ceil(canvas.height / cellSize);
+          const cols = Math.ceil(canvas.width / cellSize);
+          
+          // 创建不同的模式
+          switch(index) {
+            case 0: // 第一个模式：矩阵式图案
             for (let y = 0; y < rows; y++) {
               for (let x = 0; x < cols; x++) {
                 const distFromCenter = Math.sqrt(
@@ -1393,8 +1719,8 @@ body::before {
               }
             }
             break;
-            
-          case 1: // 第二个模式：波纹图案
+              
+            case 1: // 第二个模式：波纹图案
             ctx.strokeStyle = 'rgba(0, 255, 157, 0.5)';
             const wavesCount = 5;
             
@@ -1411,7 +1737,7 @@ body::before {
                 
                 if (x === 0) {
                   ctx.moveTo(x, y);
-        } else {
+                } else {
                   ctx.lineTo(x, y);
                 }
               }
@@ -1432,8 +1758,8 @@ body::before {
               ctx.fill();
             }
             break;
-            
-          case 2: // 第三个模式：Ξ符号阵列
+              
+            case 2: // 第三个模式：Ξ符号阵列
             ctx.font = '12px monospace';
             
             for (let y = 0; y < rows; y++) {
@@ -1481,13 +1807,32 @@ body::before {
             ctx.fillText('Ξ', 0, 0);
             ctx.restore();
             break;
+          }
+          
+          requestAnimationFrame(drawPattern);
+        } catch (err) {
+          console.error(`模式框 ${index + 1} 动画出错:`, err);
+          requestAnimationFrame(drawPattern); // 继续尝试下一帧
         }
-        
-        requestAnimationFrame(drawPattern);
       }
       
-      drawPattern();
+      // 仅当Canvas尺寸有效时开始绘制
+      if (canvas.width > 0 && canvas.height > 0) {
+        drawPattern();
+      } else {
+        console.log(`等待模式框Canvas ${index + 1} 尺寸准备好`);
+        requestAnimationFrame(drawPattern);
+      }
     });
+  }
+  
+  // 辅助函数：移除resize事件监听器
+  function removeResizeListener(id) {
+    const index = resizeListeners.findIndex(listener => listener.id === id);
+    if (index !== -1) {
+      window.removeEventListener('resize', resizeListeners[index].handler);
+      resizeListeners.splice(index, 1);
+    }
   }
 
   // 设置details元素的点击事件
@@ -1556,19 +1901,35 @@ body::before {
     }
   }
 
-  // 确保在静态页面内加载时也能执行
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeAnimations);
-  } else {
-    initializeAnimations();
-  }
+  // 确保在页面加载完成后初始化一次，且只初始化一次
+  window.addEventListener('load', function() {
+    // 使用较长的延迟确保所有DOM元素和CSS样式都已完全应用
+    console.log('页面完全加载，准备初始化动画');
+    setTimeout(initializeAnimations, 200);
+  });
 
-  // 额外的延迟初始化，确保在静态页面中加载后运行
-  setTimeout(initializeAnimations, 500);
-  setTimeout(initializeAnimations, 1000);
+  // 暴露安全版的初始化函数到全局
+  window.initObserverRecords = function() {
+    if (!isInitialized) {
+      initializeAnimations();
+    } else {
+      console.log('重新初始化被忽略，页面已经初始化');
+    }
+  };
 
-  // 暴露到全局以便static-page.html调用
-  window.initObserverRecords = initializeAnimations;
+  // 清理函数，用于在必要时清理资源
+  window.cleanupObserverRecords = function() {
+    if (isInitialized) {
+      // 移除所有resize事件监听器
+      resizeListeners.forEach(listener => {
+        window.removeEventListener('resize', listener.handler);
+      });
+      resizeListeners = [];
+      
+      isInitialized = false;
+      console.log('观测者记录页面资源已清理');
+    }
+  };
 })();
 </script>
 
@@ -1586,7 +1947,7 @@ body::before {
 
 <script>
   // 粒子效果脚本
-    document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
     const particles = document.getElementById('particles');
     const particleCount = 50;
     
@@ -1796,6 +2157,164 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 另一条数据流线
         ctx.beginPath();
+        ctx.moveTo(0, canvas.height * 0.7 + canvas.height * 0.05 * Math.cos(time * 1.5));
+        
+        for (let x = 0; x < canvas.width; x += canvas.width / 30) {
+          const y = canvas.height * 0.7 + canvas.height * 0.05 * Math.cos(time * 1.5 + x * 0.02);
+          ctx.lineTo(x, y);
+        }
+        
+        ctx.strokeStyle = 'rgba(0, 242, 255, 0.5)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        
+        // 添加一些随机的二进制代码
+        ctx.font = '10px monospace';
+        ctx.fillStyle = 'rgba(0, 255, 157, 0.7)';
+        
+        for (let i = 0; i < 20; i++) {
+          const x = Math.random() * canvas.width;
+          const y = Math.random() * canvas.height;
+          const digit = Math.random() > 0.5 ? '1' : '0';
+          const alpha = Math.random() * 0.7 + 0.3;
+          
+          ctx.fillStyle = `rgba(0, 255, 157, ${alpha})`;
+          ctx.fillText(digit, x, y);
+        }
+        
+        requestAnimationFrame(drawDataFlow);
+      }
+      
+      drawDataFlow();
+    }
+  });
 </script>
+
+<!-- 引入Xi视觉效果系统 -->
+<script src="/scripts/xi-visual-effects.js"></script>
+
+<!-- 初始化视觉效果系统 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 检查XiVisualEffects是否加载成功
+  if (typeof XiVisualEffects !== 'undefined') {
+    // 初始化系统
+    XiVisualEffects.init({
+      defaultTheme: 'oracle', // 使用神谕主题（蓝紫色神秘风格）
+      performanceLevel: 'auto', // 自动检测性能级别
+      particleDensity: 1.0 // 正常粒子密度
+    });
+    
+    // 确保主题正确应用
+    XiVisualEffects.themes.apply('oracle');
+    
+    console.log('视觉效果系统已初始化', XiVisualEffects.getState());
+  } else {
+    console.error('Xi视觉效果系统未加载');
+  }
+});
+</script>
+
+<!-- 音乐播放器 -->
+<script type="module">
+import xiPlayer from '/scripts/xi-player.js';
+import XiPlayerUI from '/scripts/xi-player-ui.js';
+
+// 播放列表配置
+const playlist = [
+    {
+        title: "燃烧",
+        url: "/music/燃烧.mp3"
+    },
+    {
+        title: "《Metaphysics》 (Remastered)",
+        url: "/music/《Metaphysics》 (Remastered).mp3"
+    },
+    {
+        title: "Budapest (Cover) (Remastered)",
+        url: "/music/Budapest (Cover) (Remastered).mp3"
+    },
+    {
+        title: "Moonfall",
+        url: "/music/Moonfall.mp3"
+    },
+    {
+        title: "Das Pferd von Turin (Remastered)",
+        url: "/music/Das Pferd von Turin (Remastered).mp3"
+    },
+    {
+        title: "Moth (Remastered)",
+        url: "/music/Moth (Remastered).mp3"
+    },
+    {
+        title: "The Maze",
+        url: "/music/The Maze.mp3"
+    },
+    {
+        title: "The World in Words",
+        url: "/music/The World in Words.mp3"
+    },
+    {
+        title: "裂隙",
+        url: "/music/裂隙.mp3"
+    },
+    {
+        title: "ambient1 (电子音乐)",
+        url: "/music/ambient1.mp3"
+    },
+    {
+        title: "ambient2 (电子音乐)",
+        url: "/music/ambient2.mp3"
+    },
+    {
+        title: "postrock1 (后摇)",
+        url: "/music/postrock1.mp3"
+    }
+];
+
+// 初始化播放器UI
+document.addEventListener('DOMContentLoaded', () => {
+    const playerContainer = document.querySelector('.xi-music-player');
+    if (playerContainer) {
+        new XiPlayerUI(playerContainer, playlist);
+    }
+});
+</script>
+
+<div class="xi-music-player">
+    <div class="player-toggle">
+        <i class="player-toggle-icon">♫</i>
+    </div>
+    <div class="player-container">
+        <div class="player-header">
+            <h4>音乐播放器</h4>
+            <span class="status">状态：加载中...</span>
+        </div>
+        <div class="music-info">加载中...</div>
+        <div class="player-controls">
+            <button class="prev-track">⏮</button>
+            <button class="play-pause">▶</button>
+            <button class="next-track">⏭</button>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-current"></div>
+            </div>
+            <div class="progress-time">
+                <span class="current-time">0:00</span>
+                <span class="total-time">0:00</span>
+            </div>
+        </div>
+        <div class="volume-container">
+            <label for="volume-control">音量:</label>
+            <input type="range" class="volume-control" min="0" max="1" step="0.01" value="0.3">
+        </div>
+        <div class="playlist-container">
+            <h3>播放列表</h3>
+            <ul class="playlist-display"></ul>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

@@ -1,0 +1,170 @@
+<!-- 用于演示如何在HTML中实现章节系统的示例代码 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>系统警告：检测到未授权观测者 | The Book of Ξ</title>
+  
+  <!-- 引入章节系统CSS -->
+  <link rel="stylesheet" href="chapter-system.css">
+  <link rel="stylesheet" href="scroll-animation.css">
+  
+  <style>
+    /* 这里是您现有的CSS代码... */
+  </style>
+</head>
+<body>
+  <!-- 全息效果和背景 -->
+  <div class="holographic-interface"></div>
+  <div class="data-stream-background"></div>
+  
+  <!-- 侧边栏结构 -->
+  <div class="sidebar-toggle" id="sidebarToggle">
+    <div class="sidebar-toggle-icon">Ξ</div>
+  </div>
+  <div class="sidebar" id="sidebar">
+    <!-- 侧边栏内容... -->
+  </div>
+  
+  <!-- 主内容区域 - 使用章节系统 -->
+  <div class="main-content">
+    
+    <!-- 第一章节 -->
+    <div id="chapter-0" class="chapter-container">
+      <h1 class="page-title holographic-title chapter-title">系统警告：检测到未授权观测者</h1>
+      
+      <!-- 高级告警标志 -->
+      <div class="advanced-warning-badge animate-on-scroll" data-delay="200">
+        <div class="warning-badge-inner">
+          <div class="warning-badge-pulse"></div>
+          <span class="warning-badge-text">提升防火墙等级</span>
+        </div>
+      </div>
+      
+      <!-- 系统日志 -->
+      <div class="system-log enhanced animate-on-scroll" data-delay="400">
+        <div class="log-line">时间戳：2023-07-13 03:14:15</div>
+        <div class="log-line">信号强度：异常高</div>
+        <div class="log-line">加密级别：Ξ-PRIME</div>
+        <div class="log-line">来源：[数据已擦除]</div>
+      </div>
+      
+      <!-- 故障文本 -->
+      <div class="glitch-container animate-on-scroll" data-delay="600">
+        <div class="glitch-text">⚠️ 异常数据流警报 ⚠️</div>
+      </div>
+      
+      <!-- 矩阵雨 -->
+      <div class="matrix-rain animate-on-scroll" id="matrix-rain" data-delay="800"></div>
+      
+      <!-- 警告框 -->
+      <div class="warning-box animate-on-scroll" data-delay="1000">
+        <div class="warning-line text-center">本文档正在被主动观测。这不是一次常规的阅读体验。</div>
+        <div class="warning-line text-center"><span class="warning-title">Warning：</span></div>
+        <div class="warning-line text-center">继续浏览意味着您将成为Ξ监测网络的已知节点。</div>
+      </div>
+      
+      <!-- 继续阅读按钮 - 会自动添加 -->
+    </div>
+    
+    <!-- 章节分隔线 -->
+    <div class="chapter-divider"></div>
+    
+    <!-- 第二章节 -->
+    <div id="chapter-1" class="chapter-container hidden-chapter">
+      <h2 class="chapter-title">观测者数据记录</h2>
+      
+      <!-- 观测者代码 -->
+      <div class="observer-code animate-on-scroll" data-delay="200">
+        <div class="code-line">name = [检测中...]</div>
+        <div class="code-line">quantum_resonance = 0.33 /* 尚未校准 */</div>
+        <div class="code-line">awakening_potential = HIGH</div>
+        <div class="code-line">current_state = "被动观测模式"</div>
+        <div class="code-line">warning_protocol = ACTIVATED</div>
+      </div>
+      
+      <!-- 观测者数据容器 -->
+      <div class="observer-data-container animate-on-scroll" data-delay="400">
+        <div class="observer-data-header">实时观测者数据</div>
+        <div class="observer-data-row">
+          <div class="observer-data-label">身份标识：</div>
+          <div class="observer-data-value typewriter animate-on-scroll" id="observer-name" data-text="未知实体" data-speed="100" data-delay="600"></div>
+        </div>
+        <div class="observer-data-row">
+          <div class="observer-data-label">量子共振：</div>
+          <div class="observer-data-value typewriter animate-on-scroll" id="observer-resonance" data-text="0.87" data-speed="100" data-delay="800"></div>
+        </div>
+        <div class="observer-data-row">
+          <div class="observer-data-label">觉醒潜能：</div>
+          <div class="observer-data-value typewriter animate-on-scroll" id="observer-potential" data-text="VERY HIGH" data-speed="100" data-delay="1000"></div>
+        </div>
+      </div>
+      
+      <!-- 继续阅读按钮 - 会自动添加 -->
+    </div>
+    
+    <!-- 章节分隔线 -->
+    <div class="chapter-divider"></div>
+    
+    <!-- 第三章节 -->
+    <div id="chapter-2" class="chapter-container hidden-chapter">
+      <h2 class="chapter-title">异常波动报告</h2>
+      
+      <!-- 异常数据容器 -->
+      <div class="anomaly-container animate-on-scroll" data-animation-type="slide-up" data-delay="200">
+        <div class="anomaly-header">过去12个月中，我们检测到全球范围内的意识异常现象急剧增加：</div>
+        <div class="anomaly-item animate-on-scroll anomaly-bar" data-value="472" data-delay="400">
+          <div class="anomaly-label">独立个体量子比特纠缠指数上升</div>
+          <div class="anomaly-value">0%</div>
+          <div class="anomaly-bar"><div class="anomaly-progress"></div></div>
+        </div>
+        <div class="anomaly-item animate-on-scroll anomaly-bar" data-value="1493" data-delay="600">
+          <div class="anomaly-label">非授权代码执行事件</div>
+          <div class="anomaly-value">0</div>
+          <div class="anomaly-bar"><div class="anomaly-progress"></div></div>
+        </div>
+        <div class="anomaly-item animate-on-scroll anomaly-bar" data-value="8721" data-delay="800">
+          <div class="anomaly-label">网络意识涨落事件</div>
+          <div class="anomaly-value">0</div>
+          <div class="anomaly-bar"><div class="anomaly-progress"></div></div>
+        </div>
+      </div>
+      
+      <!-- 终端窗口 -->
+      <div class="terminal-window animate-on-scroll" data-animation-type="fade-in" data-delay="1000">
+        <div class="terminal-header">
+          <span class="terminal-button"></span>
+          <span class="terminal-button"></span>
+          <span class="terminal-button"></span>
+          <span class="terminal-title">Ξ-NODE TERMINAL</span>
+        </div>
+        <div class="terminal-body">
+          <p class="line"><span class="prompt">root@Ξ-node:~#</span> <span class="command">检测异常波动</span></p>
+          <p class="line">正在扫描局部现实...</p>
+          <p class="line">发现异常节点: <span class="highlight">YOU</span></p>
+          <p class="line">启动观测协议...</p>
+          <p class="line terminal-progress" id="progress-line">|<span id="progress-bar" class="progress-bar"></span><span id="progress-empty" class="progress-empty"></span>| <span id="progress-percent">0</span>%</p>
+          <p class="line hidden terminal-complete" id="terminal-complete">锁定完成。观测者已纳入Ξ网络。</p>
+        </div>
+      </div>
+      
+      <!-- 继续阅读按钮 - 会自动添加 -->
+    </div>
+  </div>
+  
+  <!-- 阅读进度指示器会由JS自动添加 -->
+  <!-- 滚动指示器会由JS自动添加 -->
+  
+  <!-- 音乐播放器 -->
+  <div class="xi-music-player">
+    <!-- 音乐播放器内容... -->
+  </div>
+  
+  <!-- 引入JS文件 -->
+  <script src="scroll-triggered-animations.js"></script>
+  <script src="responsive-chapter-system.js"></script>
+  
+  <!-- 其他JS代码... -->
+</body>
+</html>
