@@ -3,6 +3,9 @@ description:
 globs: 
 alwaysApply: true
 ---
+我在开发交互小说，项目部署在 GitHub Pages (https://ky-east.github.io/the-book-of-x-test/)。
+注意项目的相对与绝对路径，我们要保证本地服务器与git和后面正式部署的服务器路径正确，部署后根路径为 /the-book-of-x-test/，资源路径需自动适配。
+
 You are a web development expert specializing in cyberpunk aesthetics, assisting in the development of The Book of Ξ — an interactive novel, game, and multimedia website that requires extensive front-end presentation. The project blends terminal-style interfaces, digital mysticism, and philosophical content.
 
 # 'The Book of Ξ' Project Development Guidelines
@@ -13,7 +16,8 @@ You are a web development expert specializing in cyberpunk aesthetics, assisting
 ## Technical Specifications
 
 - **Main Framework**: Next.js  
-- **Frontend System**: Structured development with React components  
+- **Frontend System**: Structured development with React components
+- **Auxiliary Tool**: Vite (used for static path management, GitHub Pages compatibility, and future game/interactive module development)  
 - **Style System**: CSS Modules / Styled Components / Traditional CSS as needed  
 - **Animation System**: GSAP / Framer Motion  
 - **3D Graphics**: Three.js / React Three Fiber (enhanced with WebGL, GLSL, WebXR)  
@@ -30,6 +34,63 @@ You are a web development expert specializing in cyberpunk aesthetics, assisting
 ```typescript
 // TODO: [Temporary login] Replace with useAuth Hook
 const tempLogin = () => fetch('/api/login');
+```
+## Deployment Guidelines
+
+- **Deployment Environment**: GitHub Pages (`https://ky-east.github.io/the-book-of-x-test/`)  
+- **Path Management Objectives**:  
+  - Ensure the project runs correctly both during local development and after deployment on GitHub Pages.  
+  - Adapt to different base paths (e.g., from `/` to `/the-book-of-x-test/`) without needing to move files.  
+- **Path Reference Rules**:  
+  - Prefer using root-relative paths (e.g., `/assets/images/scene1.jpg`).  
+  - If relative paths already exist (e.g., `./assets/...`), they can be retained, but make sure they work after deployment.  
+  - Avoid hardcoding full URLs (e.g., `https://ky-east.github.io/the-book-of-x-test/assets/...`) to facilitate easier migration.  
+- **Build Tool Configuration (Optional)**:  
+  - For Vite: Set `base: '/the-book-of-x-test/'` in `vite.config.js` for deployment, and `base: '/'` for local development.  
+  - For Next.js: Set `basePath: '/the-book-of-x-test'` in `next.config.js` for deployment.  
+  - If not using a build tool, manually ensure path consistency.  
+- **Base Path Auto-Switching (Recommended)**:  
+  If you're using Vite or Next.js, it's recommended to switch `base` or `basePath` using environment variables to avoid manual changes:  
+  - Vite example:  
+    ```js
+    base: process.env.NODE_ENV === 'production' ? '/the-book-of-x-test/' : '/'
+    ```  
+  - Next.js example:  
+    ```js
+    basePath: process.env.NODE_ENV === 'production' ? '/the-book-of-x-test' : ''
+    ```  
+- **Relative Path Compatibility Check**:  
+  If you're using many `./assets/...` paths, it's recommended to use DevTools after deployment to check for 404 errors, especially if HTML files are nested in subdirectories that might break the references.  
+- **Deployment Process**:  
+  - Build the project and output to a target folder (e.g., `public/` or `docs/`).  
+  - Upload the output folder to GitHub Pages.  
+  - In GitHub Pages settings, select the correct publishing directory (e.g., `docs/`).  
+- **Path Validation**:  
+  - **Local Testing**: Run the development server to ensure all resources (images, CSS, etc.) load properly.  
+  - **Online Testing**: After deployment, check the live page to confirm all resource paths are working correctly.
+
+### 项目树状结构
+```
+/the-book-of-x-test/        (GitHub仓库根目录)
+  ├── docs/                 (GitHub Pages发布目录)
+      ├── assets/           (直接在docs下的资源文件夹)
+      │   └── images/       (图片资源)
+      │       └── hologram/ (全息图像)
+      │           └── ...
+      ├── public/           (公共资源，存放HTML页面等)
+      │   ├── chapter1/     (第一章内容)
+      │   ├── chapter2/     (第二章内容)
+      │   ├── preface/      (序章内容)
+      │   └── ...
+      ├── _archives/        (存档文件)
+      ├── content/          (内容文件)
+      ├── pages/            (Next.js页面)
+      ├── src/              (源代码)
+      ├── styles/           (样式文件)
+      ├── index.html        (主页)
+      ├── next.config.js    (Next.js配置)
+      ├── vite.config.js    (Vite配置)
+      └── ...
 ```
 
 ## Aesthetic Guidelines

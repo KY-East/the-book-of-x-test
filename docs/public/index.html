@@ -2110,6 +2110,31 @@ function setupMusicPlayer() {
                 localStorage.setItem(`${storagePrefix}currentTime`, audioPlayer.currentTime);
             }
         });
+        
+        // 添加拖动支持
+        let isDragging = false;
+        
+        progressBar.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            const percentage = (e.offsetX / this.offsetWidth);
+            audioPlayer.currentTime = percentage * audioPlayer.duration;
+            localStorage.setItem(`${storagePrefix}currentTime`, audioPlayer.currentTime);
+        });
+        
+        document.addEventListener('mousemove', function(e) {
+            if (isDragging) {
+                const rect = progressBar.getBoundingClientRect();
+                const offsetX = e.clientX - rect.left;
+                const percentage = Math.max(0, Math.min(1, offsetX / progressBar.offsetWidth));
+                audioPlayer.currentTime = percentage * audioPlayer.duration;
+                progressCurrent.style.width = `${percentage * 100}%`;
+                localStorage.setItem(`${storagePrefix}currentTime`, audioPlayer.currentTime);
+            }
+        });
+        
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+        });
     }
     
     // Bind events

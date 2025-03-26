@@ -122,4 +122,47 @@ npm run export
 
 ## 更新记录
 
-最后整理日期：2024年3月20日 
+最后整理日期：2024年3月20日
+
+## 部署结构与路径管理
+
+### 项目树状结构
+```
+/the-book-of-x-test/        (GitHub仓库根目录)
+  ├── docs/                 (GitHub Pages发布目录)
+      ├── assets/           (直接在docs下的资源文件夹)
+      │   └── images/       (图片资源)
+      │       └── hologram/ (全息图像)
+      │           └── ...
+      ├── public/           (公共资源，存放HTML页面等)
+      │   ├── chapter1/     (第一章内容)
+      │   ├── chapter2/     (第二章内容)
+      │   ├── preface/      (序章内容)
+      │   └── ...
+      ├── _archives/        (存档文件)
+      ├── content/          (内容文件)
+      ├── pages/            (Next.js页面)
+      ├── src/              (源代码)
+      ├── styles/           (样式文件)
+      ├── index.html        (主页)
+      ├── next.config.js    (Next.js配置)
+      ├── vite.config.js    (Vite配置)
+      └── ...
+```
+
+### 路径引用规则说明
+
+1. **GitHub Pages环境**:
+   - 基础路径: `/the-book-of-x-test/`
+   - 图片路径示例: `/the-book-of-x-test/assets/images/ALYA C.png`
+   - HTML文件路径示例: `/the-book-of-x-test/public/chapter2/digital-identity.html`
+
+2. **本地开发环境**:
+   - 基础路径: `/`
+   - 依赖Vite配置处理路径映射
+   - Vite配置示例: `base: process.env.NODE_ENV === 'production' ? '/the-book-of-x-test/' : '/'`
+
+3. **注意事项**:
+   - 在HTML文件中引用资源时，使用GitHub Pages格式的路径
+   - Vite负责在本地开发环境中正确映射这些路径
+   - 禁止使用`../assets/`这样的相对路径，因为它们在不同环境中表现不一致 

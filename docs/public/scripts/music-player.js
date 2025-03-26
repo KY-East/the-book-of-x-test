@@ -11,23 +11,23 @@
       const playlist = [
         {
           title: "燃烧",
-          url: "/music/燃烧.mp3"
+          url: "/the-book-of-x-test/music/燃烧.mp3"
         },
         {
           title: "《Metaphysics》 (Remastered)",
-          url: "/music/《Metaphysics》 (Remastered).mp3"
+          url: "/the-book-of-x-test/music/《Metaphysics》 (Remastered).mp3"
         },
         {
           title: "Budapest (Cover) (Remastered)",
-          url: "/music/Budapest (Cover) (Remastered).mp3"
+          url: "/the-book-of-x-test/music/Budapest (Cover) (Remastered).mp3"
         },
         {
           title: "Moonfall",
-          url: "/music/Moonfall.mp3"
+          url: "/the-book-of-x-test/music/Moonfall.mp3"
         },
         {
           title: "示例 - Algorithms (电子音乐)",
-          url: "/music/ambient1.mp3"
+          url: "/the-book-of-x-test/music/ambient1.mp3"
         }
       ];
       
