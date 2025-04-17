@@ -1746,19 +1746,79 @@
 
         // 延迟加载音乐播放器，以确保页面其他部分已加载
         document.addEventListener('DOMContentLoaded', function() {
-            // 动态创建音乐播放器脚本标签
-            const script = document.createElement('script');
-            script.src = `${basePath}/global-music-player.js`;
-            document.head.appendChild(script);
+            // 尝试多种可能的路径加载全局音乐播放器
+            const possiblePaths = [
+                `${basePath}/global-music-player.js`,       // 仓库根目录
+                `${basePath}/public/global-music-player.js`, // public目录
+                '../global-music-player.js',                // 上级目录
+                '../../global-music-player.js',             // 上上级目录
+                '/the-book-of-x-test/global-music-player.js', // 绝对路径GitHub Pages
+                '/global-music-player.js'                   // 根路径
+            ];
             
-            // 添加错误处理
-            script.onerror = function() {
-                console.error('音乐播放器加载失败，尝试备用路径');
-                // 尝试备用路径
-                const fallbackScript = document.createElement('script');
-                fallbackScript.src = '../../global-music-player.js';
-                document.head.appendChild(fallbackScript);
-            };
+            let loaded = false;
+            
+            function tryNextPath(index) {
+                if (index >= possiblePaths.length || loaded) return;
+                
+                console.log(`[音乐播放器] 尝试加载路径(${index+1}/${possiblePaths.length}): ${possiblePaths[index]}`);
+                
+                const script = document.createElement('script');
+                script.src = possiblePaths[index];
+                
+                script.onload = function() {
+                    console.log(`[音乐播放器] 成功加载: ${possiblePaths[index]}`);
+                    loaded = true;
+                    // 移除可能出现的错误提示
+                    const errorDiv = document.querySelector('.music-player-error');
+                    if (errorDiv) errorDiv.remove();
+                };
+                
+                script.onerror = function() {
+                    console.error(`[音乐播放器] 加载失败: ${possiblePaths[index]}`);
+                    // 尝试下一个路径
+                    tryNextPath(index + 1);
+                };
+                
+                document.head.appendChild(script);
+            }
+            
+            // 开始尝试加载
+            tryNextPath(0);
+            
+            // 显示加载状态
+            setTimeout(function() {
+                if (!loaded) {
+                    // 如果3秒后仍未加载成功，显示加载中提示
+                    const loadingDiv = document.createElement('div');
+                    loadingDiv.className = 'music-player-error';
+                    loadingDiv.style.position = 'fixed';
+                    loadingDiv.style.bottom = '10px';
+                    loadingDiv.style.right = '10px';
+                    loadingDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                    loadingDiv.style.color = 'white';
+                    loadingDiv.style.padding = '10px';
+                    loadingDiv.style.borderRadius = '5px';
+                    loadingDiv.style.zIndex = '9999';
+                    loadingDiv.textContent = '正在加载音乐播放器...';
+                    document.body.appendChild(loadingDiv);
+                    
+                    // 10秒后仍未加载成功，更新为加载失败提示
+                    setTimeout(function() {
+                        if (!loaded && loadingDiv.parentNode) {
+                            loadingDiv.textContent = '音乐播放器加载失败，请刷新页面重试';
+                            loadingDiv.style.backgroundColor = 'rgba(255, 0, 0, 0.7)';
+                            
+                            // 5秒后自动关闭提示
+                            setTimeout(function() {
+                                if (loadingDiv.parentNode) {
+                                    loadingDiv.parentNode.removeChild(loadingDiv);
+                                }
+                            }, 5000);
+                        }
+                    }, 7000);
+                }
+            }, 3000);
         });
     </script>
 </head>
