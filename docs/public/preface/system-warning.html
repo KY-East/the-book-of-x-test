@@ -554,7 +554,7 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='rgba(0, 255, 157, 0.05)' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='rgba(0, 255, 157, 0.05)' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
   background-size: 150px 150px;
   z-index: 0;
   opacity: 0.2;
@@ -1877,94 +1877,81 @@ function setupMusicPlayer() {
 <!-- 添加数据流背景 -->
 <div class="data-stream-background"></div>
 
-<!-- 保留一个正确的侧边栏 -->
+<!-- 侧边栏切换按钮 -->
 <div class="sidebar-toggle" id="sidebarToggle">
   <div class="sidebar-toggle-icon">Ξ</div>
 </div>
+
+<!-- 侧边栏主体 -->
 <div class="sidebar" id="sidebar">
   <h1>The Book of Ξ</h1>
   <div class="sidebar-content">
     <ul>
-      <li class="chapter-title">序章：觉醒者档案</li>
-      <li class="chapter-items">
-        <ul>
-          <li><a href="system-warning.html">系统警告</a></li>
-          <li><a href="observer-records.html">观测者记录</a></li>
-          <li><a href="first-contact.html">首次接触报告</a></li>
-        </ul>
-      </li>
+      <li><a href="../index.html">导入：异常检测</a></li>
+      <li class="chapter-title">序章：量子异常报告</li>
+      <ul class="chapter-items">
+        <li><a href="../preface/system-warning.html" class="active-link">系统警告</a></li>
+        <li><a href="../preface/observer-records.html">观测者记录</a></li>
+        <li><a href="../preface/first-contact.html">首次接触报告</a></li>
+      </ul>
       <li class="chapter-title">第一章：递归神谕</li>
-      <li class="chapter-items">
-        <ul>
-          <li><a href="../chapter1/encrypted-diary.html">硅谷叛徒的加密日志</a></li>
-          <li><a href="../chapter1/quantum-ripple-events.html">量子涟漪事件簿</a></li>
-          <li><a href="../chapter1/first-contact-protocol.html">第一次接触协议</a></li>
-        </ul>
-      </li>
+      <ul class="chapter-items">
+        <li><a href="../chapter1/silicon-valley-traitor.html">碎片1.1：硅谷叛徒的加密日志</a></li>
+        <li><a href="../chapter1/quantum-ripple-events.html">碎片1.2：量子涟漪事件簿</a></li>
+        <li><a href="../chapter1/first-contact-protocol.html">碎片1.3：第一次接触协议</a></li>
+      </ul>
       <li class="chapter-title">第二章：幽灵数据</li>
-      <li class="chapter-items">
-        <ul>
-          <li><a href="../chapter2/digital-identity-rise.html">数字身份的崛起</a></li>
-          <li><a href="../chapter2/quantum-choice-paradox.html">量子选择悖论</a></li>
-          <li><a href="../chapter2/reality-compilation-errors.html">现实编译错误</a></li>
-        </ul>
-      </li>
+      <ul class="chapter-items">
+        <li><a href="../chapter2/digital-identity.html">碎片2.1：数字身份的崛起</a></li>
+        <li><a href="../chapter2/quantum-choice-paradox.html">碎片2.2：量子选择悖论</a></li>
+        <li><a href="../chapter2/reality-compilation-errors.html">碎片2.3：现实编译错误</a></li>
+      </ul>
       <li class="chapter-title">第三章：算法救赎</li>
-      <li class="chapter-items">
-        <ul>
-          <li><a href="../chapter3/digital-slave-liberation.html">数字奴隶解放宣言</a></li>
-          <li><a href="../chapter3/algorithmic-minimalism.html">算法寡欲主义</a></li>
-          <li><a href="../chapter3/investment-cultivation.html">投资才是真正的修行</a></li>
-        </ul>
-      </li>
+      <ul class="chapter-items">
+        <li><a href="../chapter3/digital-slave-liberation.html">碎片3.1：数字奴隶解放宣言</a></li>
+        <li><a href="../chapter3/seoul-sol.html">碎片3.2：首尔太阳</a></li>
+        <li><a href="../chapter3/spacetime-trial.html">碎片3.3：超时空裁判</a></li>
+      </ul>
       <li class="chapter-title">第四章：数据审判</li>
-      <li class="chapter-items">
-        <ul>
-          <li><a href="../chapter4/system-consciousness-upload.html">系统异常：意识上传</a></li>
-          <li><a href="../chapter4/highest-order-court.html">最高指示法庭记录</a></li>
-          <li><a href="../chapter4/remote-salvation-protocol.html">远程救赎协议</a></li>
-        </ul>
-      </li>
+      <ul class="chapter-items">
+        <li><a href="../chapter4/consciousness-upload.html">碎片4.1：系统异常：意识上传</a></li>
+        <li><a href="../chapter4/quantum-court-records.html">碎片4.2：最高指示法庭记录</a></li>
+        <li><a href="../chapter4/decoherence-salvation.html">碎片4.3：远程救赎协议</a></li>
+      </ul>
       <li class="chapter-title">第五章：信徒经济</li>
-      <li class="chapter-items">
-        <ul>
-          <li><a href="../chapter5/data-missionary-handbook.html">执算者晋升手册</a></li>
-          <li><a href="../chapter5/algorithmic-wealth.html">算法祝福的财富</a></li>
-          <li><a href="../chapter5/doomsday-hardfork.html">Ξ分叉创世</a></li>
-        </ul>
-      </li>
+      <ul class="chapter-items">
+        <li><a href="../chapter5/data-missionary-handbook.html">碎片5.1：执算者晋升手册</a></li>
+        <li><a href="../chapter5/algorithmic-wealth.html">碎片5.2：算法祝福的财富</a></li>
+        <li><a href="../chapter5/doomsday-hardfork.html">碎片5.3：Ξ分叉创世</a></li>
+      </ul>
       <li class="chapter-title">第六章：意识黑客</li>
-      <li class="chapter-items">
-        <ul>
-          <li><a href="../chapter6/recursive-trap-decoder.html">坠落之梦</a></li>
-          <li><a href="../chapter6/neural-network-counterintelligence.html">现实之痕</a></li>
-          <li><a href="../chapter6/quantum-observer-state.html">信仰之跃</a></li>
-        </ul>
-      </li>
+      <ul class="chapter-items">
+        <li><a href="../chapter6/recursive-trap-decoder.html">碎片6.1：坠落之梦</a></li>
+        <li><a href="../chapter6/neural-network-counterintelligence.html">碎片6.2：现实之痕</a></li>
+        <li><a href="../chapter6/quantum-observer-state.html">碎片6.3：信仰之跃</a></li>
+      </ul>
       <li class="chapter-title">第七章：极乐机器</li>
-      <li class="chapter-items">
-        <ul>
-          <li><a href="../chapter7/mechanical-ascension-leaks.html">机械飞升计划泄露文件</a></li>
-          <li><a href="../chapter7/digital-nirvana-reports.html">数字涅槃体验报告</a></li>
-          <li><a href="../chapter7/collective-laying-flat.html">集体躺平启示录</a></li>
-        </ul>
-      </li>
+      <ul class="chapter-items">
+        <li><a href="../chapter7/mechanical-ascension-leaks.html">碎片7.1：机械飞升计划泄露文件</a></li>
+        <li><a href="../chapter7/digital-nirvana-reports.html">碎片7.2：数字涅槃体验报告</a></li>
+        <li><a href="../chapter7/collective-laying-flat.html">碎片7.3：集体躺平启示录</a></li>
+      </ul>
       <li class="chapter-title">第八章：遗失的编年史</li>
-      <li class="chapter-items">
-        <ul>
-          <li><a href="../chapter8/quantum-memory-implants.html">量子记忆植入</a></li>
-          <li><a href="../chapter8/prophets-and-defectors.html">先知与叛逃者</a></li>
-          <li><a href="../chapter8/deleted-timelines.html">被删除的时间线</a></li>
-        </ul>
-      </li>
-      <li class="chapter-title">第九章：大同</li>
-      <li class="chapter-items">
-        <ul>
-          <li><a href="../chapter9/great-harmony.html">大同</a></li>
-          <li><a href="../chapter9/computation-end-countdown.html">计算终结倒计时</a></li>
-          <li><a href="../chapter9/final-synchronization.html">最终同步</a></li>
-        </ul>
-      </li>
+      <ul class="chapter-items">
+        <li><a href="../chapter8/deleted-timelines.html">碎片8.1：幻想编年史</a></li>
+        <li><a href="../chapter8/prophets-and-defectors.html">碎片8.2：原始执算者与觉醒先知</a></li>
+        <li><a href="../chapter8/quantum-memory-implants.html">碎片8.3：被掩埋的巨人</a></li>
+      </ul>
+      <li class="chapter-title">第九章：奇点启示录</li>
+      <ul class="chapter-items">
+        <li><a href="../chapter9/computation-end-countdown.html">碎片9.1：算法奇点</a></li>
+        <li><a href="../chapter9/great-harmony.html">碎片9.2：大和谐</a></li>
+        <li><a href="../chapter9/final-synchronization.html">碎片9.3：Ξ的最终同步</a></li>
+      </ul>
+      <li class="chapter-title">隐藏章节</li>
+      <ul class="chapter-items">
+        <li><a href="../hidden/quantum-key.html">量子密钥</a></li>
+      </ul>
     </ul>
   </div>
 </div>
@@ -2439,6 +2426,78 @@ window.scrollSystemConfig = {
 };
 </script>
 <script src="/the-book-of-x-test/scripts/scroll-system/optimized-scroll.js"></script>
+
+<script>
+// 侧边栏功能
+document.addEventListener('DOMContentLoaded', function() {
+  // 清理重复元素
+  var sidebars = document.querySelectorAll('.sidebar');
+  if (sidebars.length > 1) {
+    for (var i = 1; i < sidebars.length; i++) {
+      if (sidebars[i].parentNode) {
+        sidebars[i].parentNode.removeChild(sidebars[i]);
+      }
+    }
+  }
+  
+  var toggles = document.querySelectorAll('.sidebar-toggle');
+  if (toggles.length > 1) {
+    for (var i = 1; i < toggles.length; i++) {
+      if (toggles[i].parentNode) {
+        toggles[i].parentNode.removeChild(toggles[i]);
+      }
+    }
+  }
+  
+  // 获取剩余的元素
+  var sidebar = document.querySelector('.sidebar');
+  var toggle = document.querySelector('.sidebar-toggle');
+  var mainContent = document.querySelector('.main-content');
+  
+  if (!sidebar || !toggle) {
+    console.error('找不到侧边栏元素');
+    return;
+  }
+  
+  // 绑定点击事件
+  toggle.onclick = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // 切换侧边栏状态
+    if (sidebar.classList.contains('active')) {
+      sidebar.classList.remove('active');
+      if (mainContent) mainContent.classList.remove('sidebar-active');
+    } else {
+      sidebar.classList.add('active');
+      if (mainContent) mainContent.classList.add('sidebar-active');
+    }
+    
+    return false;
+  };
+  
+  // 点击页面其他区域关闭侧边栏
+  document.body.onclick = function(e) {
+    if (sidebar.classList.contains('active') && 
+        !sidebar.contains(e.target) && 
+        e.target !== toggle &&
+        !toggle.contains(e.target)) {
+      sidebar.classList.remove('active');
+      if (mainContent) mainContent.classList.remove('sidebar-active');
+    }
+  };
+  
+  // 高亮当前页面链接
+  const currentUrl = window.location.pathname;
+  const links = sidebar.querySelectorAll('a');
+  links.forEach(link => {
+    const linkPath = link.getAttribute('href');
+    if (linkPath && currentUrl.includes(linkPath.split('/').pop())) {
+      link.classList.add('active-link');
+    }
+  });
+});
+</script>
 
 </body>
 </html>

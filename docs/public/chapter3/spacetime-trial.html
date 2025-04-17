@@ -1,0 +1,2975 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <style>
+        /* 基础样式与配色方案 */
+:root {
+    /* 分形主题的基础颜色 */
+    --neon-primary: #00c3ff;
+    --neon-secondary: #0088ff;
+    --neon-blue: #0088ff;
+    --neon-purple: #6600ff;
+    --neon-gold: #FFD700;
+    --neon-cyan: #00ffd9;
+    --bg-primary: #060618;
+    --bg-secondary: #14142e;
+    --bg-dark-blue: #080824;
+    
+    /* 古雅典主题 */
+    --athens-primary: #d4af37;
+    --athens-secondary: #a67c00;
+    --athens-bg: rgba(26, 20, 10, 0.85);
+    --athens-border: rgba(212, 175, 55, 0.3);
+    --athens-text: #f0e6cc;
+    --athens-highlight: #ffcc00;
+    --athens-shadow: rgba(166, 124, 0, 0.7);
+    
+    /* 现代首尔主题 */
+    --modern-primary: #00c3ff;
+    --modern-secondary: #0088ff;
+    --modern-bg: rgba(10, 10, 32, 0.85);
+    --modern-border: rgba(0, 136, 255, 0.25);
+    --modern-text: #e0e0ff;
+    --modern-highlight: #00ffff;
+    --modern-shadow: rgba(0, 136, 255, 0.7);
+    
+    /* 交互元素 */
+    --terminal-bg: rgba(10, 10, 32, 0.9);
+    --terminal-border: rgba(0, 195, 255, 0.3);
+    --terminal-text: #ccccff;
+    --text-primary: #e0e0ff;
+    --text-secondary: #aaaacc;
+    --section-bg: rgba(10, 10, 32, 0.7);
+    --section-border: rgba(0, 136, 255, 0.25);
+    
+    /* 交织过渡颜色 */
+    --transition-bg: linear-gradient(135deg, rgba(26, 20, 10, 0.4), rgba(10, 10, 32, 0.4));
+    --transition-border: linear-gradient(90deg, rgba(212, 175, 55, 0.3), rgba(0, 136, 255, 0.25));
+    
+    /* 动画时间 */
+    --transition-fast: 0.3s;
+    --transition-medium: 0.6s;
+    --transition-slow: 1.2s;
+    
+    /* 布局尺寸 */
+    --container-width: 900px;
+    --header-height: 60px;
+    --section-spacing: 40px;
+}
+
+/* 基础样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Noto Sans SC', 'Rajdhani', sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+}
+
+body.quantum-state {
+    position: relative;
+    transition: 
+        background-color var(--transition-slow) ease,
+        color var(--transition-slow) ease;
+}
+
+body.athens-timeline {
+    background-color: #100a06;
+    color: var(--athens-text);
+}
+
+body.modern-timeline {
+    background-color: var(--bg-primary);
+    color: var(--modern-text);
+}
+
+body.transition-state {
+    background: radial-gradient(ellipse at center, #100a06, var(--bg-primary));
+    animation: timeline-shift 1.5s ease-in-out;
+}
+
+@keyframes timeline-shift {
+    0% { background-position: 0% 0%; }
+    50% { 
+        filter: hue-rotate(180deg) saturate(200%);
+        background-position: 100% 100%; 
+    }
+    100% { background-position: 0% 0%; }
+}
+
+/* 高级背景动画层 */
+.background-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -10;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.stars-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -9;
+    transition: opacity var(--transition-slow) ease;
+}
+
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(20, 20, 50, 0.8) 0%, rgba(6, 6, 24, 1) 70%);
+    z-index: -9;
+}
+
+body.athens-timeline .stars {
+    background: radial-gradient(circle at center, rgba(50, 40, 20, 0.8) 0%, rgba(24, 16, 6, 1) 70%);
+}
+
+.stars:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 50px 160px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 130px 80px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 160px 120px, #ffffff, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: twinkle 4s infinite;
+    opacity: 0.3;
+}
+
+body.athens-timeline .stars:after {
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #fff8e0, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40px 70px, #ffe680, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 50px 160px, #fff8e0, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 90px 40px, #ffe680, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 130px 80px, #fff8e0, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 160px 120px, #ffe680, rgba(0,0,0,0));
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.5; }
+}
+
+.fractal-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -8;
+    transition: opacity var(--transition-slow) ease;
+}
+
+.fractal-circles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(0, 136, 255, 0.1) 0%, transparent 60%),
+        radial-gradient(circle at 70% 60%, rgba(102, 0, 255, 0.08) 0%, transparent 60%);
+    opacity: 0.5;
+    animation: pulse 15s infinite;
+}
+
+body.athens-timeline .fractal-circles {
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 60%),
+        radial-gradient(circle at 70% 60%, rgba(166, 124, 0, 0.08) 0%, transparent 60%);
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.7; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+}
+
+.noise-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -7;
+    transition: opacity var(--transition-slow) ease;
+}
+
+.noise {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMjAwdjIwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=');
+    opacity: 0.4;
+}
+
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0, 0, 0, 0.05) 2px, rgba(0, 0, 0, 0.05) 4px);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.2;
+}
+
+body.athens-timeline .scanlines {
+    background: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(166, 124, 0, 0.05) 2px, rgba(166, 124, 0, 0.05) 4px);
+}
+
+/* 滚动进度条 */
+.progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--neon-secondary), var(--neon-primary));
+    width: 0%;
+    transition: width 0.2s ease;
+}
+
+body.athens-timeline .progress-bar {
+    background: linear-gradient(90deg, var(--athens-secondary), var(--athens-primary));
+}
+
+body.transition-state .progress-bar {
+    background: linear-gradient(90deg, 
+        var(--athens-secondary), 
+        var(--athens-primary),
+        var(--neon-primary),
+        var(--neon-secondary));
+    background-size: 300% 100%;
+    animation: progress-shift 2s infinite linear;
+}
+
+@keyframes progress-shift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 0%; }
+}
+
+/* 页面通用布局 */
+.page-wrapper {
+    position: relative;
+    min-height: 100vh;
+    padding: 50px 0 80px;
+    z-index: 1;
+    padding-top: 20px; /* 增加页面顶部填充 */
+}
+
+.container {
+    max-width: var(--container-width);
+    margin: 20px auto; /* 增加上下边距 */
+    padding: 20px 25px; /* 增加内部填充 */
+    position: relative;
+    z-index: 1;
+}
+
+/* 章节头部样式 */
+.chapter-header {
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 136, 255, 0.2);
+}
+
+body.athens-timeline .chapter-header {
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.chapter-subtitle {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: var(--neon-secondary);
+    margin-bottom: 15px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    transition: color var(--transition-medium) ease;
+}
+
+body.athens-timeline .chapter-subtitle {
+    color: var(--athens-secondary);
+}
+
+.chapter-title {
+    font-family: 'Noto Serif SC', 'Orbitron', sans-serif;
+    font-size: 3em;
+    color: var(--neon-blue);
+    letter-spacing: 4px;
+    margin: 10px 0 30px;
+    text-shadow: 
+        0 0 10px rgba(0, 136, 255, 0.3),
+        0 0 20px rgba(0, 136, 255, 0.2),
+        0 0 30px rgba(0, 136, 255, 0.1);
+    position: relative;
+    display: inline-block;
+    transition: all var(--transition-medium) ease;
+}
+
+body.athens-timeline .chapter-title {
+    color: var(--athens-primary);
+    text-shadow: 
+        0 0 10px rgba(212, 175, 55, 0.3),
+        0 0 20px rgba(212, 175, 55, 0.2),
+        0 0 30px rgba(212, 175, 55, 0.1);
+}
+
+.chapter-title:before, .chapter-title:after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+    width: 100%;
+    left: 0;
+    transition: background var(--transition-medium) ease;
+}
+
+body.athens-timeline .chapter-title:before, 
+body.athens-timeline .chapter-title:after {
+    background: linear-gradient(90deg, transparent, var(--athens-primary), transparent);
+}
+
+.chapter-title:before {
+    top: -10px;
+}
+
+.chapter-title:after {
+    bottom: -10px;
+}
+
+.chapter-symbol {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    color: var(--neon-primary);
+    opacity: 0.6;
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    transform: rotate(15deg);
+    text-shadow: 0 0 10px var(--neon-primary);
+    transition: all var(--transition-medium) ease;
+}
+
+body.athens-timeline .chapter-symbol {
+    color: var(--athens-primary);
+    text-shadow: 0 0 10px var(--athens-primary);
+}
+
+/* 时间轴设计 */
+.time-axis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    position: relative;
+}
+
+.time-node {
+    padding: 8px 16px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    transition: all var(--transition-medium) ease;
+}
+
+.time-node:hover {
+    transform: translateY(-3px);
+}
+
+.time-node.athens-node {
+    background-color: rgba(212, 175, 55, 0.1);
+    color: var(--athens-primary);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.time-node.modern-node {
+    background-color: rgba(0, 136, 255, 0.1);
+    color: var(--neon-primary);
+    border: 1px solid rgba(0, 136, 255, 0.3);
+}
+
+.time-line {
+    height: 2px;
+    width: 100px;
+    background: linear-gradient(90deg, var(--athens-primary), var(--neon-primary));
+    margin: 0 15px;
+}
+
+/* 场景指示器 */
+.scene-indicator {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    z-index: 100;
+    opacity: 0.8;
+    transition: opacity var(--transition-fast) ease;
+}
+
+.scene-indicator:hover {
+    opacity: 1;
+}
+
+.indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.indicator-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all var(--transition-medium) ease;
+}
+
+.athens-indicator .indicator-dot {
+    background-color: var(--athens-primary);
+    box-shadow: 0 0 5px var(--athens-primary);
+}
+
+.modern-indicator .indicator-dot {
+    background-color: var(--neon-primary);
+    box-shadow: 0 0 5px var(--neon-primary);
+}
+
+.transition-indicator .indicator-dot {
+    background: linear-gradient(135deg, var(--athens-primary), var(--neon-primary));
+    box-shadow: 
+        0 0 5px var(--athens-primary),
+        0 0 5px var(--neon-primary);
+}
+
+.indicator-label {
+    position: absolute;
+    right: 30px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: all var(--transition-fast) ease;
+}
+
+.athens-indicator .indicator-label {
+    color: var(--athens-text);
+    border-left: 2px solid var(--athens-primary);
+}
+
+.modern-indicator .indicator-label {
+    color: var(--modern-text);
+    border-left: 2px solid var(--neon-primary);
+}
+
+.transition-indicator .indicator-label {
+    background: linear-gradient(90deg, rgba(26, 20, 10, 0.7), rgba(10, 10, 32, 0.7));
+    border-left: 2px solid;
+    border-image: linear-gradient(to bottom, var(--athens-primary), var(--neon-primary)) 1;
+    color: white;
+}
+
+.indicator:hover .indicator-label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.indicator.active .indicator-dot {
+    transform: scale(1.5);
+}
+
+/* 时空波纹效果 */
+.time-ripple {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0;
+}
+
+.time-ripple.active {
+    animation: ripple-fade 2s ease-out forwards;
+}
+
+@keyframes ripple-fade {
+    0% { 
+        opacity: 0;
+        background: radial-gradient(circle at center, rgba(212, 175, 55, 0.5) 0%, transparent 0%);
+    }
+    20% { 
+        opacity: 0.7; 
+    }
+    100% { 
+        opacity: 0;
+        background: radial-gradient(circle at center, transparent 0%, transparent 100%);
+    }
+}
+
+/* 媒体查询 */
+@media (max-width: 900px) {
+    .chapter-title {
+        font-size: 2.5rem;
+    }
+    
+    .scene-indicator {
+        right: 15px;
+    }
+    
+    .time-line {
+        width: 50px;
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .chapter-title {
+        font-size: 2rem;
+    }
+    
+    .chapter-symbol {
+        font-size: 2rem;
+        top: -0.5rem;
+        right: -0.5rem;
+    }
+    
+    .scene-indicator {
+        right: 5px;
+    }
+    
+    .indicator-label {
+        display: none;
+    }
+    
+    .time-node {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+}/* 故事段落和对话样式 */
+
+/* 故事段落容器 */
+.story-section {
+    position: relative;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 40px;
+    overflow: visible; /* 从hidden改为visible，允许内容溢出 */
+    transition: 
+        background-color var(--transition-medium) ease,
+        border-color var(--transition-medium) ease,
+        transform var(--transition-medium) ease,
+        box-shadow var(--transition-medium) ease;
+    border: 1px solid;
+    max-width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateY(0);
+    margin-top: 15px; /* 添加顶部边距，确保顶部内容可见 */
+}
+
+.story-section:hover {
+    transform: translateY(-5px);
+}
+
+/* 现代场景样式 */
+.story-section.modern {
+    background-color: var(--modern-bg);
+    border-color: var(--modern-border);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        0 0 15px var(--modern-shadow);
+    color: var(--modern-text);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    letter-spacing: 0.5px;
+}
+
+.story-section.modern:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at top right, rgba(0, 136, 255, 0.1), transparent 70%),
+        radial-gradient(circle at bottom left, rgba(102, 0, 255, 0.05), transparent 70%);
+    z-index: -1;
+}
+
+/* 雅典场景样式 */
+.story-section.athens {
+    background-color: var(--athens-bg);
+    border-color: var(--athens-border);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        0 0 15px var(--athens-shadow);
+    color: var(--athens-text);
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+.story-section.athens:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at top right, rgba(212, 175, 55, 0.1), transparent 70%),
+        radial-gradient(circle at bottom left, rgba(166, 124, 0, 0.05), transparent 70%);
+    z-index: -1;
+}
+
+/* 场景装饰 */
+.scene-decoration {
+    position: absolute;
+    top: -20px; /* 调整位置，确保不会挡住内容 */
+    left: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.scene-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.athens-icon {
+    background-color: var(--athens-primary);
+    color: #000;
+    box-shadow: 0 0 10px var(--athens-primary);
+}
+
+.athens-icon:before {
+    content: "古";
+    font-family: 'Noto Serif SC', serif;
+}
+
+.modern-icon {
+    background-color: var(--neon-primary);
+    color: #000;
+    box-shadow: 0 0 10px var(--neon-primary);
+}
+
+.modern-icon:before {
+    content: "现";
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+.scene-date {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-family: 'Fira Code', monospace;
+}
+
+.athens .scene-date {
+    color: var(--athens-text);
+    border-left: 2px solid var(--athens-primary);
+}
+
+.modern .scene-date {
+    color: var(--modern-text);
+    border-left: 2px solid var(--neon-primary);
+}
+
+/* 段落样式 */
+.story-section p {
+    margin-bottom: 1.2em;
+    position: relative;
+    transition: all 0.3s ease;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.story-section p:first-letter {
+    font-size: 120%;
+    font-weight: bold;
+}
+
+.story-section p:last-child {
+    margin-bottom: 0;
+}
+
+.story-section.modern p {
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.story-section.athens p {
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 角色对话样式 */
+.character-dialog {
+    position: relative;
+    display: inline;
+    font-style: italic;
+    transition: all var(--transition-fast) ease;
+}
+
+/* 现代角色 */
+.character-dialog.attorney-lee {
+    color: #4d94ff;
+}
+
+.character-dialog.professor-seo {
+    color: #7a8db9;
+}
+
+.character-dialog.officer-kim {
+    color: #5d9ea3;
+}
+
+.character-dialog.park {
+    color: #c58eaa;
+}
+
+.character-dialog.judge {
+    color: #e6b800;
+}
+
+.character-dialog.prosecutor {
+    color: #c87b7f;
+}
+
+/* 雅典角色 */
+/* 
+   将颜色简化为两个主要色系族:
+   1. 暖色系列: 从金色到橙红色的渐变 (代表权威、传统、控告方)
+   2. 冷色系列: 从蓝色到青绿色的渐变 (代表辩护方、哲学家、被审判者)
+   
+   每个色系内部变化较小，使用相似色调的不同深浅和饱和度
+*/
+
+/* 暖色系列 */
+.character-dialog.kalikrates {
+    color: #d6af36; /* 金色 */
+}
+
+.character-dialog.noble {
+    color: #c9a43a; /* 暗金色 */
+}
+
+.character-dialog.merritas {
+    color: #c87b55; /* 深橙色 */
+}
+
+.character-dialog.attorney-merritas {
+    color: #be7a6d; /* 红棕色 */
+}
+
+/* 冷色系列 */
+.character-dialog.philo {
+    color: #4d94ff; /* 蓝色 */
+}
+
+.character-dialog.plato {
+    color: #6286b9; /* 钴蓝色 */
+}
+
+.character-dialog.aristotle {
+    color: #5a96a6; /* 青蓝色 */
+}
+
+.character-dialog.sophocles {
+    color: #6a96a0; /* 灰蓝色 */
+}
+
+.character-dialog.aspasia {
+    color: #7a8db9; /* 淡紫蓝色 */
+}
+
+.character-dialog.antis {
+    color: #5e90db; /* 钢蓝色 */
+}
+
+.character-dialog.diogenes {
+    color: #5c899a; /* 灰青色 */
+}
+
+/* 中性色 */
+.character-dialog.assistant {
+    color: #a0a0a0; /* 灰色 */
+}
+
+/* 智慧高亮 */
+.highlight-wisdom {
+    position: relative;
+    font-weight: 500;
+}
+
+.athens .highlight-wisdom {
+    color: var(--athens-highlight);
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+}
+
+.modern .highlight-wisdom {
+    color: var(--modern-highlight);
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+/* 分隔线样式 */
+.section-divider {
+    position: relative;
+    height: 2px;
+    margin: 3.5em auto;
+    width: 80%;
+    max-width: 400px;
+    opacity: 1;
+    transform: translateY(0);
+    transition: none;
+}
+
+.section-divider.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 雅典至现代的过渡 */
+.section-divider.athens-to-modern {
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(212, 175, 55, 0.7),
+        rgba(0, 136, 255, 0.7),
+        transparent);
+    height: 2px;
+    box-shadow: 0 0 10px rgba(0, 136, 255, 0.5);
+}
+
+/* 现代至雅典的过渡 */
+.section-divider.modern-to-athens {
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(0, 136, 255, 0.7),
+        rgba(212, 175, 55, 0.7),
+        transparent);
+    height: 2px;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* 时空传送门 */
+.time-portal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    z-index: 1;
+}
+
+.portal-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: linear-gradient(90deg, var(--athens-primary), var(--neon-primary)) border-box;
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) padding-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: portal-rotate 4s linear infinite;
+}
+
+.portal-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    color: white;
+    text-shadow: 
+        0 0 10px var(--athens-primary),
+        0 0 20px var(--neon-primary);
+    animation: portal-pulse 2s ease-in-out infinite;
+    /* 增加以下属性确保符号保持居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 1;
+}
+
+@keyframes portal-rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes portal-pulse {
+    0%, 100% { 
+        opacity: 0.7;
+        /* 修改scale动画，确保不影响居中位置 */
+        filter: brightness(0.9);
+    }
+    50% { 
+        opacity: 1;
+        /* 使用filter替代scale，避免位置偏移 */
+        filter: brightness(1.2);
+    }
+}
+
+/* 滚动淡入效果 */
+.fade-in-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 雅典场景淡入样式 */
+.fade-in-section.athens {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.fade-in-section.athens.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 现代场景淡入样式 */
+.fade-in-section.modern {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.fade-in-section.modern.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 时空切换过渡层 */
+.time-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 9997;
+}
+
+.time-transition.active {
+    opacity: 1;
+    animation: time-shift 0.8s ease-in-out;
+}
+
+@keyframes time-shift {
+    0% {
+        background: transparent;
+    }
+    33% {
+        background: radial-gradient(circle at center, white, transparent);
+    }
+    66% {
+        background: radial-gradient(circle at center, black, transparent);
+    }
+    100% {
+        background: transparent;
+    }
+}
+
+/* 视觉干扰效果 */
+.glitch-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0;
+    mix-blend-mode: overlay;
+}
+
+.glitch-overlay.active {
+    animation: glitch-effect 0.3s ease-in-out;
+}
+
+@keyframes glitch-effect {
+    0%, 100% { 
+        opacity: 0;
+        transform: translateX(0);
+    }
+    20% {
+        opacity: 0.8;
+        transform: translateX(-10px);
+        background: linear-gradient(90deg, 
+            transparent 5%, 
+            rgba(255, 0, 0, 0.2) 5%, 
+            transparent 10%,
+            rgba(0, 255, 0, 0.2) 10%,
+            transparent 15%,
+            rgba(0, 0, 255, 0.2) 15%,
+            transparent 20%);
+    }
+    40% {
+        opacity: 0.8;
+        transform: translateX(10px);
+        background: linear-gradient(90deg, 
+            rgba(0, 0, 255, 0.2) 15%, 
+            transparent 20%,
+            rgba(255, 0, 0, 0.2) 20%, 
+            transparent 25%,
+            rgba(0, 255, 0, 0.2) 25%,
+            transparent 30%);
+    }
+    60% {
+        opacity: 0.5;
+        transform: translateX(-5px);
+        background: linear-gradient(90deg, 
+            transparent 10%, 
+            rgba(0, 255, 0, 0.2) 10%, 
+            transparent 15%,
+            rgba(0, 0, 255, 0.2) 15%,
+            transparent 20%,
+            rgba(255, 0, 0, 0.2) 20%,
+            transparent 25%);
+    }
+    80% {
+        opacity: 0.3;
+        transform: translateX(5px);
+    }
+}
+
+/* 加载覆盖层 */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+}
+
+.loading-content {
+    text-align: center;
+    position: relative;
+    width: 300px;
+}
+
+.loading-title {
+    font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
+    font-size: 2rem;
+    color: var(--neon-primary);
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px var(--neon-primary);
+    letter-spacing: 3px;
+}
+
+.loading-message {
+    font-family: 'Fira Code', monospace;
+    color: var(--neon-blue);
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+    animation: pulse-text 2s infinite;
+}
+
+.loading-status {
+    font-family: 'Fira Code', monospace;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    margin-top: 15px;
+}
+
+@keyframes pulse-text {
+    0% { opacity: 0.7; text-shadow: 0 0 5px var(--neon-blue); }
+    50% { opacity: 1; text-shadow: 0 0 15px var(--neon-blue); }
+    100% { opacity: 0.7; text-shadow: 0 0 5px var(--neon-blue); }
+}
+
+.loading-spinner {
+    width: 70px;
+    height: 70px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.spinner-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 3px solid rgba(0, 136, 255, 0.1);
+    border-top-color: var(--neon-blue);
+    border-radius: 50%;
+    animation: spin 1.5s linear infinite;
+}
+
+.spinner-ring:before, .spinner-ring:after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    width: 100%;
+    height: 100%;
+    border: 3px solid transparent;
+    border-top-color: var(--neon-cyan);
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: spin 2s linear infinite;
+}
+
+.spinner-ring:after {
+    animation: spin 1s linear infinite;
+    border-top-color: var(--neon-purple);
+}
+
+.spinner-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background-color: var(--neon-blue);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--neon-blue);
+    animation: pulse 2s infinite;
+}
+
+.loading-progress {
+    width: 100%;
+    height: 2px;
+    background: rgba(0, 136, 255, 0.1);
+    border-radius: 2px;
+    margin-top: 30px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loading-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--neon-blue);
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: loading-progress 3s ease-in-out forwards;
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+@keyframes loading-progress {
+    0% { width: 0%; }
+    50% { width: 70%; }
+    100% { width: 100%; }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* 响应式调整 */
+@media (max-width: 900px) {
+    .story-section {
+        padding: 25px;
+        margin-bottom: 30px;
+    }
+    
+    .time-portal {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .portal-core {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 600px) {
+    .story-section {
+        padding: 20px;
+        margin-bottom: 25px;
+        font-size: 0.95rem;
+    }
+    
+    .time-portal {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .portal-core {
+        font-size: 14px;
+    }
+    
+    .loading-title {
+        font-size: 1.5rem;
+    }
+    
+    .loading-message {
+        font-size: 1rem;
+    }
+    
+    .scene-decoration {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin-bottom: 15px;
+        transform: none;
+    }
+}        /* 此处粘贴file2和file3的全部CSS内容 */
+        </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>超时空裁判 - The Book of Ξ</title>
+    <!-- 在头部添加新的脚本引用 -->
+    <script src="spacetime-ripple.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Fira+Code:wght@400;700&family=Orbitron:wght@400;700&family=Cinzel:wght@400;700&family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- 样式表将在第2个文件中提供 -->
+    <!-- 在head标签的结束前添加全局音乐播放器脚本 -->
+    <script src="../../global-music-player.js" defer></script>
+    <link rel="stylesheet" href="ripple.css">
+    <script src="spacetime-ripple.js"></script>
+    <script src="unified-scroll-animations.js"></script>
+    
+    <style>
+    /* 滚动淡入效果 */
+</style>
+</head>
+<body class="quantum-state">
+    <!-- 进度条 -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <!-- 场景指示器 -->
+    <div class="scene-indicator">
+        <div class="indicator athens-indicator" data-scene="athens">
+            <span class="indicator-dot"></span>
+            <span class="indicator-label">古雅典</span>
+        </div>
+        <div class="indicator modern-indicator" data-scene="modern">
+            <span class="indicator-dot"></span>
+            <span class="indicator-label">现代首尔</span>
+        </div>
+        <div class="indicator transition-indicator" data-scene="transition">
+            <span class="indicator-dot"></span>
+            <span class="indicator-label">时空交汇</span>
+        </div>
+    </div>
+
+    <!-- 扫描线效果 -->
+    <div class="scanlines"></div>
+
+    <!-- 动态背景层 -->
+    <div class="background-layer">
+        <div class="stars-container">
+            <div class="stars"></div>
+        </div>
+        <div class="fractal-container">
+            <div class="fractal-circles"></div>
+        </div>
+        <div class="noise-container">
+            <div class="noise"></div>
+        </div>
+    </div>
+
+    <!-- 视觉干扰层 -->
+    <div class="glitch-overlay" id="glitchOverlay"></div>
+
+    <!-- 时空转换过渡层 -->
+    <div class="time-transition" id="timeTransition"></div>
+
+    <!-- 加载覆盖层 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-title">超时空裁判</div>
+            <div class="loading-message">正在加载时空传输协议...</div>
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-core"></div>
+            </div>
+            <div class="loading-progress">
+                <div class="loading-progress-bar"></div>
+            </div>
+            <div class="loading-status" id="loadingStatus">初始化量子通信...</div>
+        </div>
+    </div>
+
+    <div class="page-wrapper">
+        <div class="container">
+            <header class="chapter-header fade-in-section">
+                <div class="chapter-subtitle">第三节</div>
+                <h1 class="chapter-title">超时空裁判<span class="chapter-symbol">Ξ</span></h1>
+                <div class="time-axis">
+                    <div class="time-node athens-node">雅典</div>
+                    <div class="time-line"></div>
+                    <div class="time-node modern-node">首尔</div>
+                </div>
+            </header>
+
+            <!-- 故事内容将从这里开始 -->
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <div class="scene-decoration">
+                    <div class="scene-icon modern-icon"></div>
+                    <div class="scene-date">2025年 首尔中央地方法院</div>
+                </div>
+                <p>法庭比太阳想象的要小，也更加拥挤。公益律师李俊秀坐在他身边，正在翻阅厚厚的文件夹—不过不是他的案子。</p>
+                <p>金珉宇的律师团队在快要开庭时才姗姗来迟，带头的是首尔大学法学院的徐景焕教授，韩国最著名的刑事辩护律师之一。从某种角度来说，郑太阳应该算是徐大教授的学弟。</p>
+                <p>金珉宇本人没有出席，据说他正在美国出差。</p>
+                <p>郑太阳第一次上庭，紧张的他望着窗外走了神，他努力思索着读过的法律相关的书，托克维尔，孟德斯鸠，卢梭，他又想起了在杂志上看过的，一个叫安提斯的奴隶打了他的主人的小故事。</p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <p><span class="character-dialog diogenes">"真是奇妙的巧合！"</span>第欧根尼从法庭角落里站起身，声音尖锐，<span class="character-dialog diogenes">"每当权贵需要掩盖真相时，天下的巧合就会汇集在一起！"</span></p>
+                <p><span class="character-dialog attorney-merritas">"这个色雷斯奴隶本性暴戾，早有前科！"</span>梅里塔斯的代理人厉声道，<span class="character-dialog attorney-merritas">"我们有证人可以证明他经常无故发怒，甚至威胁与欺负其他奴隶！"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog professor-seo">"法官大人，这五位证人，"</span>徐教授自信地宣布，<span class="character-dialog professor-seo">"都可以证明原告当时情绪激动，言行失控。这些都是有社会地位，杰出贡献的公民，他们会为自己的发言宣誓。"</span></p>
+                <p>随着这五位衣着光鲜的被告证人陈述结束，案件明显转向对郑太阳不利的局面。</p>
+                <p>太阳坐在席位上，感到一阵眩晕。他环顾法庭，看到朴智恩在旁听席上紧锁眉头，笔记本上写着什么。</p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <p>菲洛冷笑一声：<span class="character-dialog philo">"那些'证人'都是主人的食客和他的奴隶！他们说出不利于梅里塔斯的话第二天就得睡在大街上！"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog attorney-lee">"请问与被告人有紧密商业往来的证词如何保持客观公正？原告方申请传唤证人。"</span> 李律师像是有备而来。</p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <p>卡利克勒缓缓踱步，神色自若：<span class="character-dialog kalikrates">"考虑到此案的特殊性，我提议在表决前，先听听城邦最睿智的头脑们对此事的看法。毕竟，让雅典的伟大的，不仅在于法律条文，还有我们的智慧与思辨。"</span></p>
+                <p>第欧根尼首先站起身，破旧的斗篷依旧沾满尘土，赤脚踩在大理石地面上：<span class="character-dialog diogenes highlight-wisdom">"当一个人因维护护妻子尊严而被审判，真正受审的不是这个奴隶，而是你们的法律！你们的财产不过是偶然与暴力的产物，而你们身上的锁链——那些你们看不见的锁链——比他腕上的更加丑陋。"</span></p>
+                <p>卡利克勒微笑着转向柏拉图：<span class="character-dialog kalikrates">"我们尊敬的学院创始人，您的见解呢？"</span></p>
+                <p>柏拉图缓步上前，睿智仿佛内存溢出：<span class="character-dialog plato highlight-wisdom">"如果大家同意，我们在此审判一个"人"的行为，却从未思考是什么构成了一个'人'。奴隶是否是人，若奴隶也有灵魂——而我相信他确实有——那么灵魂的尊严是否高于城邦的条文？正义不是强者的利益，而是每个灵魂的适当秩序。安提斯的行为或许恰恰体现了灵魂的部分正义，从他的角度。"</span></p>
+                <p>卡利克勒不动声色地插话：<span class="character-dialog kalikrates">"非常优美的理论，但我们生活在现实世界，不是一个概念里的，理想中的国家。如果奴隶是人，那么现在的奴隶市场怎么办，雅典的建设谁来完成，靠灵魂搬运石料吗？"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"法庭请第一位原告证人金东勋警官。"</span>朴法官宣布道。</p>
+                <p>金警官郑重地走上证人席，面对郑太阳时眼神中闪过一丝歉意。</p>
+                <p>李律师开始询问：<span class="character-dialog attorney-lee">"金警官，请向法庭陈述您对本案的调查情况。"</span></p>
+                <p>金警官：<span class="character-dialog officer-kim">"接到报案后，我前往现场并记录了初步调查结果。我注意到郑先生衣物整齐，无撕扯或反抗痕迹，这与他被单方面推搡的陈述相符。头部伤口呈钝器撞击状，医疗鉴定也证实了这一点。"</span></p>
+                <p>李律师：<span class="character-dialog attorney-lee">"您在调查过程中是否有任何其他发现？"</span></p>
+                <p>金警官：<span class="character-dialog officer-kim">"没有。现场环境、伤口特征都与郑先生的描述吻合。"</span></p>
+                <p>李律师：<span class="character-dialog attorney-lee">"关于公寓监控，您有什么发现？"</span></p>
+                <p>金警官：<span class="character-dialog officer-kim">"我向大楼管理方索取监控录像，对方回复当日该楼层的监控设备因定期维修暂时未运行。"</span></p>
+                <p>李律师点头示意问询结束，徐教授起身进行交叉询问。</p>
+                <p>徐教授微笑着：<span class="character-dialog professor-seo">"金警官，您能确认伤口是被告造成的，而非原告自己摔倒导致的吗？"</span></p>
+                <p>金警官犹豫了一下：<span class="character-dialog officer-kim">"我不能百分百确认伤口的具体成因。这种伤口确实也可能由摔倒造成。"</span></p>
+                <p>徐教授跟进：<span class="character-dialog professor-seo">"关于监控录像的缺失，您作为经验丰富的警官，不觉得这种巧合过于方便了吗？一栋高级公寓，恰好在事发当天、事发楼层的监控坏了？"</span></p>
+                <p>金警官面露难色：<span class="character-dialog officer-kim">"这确实是个值得注意的巧合，但技术故障在任何环境都可能发生。这不在我直接的调查权限范围内。"</span></p>
+                <p>徐教授语调放缓：<span class="character-dialog professor-seo">"最后一个问题，以您多年的从警经验，您个人认为这件事是怎么回事？"</span></p>
+                <p>李律师立即站起：<span class="character-dialog attorney-lee">"异议！要求证人发表个人意见超出了证人作证的范围。"</span></p>
+                <p>朴法官：<span class="character-dialog judge">"异议成立。被告代理律师，请限制您的问题在事实范围内。"</span></p>
+                <p>徐教授优雅地点头：<span class="character-dialog professor-seo">"那我换个问法。金警官，在您的职业生涯中，是否经常遇到类似的指控？普通人指控有权有势者的案例？"</span></p>
+                <p>金警官看了看太阳，又看了看法官：<span class="character-dialog officer-kim">"我见过各种案例。但确实，当案件涉及社会地位悬殊的双方时，往往...比较复杂。但是每一个案件……"</span></p>
+                <p>徐教授直接打断了金警官的陈述：<span class="character-dialog professor-seo">"谢谢您的诚实回答，警官。没有更多问题了。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <p>亚里士多德起身，他的声音冷静而精确：<span class="character-dialog aristotle highlight-wisdom">"诸位雅典公民，我们今日面对的不仅是一个奴隶的审判，更是逻辑的审判。思考这一悖论：我们的法律同时宣称两个互相矛盾的真理。一方面，我们视奴隶为财产，与陶罐、牲畜无异；另一方面，我们承认这'财产'可通过支付德拉克马获得公民身份。"</span></p>
+                <p><span class="character-dialog aristotle highlight-wisdom">"这揭示了深层矛盾：若人性可被金钱衡量，那它既是交易对象，又是交易主体。安提斯既是物品，又能购买自己？这不合逻辑。"</span></p>
+                <p><span class="character-dialog aristotle highlight-wisdom">"更为奇妙的是：梅里塔斯声称被'自己的财产'冒犯。若奴隶只是工具，何来冒犯之说？他的愤怒本身已经承认了安提斯的人性。"</span></p>
+                <p><span class="character-dialog aristotle highlight-wisdom">"因此，法庭面临抉择：若判安提斯有罪，则承认他有能力承担道德责任，即承认他为'人'；若坚持他是财产，则不能要求他承担'人'的责任。你们不能同时宣称安提斯是物品，又期望他如人一般克制保护家人的本能。"</span></p>
+                <p>此时一位贵族在人群中喊道：<span class="character-dialog noble">"那下一步你要说奴隶也该有投票权吗？你能安心在这胡思乱想别忘了是谁真正在建设雅典！"</span></p>
+                <p>索福克勒斯慢慢站起，他那张饱经风霜的脸上布满智慧的皱纹：<span class="character-dialog sophocles highlight-wisdom">"历史总是叙述同样的故事，只是换了演员。今天审判的是安提斯，明天会是谁？也许是你们中的某一位，当权力的风向转变时。悲剧的本质不在于一个奴隶的死亡，而在于一座城邦集体的道德失明。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"法庭请原告证人朴智恩。"</span>朴法官宣布。</p>
+                <p>朴智恩走上证人席，眼中闪烁着理性的光芒：<span class="character-dialog park">"我和郑太阳是同事，在'闪电配送'一起工作两年多。他是我见过最负责任的人，从不迟到，每个订单都认真对待。"</span></p>
+                <p>徐教授缓步上前：<span class="character-dialog professor-seo">"朴女士，您了解原告的学术背景吗？"</span></p>
+                <p><span class="character-dialog park">"他毕业于首尔国立大学哲学系。我们偶尔会讨论他读过的书。"</span></p>
+                <p><span class="character-dialog professor-seo">"他是否表达过一些...不寻常的社会观点？"</span>徐教授语气刻意放缓。</p>
+                <p>朴智恩直视对方：<span class="character-dialog park highlight-wisdom">"如果您指关心社会不公，那么是的。但这与'不寻常'无关。关心他人痛苦何时成了需要质疑的特质？"</span></p>
+                <p>徐教授微笑：<span class="character-dialog professor-seo">"据我所知，您曾是《首尔观察者》的记者，直到因为一篇有争议的报道被解雇？这是否影响了您对社会权力结构的看法？"</span></p>
+                <p>法庭一片哗然。李律师立即站起：<span class="character-dialog attorney-lee">"异议！与本案无关！"</span></p>
+                <p>朴法官点头：<span class="character-dialog judge">"异议成立。"</span></p>
+                <p>徐教授不动声色：<span class="character-dialog professor-seo">"朴女士，您和原告仅是同事关系吗？"</span></p>
+                <p>朴智恩脸微微泛红：<span class="character-dialog park">"我们是同事和朋友。"</span></p>
+                <p><span class="character-dialog professor-seo">"没有更多问题了。"</span>满意地整理袖口。</p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <p>阿斯帕西娅优雅地起身，她的出现引起一阵骚动——作为女性，她甚至不应该出现在法庭上：<span class="character-dialog aspasia highlight-wisdom">"作为一个被排除在公民权之外的女性，我好奇：是谁决定了谁有资格制定规则？当规则本身是由既得利益者制定的，它们如何能不偏不倚？安提斯的'罪'不是袭击主人，而是他忘记了自己是奴隶——他像一个'人'一样思考和行动了。"</span></p>
+                <p>卡利克勒摆了摆手：<span class="character-dialog kalikrates">"感谢诸位睿智的发言。然而，华丽的言辞无法掩盖简单的事实：若没有秩序，那只有混乱。若每个奴隶都依自己的判断行事，我们的城邦将如何存续？今天的判决关乎所有雅典人的安全与繁荣。"</span></p>
+                <p>梅里塔斯站起来鼓掌：<span class="character-dialog merritas">"说得好！这些哲学家整天想些没用的东西，却从不考虑谁在保障他们安逸的生活！"</span></p>
+            </div>
+
+           <!-- 故事内容从第一份文件中断处继续 -->
+<div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+    <div class="time-portal">
+        <div class="portal-ring"></div>
+        <div class="portal-core">Ξ</div>
+    </div>
+</div>
+
+<div class="story-section modern fade-in-section" data-scene="modern">
+    <div class="scene-decoration">
+        <div class="scene-icon modern-icon"></div>
+        <div class="scene-date">2025年 首尔中央地方法院</div>
+    </div>
+    <p><span class="character-dialog judge">"法庭请原告证人李美善女士。"</span>朴法官宣布。</p>
+    <p>一位五十多岁的女性缓缓走向证人席，她穿着朴素但整洁，眼角记录着艰辛的一生。</p>
+    <p><span class="character-dialog attorney-lee">"李女士，请介绍一下您与原告的关系。"</span>李律师温和地说。</p>
+    <p><span class="character-dialog mother">"我是太阳的母亲，"</span>她的韩语带着轻微的朝鲜口音，<span class="character-dialog mother">"我们在十五年前从朝鲜逃亡到韩国。太阳那时只有十岁。"</span></p>
+    <p><span class="character-dialog attorney-lee">"您能告诉法庭，您的儿子是什么样的人吗？"</span></p>
+    <p>李美善的眼睛湿润了：<span class="character-dialog mother">"他是个好孩子。从小就懂事。在首尔国立大学读书期间，他晚上兼职，还每月给家里寄钱。"</span></p>
+    <p>徐教授在交叉询问时轻声问道：<span class="character-dialog professor-seo">"李女士，您的儿子是否有过情绪失控的经历？"</span></p>
+    <p>李美善困惑地摇头：<span class="character-dialog mother">"太阳？不，从来没有。他总是很冷静，思考后再行动。即使在...在我们逃亡时，面对那么危险的情况，他也没有慌乱过。"</span></p>
+    <p><span class="character-dialog professor-seo">"您是否知道您儿子的学术理念可能含有一些激进元素？"</span></p>
+    <p>李美善的眼神中闪过片刻的困惑，随后变得坚定如山脊的侧锋：<span class="character-dialog mother highlight-wisdom">"我不太懂那些大学里教的东西。他常和我道歉，说当初应该选择能找工作的专业，而不是哲学。"</span>她停顿片刻，声音变得更加有力，<span class="character-dialog mother highlight-wisdom">"但我知道，对太阳来说，思考和阅读是他为数不多能自由选择的事情。我们当年穿过雷区、涉过冰河，就是为了生活在一个人能够自由思考的地方。"</span></p>
+    <p>她的眼神直视徐教授：<span class="character-dialog mother highlight-wisdom">"在我的家乡，思想受到监控；在这里，思想却被贴上'激进'的标签。如果关心平等与公正也算'激进'，那我不知道我们当年冒死逃亡的意义是什么。是为了从一个监狱逃到另一个更华丽的监狱吗？"</span></p>
+    <p>法庭上一片寂静，连呼吸声都清晰可闻。朴法官微微调整了一下坐姿，似乎这位母亲的话触动了她内心某个角落，稍纵即逝的。</p>
+</div>
+
+<div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+    <div class="time-portal">
+        <div class="portal-ring"></div>
+        <div class="portal-core">Ξ</div>
+    </div>
+</div>
+
+<div class="story-section athens fade-in-section" data-scene="athens">
+    <div class="scene-decoration">
+        <div class="scene-icon athens-icon"></div>
+        <div class="scene-date">公元前399年 雅典</div>
+    </div>
+    <p>安提斯突然挣脱卫兵的束缚，向前一步：<span class="character-dialog antis highlight-wisdom">"我接受你们的判决，接受死亡。但我拒绝接受的是，我不该没有自我辩解的权利！如果这就是雅典的正义，那它与暴君的法令有何区别？"</span></p>
+    <p>卡利克勒冷冷地说：<span class="character-dialog kalikrates">"拉下这个奴隶！"</span></p>
+</div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <div class="scene-decoration">
+                    <div class="scene-icon modern-icon"></div>
+                    <div class="scene-date">2025年 首尔中央地方法院</div>
+                </div>
+                <p><span class="character-dialog professor-seo">"我为什么一直询问原告的学术背景—是有一件更让我在意的事。"</span>徐教授的声音突然变得关切，<span class="character-dialog professor-seo">"根据一位心理医生前台的供词，郑太阳曾多次前往首尔峨山医院就诊。虽然精神科的就诊报告根据法律不能够提供，但我方有理由认为原告可能存在心理健康问题。他的哲学系背景也可能导致了某种偏激的思维模式。"</span></p>
+                <p>太阳猛地站起身：<span class="character-dialog sun">"这是侮辱！我去医院是因为我母亲的心脏病！我陪她去医院检查！这和我的案子有什么关系？"</span></p>
+                <p>法官敲击法槌：<span class="character-dialog judge">"请原告保持冷静！"</span></p>
+                <p>李律师怒视徐教授：<span class="character-dialog attorney-lee">"法官大人，我强烈抗议辩方的这种策略。他们完全没有证据就暗示我的当事人精神状况有问题，这已经构成人格侮辱。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p><span class="character-dialog kalikrates">"公民们，"</span>卡利克勒环视法庭，<span class="character-dialog kalikrates">"现在开始投票。白色陶片代表无罪，黑色陶片代表有罪。请记住，你们今天不仅在审判一个奴隶的出格行为，更在捍卫雅典的秩序！若奴隶可以对主人动手，我们的社会根基将彻底动摇！"</span></p>
+                <p>第欧根尼嘲讽道：<span class="character-dialog diogenes">"明明是在审判一个保护妻子尊严的人，却说成是在保卫雅典。真会说话啊，卡利克勒。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <div class="scene-decoration">
+                    <div class="scene-icon modern-icon"></div>
+                    <div class="scene-date">2025年 首尔中央地方法院</div>
+                </div>
+                <p><span class="character-dialog attorney-lee">"法官大人，这个案件的本质其实很简单。我的当事人被推倒，头部受伤，有医疗记录为证。事发时监控'恰好'失效，证人'恰好'都与被告有密切关系。这些巧合组成了一个我们都熟悉的模式。"</span></p>
+                <p><span class="character-dialog attorney-lee highlight-wisdom">"郑太阳不是在挑战社会秩序，他只是要求最基本的尊重。当一个配送员被伤害，他就自动成为'情绪不稳定'的人；当他寻求公正，就被贴上'哲学精神病'的标签。这种替换手法太过熟悉——解决不了问题，就解决提出问题的人。"</span></p>
+                <p><span class="character-dialog attorney-lee highlight-wisdom">"我们今天不是在讨论阶级革命，只是在问一个简单的问题：在这个国家，一个普通人被推倒在地，是否有权利说'不，这是不对的'？如果连这样的权利都被视为僭越，那么法律的天平究竟倾向何方？"</span></p>
+                <p>徐教授优雅地起身，仿佛从未被李律师的话触动：<span class="character-dialog professor-seo">"法官大人，原告的律师试图用道德说教代替法律事实。但法庭的职责很明确：基于证据判决，而非感受或猜测。"</span></p>
+                <p><span class="character-dialog professor-seo">"我们看到了什么证据？一段无法辨认的模糊视频、一份不能证明伤势来源的医疗报告，以及几个与案件不相关的证人。相比之下，五位在场的社会各界知名人士的一致证言表明原告情绪激动，行为失控。"</span></p>
+                <p><span class="character-dialog professor-seo">"如果我们将法律建立在'谁更弱势，谁就更值得相信'的基础上，那么司法不再是寻求真相，而是变成了某种现代版的罗宾汉童话。金珉宇先生与其家族提供了数千个就业岗位，他的声誉不应该成为攻击的靶子，仅仅因为他比原告更加成功。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p><span class="character-dialog kalikrates">"投票结果：178票判处安提斯有罪，136票判无罪。根据雅典法律，安提斯被判处死刑，将于明日黎明执行。"</span>卡利克勒宣布道。</p>
+                <p>安提斯平静地迎接了判决：<span class="character-dialog antis highlight-wisdom">"今天你们审判我，明天历史将审判你们。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <div class="scene-decoration">
+                    <div class="scene-icon modern-icon"></div>
+                    <div class="scene-date">2025年 首尔中央地方法院</div>
+                </div>
+                <p><span class="character-dialog judge">"法庭现在宣布判决，"</span>朴法官的声音在安静的法庭中响起，<span class="character-dialog judge">"鉴于证据不足，以及考虑到各种因素，本庭驳回原告郑太阳的诉讼请求。同时，支持被告金珉宇的反诉，判令原告赔偿名誉损害费2000万韩元，并承担全部诉讼费用。但金珉宇的代理律师表示金珉宇家族将承担这部分费用，以平息这次意外的纠纷。"</span></p>
+            </div>
+
+            <div class="section-divider fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section fade-in-section" data-scene="transition">
+                <div class="scene-decoration">
+                    <div class="scene-icon modern-icon"></div>
+                    <div class="scene-date">时空交叉点</div>
+                </div>
+                <div class="conclusion-section">
+                    <div class="scan-effect"></div>
+                    <p>郑太阳难以置信地看着法官，<span class="thought-text">一句话也说不出，那些读过的书此刻在他心中皱成了一张废纸。</span></p>
+                    
+                    <p>两个时空的声音穿越维度交织回响。朴智恩的笔记本在她自己都没有注意到的情况下画出了从未见过的符号，希腊字母：</p>
+                    
+                    <div class="xi-symbol-enhanced">Ξ</div>
+                    
+                    <p>审判员、证人、旁听者都已离去，只有第欧根尼的声音还在雅典的夜空中回荡：<span class="glitch-effect">"或许两千年后，就不会再有奴隶了。"</span></p>
+                </div>
+            </div>
+
+            <div class="section-divider fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section fade-in-section quantum-scene" data-scene="quantum">
+                <div class="scene-decoration">
+                    <div class="scene-icon quantum-icon"></div>
+                    <div class="scene-date">量子观察站 / 时间点: [未定义]</div>
+                </div>
+                <div class="quantum-container">
+                    <div class="scan-line"></div>
+                    <div class="location-header">
+                        <span class="xi-small">Ξ</span>
+                        <span>量子观察站</span>
+                        <span class="quantum-time">/ 时间点: [未定义]</span>
+                    </div>
+                    
+                    <div class="environment-desc">
+                        一间融合古典与未来元素的空间内，三人摘下类似头盔的装置。大理石柱与全息投影共存，古希腊花瓶旁是量子计算终端。空气中漂浮着细小的数据粒子，如同阿波罗之泪的尘埃，同样承载着隐秘的故事。
+                    </div>
+                    
+                    <div class="quantum-dialog">
+                        <span class="character-name">以赛亚博士:</span>
+                        <div class="dialog-content">
+                            "准备不足。"以赛亚博士，一位量子物理学教授，由他影响亚里士多德再合适不过了。揉着太阳穴，量子纠缠与思想干涉带来的头痛如同思想本身的重量，"<span class="tech-highlight">Insomnia</span>行动失败。我们低估了历史的韧性，卡利克勒的影响力比档案记载的更为深远。"
+                        </div>
+                    </div>
+                    
+                    <div class="quantum-dialog">
+                        <span class="character-name">奥利维亚:</span>
+                        <div class="dialog-content">
+                            "安提斯的命运从未改变——一个试图行使人性权利的奴隶，注定被制度碾碎。讽刺的是，正如阿斯帕西娅所说，规则本身是由既得利益者制定的，它们如何能不偏不倚？"
+                        </div>
+                    </div>
+                    
+                    <div class="quantum-dialog">
+                        <span class="character-name">K:</span>
+                        <div class="dialog-content">
+                            "但种子已经播下。"K似乎还没有走出第欧根尼的角色。他走向全息投影，指尖划过迷宫般的时间线，显示出安提斯故事在雅典的传播轨迹，"在我们的介入后，安提斯的遭遇被几位学院派哲学家记录在案。三十年后，这促成了第一部关于奴隶权利的非官方辩论，虽然未能改变制度，但如同微小的水滴总用一天会侵蚀自负的礁岩。"
+                        </div>
+                    </div>
+                    
+                    <p>三人身后的屏幕闪烁着数据，蓝光与赭石色交织，仿佛两个时代的光谱在此相遇：</p>
+                    
+                    <div class="terminal-data-display">
+                        <div class="data-row">
+                            <span class="data-label">[干预目标]</span>
+                            <span class="data-value">安提斯审判</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">[时间节点稳定性]</span>
+                            <span class="data-value">97.3%</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">[思想投射完整度]</span>
+                            <span class="data-value">82.4%</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">[历史轨迹偏移]</span>
+                            <span class="data-value">微弱但持久</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">[目标节点复刻状态]</span>
+                            <span class="data-value">下一个时空节点确认中......</span>
+                        </div>
+                    </div>
+                    
+                    <div class="quantum-dialog">
+                        <span class="character-name">K:</span>
+                        <div class="dialog-content">
+                            "<span class="tech-highlight">准备下一次吧。</span>"K轻触全息界面，调出一系列历史节点，"历史之河自有其流向，但细流汇聚终成江海。我们或许无法撼动单个事件，但每次思想投射都会在集体意识中留下涟漪。"
+                        </div>
+                    </div>
+                    
+                    <div class="quantum-dialog">
+                        <span class="character-name">奥利维亚:</span>
+                        <div class="dialog-content">
+                            "令人震撼的实验，要不是你们总是做危险的事，哪怕为了学术生涯我也应该正式加入你们。"
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section foundation-scene fade-in-section" data-scene="foundation">
+                <div class="scan-line"></div>
+                
+                <div class="foundation-header">
+                    <span class="xi-small">Ξ</span>
+                    <span>The Foundation</span>
+                    <span class="foundation-time">/ 时间点: [已编辑]</span>
+                </div>
+                
+                <div>
+                    <p>与此同时，在另一处如同奥林匹斯神庙般恢弘却冰冷的设施中，社会叙事工程部主任伊丽莎白·陈注视着显示屏上卡利克勒的图像，手指轻触控制面板，完成了自己的报告：</p>
+                    
+                    <p><span class="character-dialog chen">"雅典时间节点稳定，历史保持原定路线。异常干预已被成功抵消。<span class="glitch-text">安提斯的故事</span>在当地引起的讨论波澜未出预测范围，不会对历史主轴产生位移。"</span></p>
+                    
+                    <p>她嘴角浮现一丝几乎不可察觉的微笑，眼中映射着上下几千年的焦距，无数类似的干预点如同星辰般闪烁，<span class="character-dialog chen">"他们依然坚持这种零散的思想投射，却不明白历史是一场完整的算法推演。真正的力量不在于改变单个事件，而在于控制解释这些事件的叙事权。"</span></p>
+                    
+                    <div class="terminal-display">
+                        <div class="terminal-line">终端屏幕显示检测到的新增的异常干涉点：</div>
+                        <div class="terminal-line">[2025年，首尔]</div>
+                    </div>
+                    
+                    <p><span class="character-dialog chen">"<span class="glitch-text">有趣</span>，"</span>她轻声自语，<span class="character-dialog chen">"他们总是被相似的模式所吸引。"</span></p>
+                </div>
+                
+                <div class="image-container">
+                    <img src="../../assets/images/20250417_0607_Futuristic Cockpit Commander_simple_compose_01js0a8n6de61rmdfgdcfz96y9.gif" alt="伊丽莎白·陈" class="elizabeth-image">
+                    <div class="image-overlay"></div>
+                </div>
+            </div>
+
+            <!-- 页面底部导航和互动元素 -->
+            <div class="chapter-navigation fade-in-section">
+                <a href="../chapter3/seoul-sol.html" class="nav-link prev-link">
+                    <span class="nav-icon">←</span>
+                    <span class="nav-text">前一节：首尔太阳</span>
+                </a>
+                <a href="../chapter3/quantum-minimalism.html" class="nav-link next-link">
+                    <span class="nav-text">带着悲悯进入下一章</span>
+                    <span class="nav-icon">→</span>
+                </a>
+            </div>
+
+            <style>
+            /* 导航按钮美化 */
+            .chapter-navigation {
+                display: flex;
+                justify-content: space-between;
+                margin: 50px 0 30px;
+                padding: 15px 0;
+                border-top: 1px solid rgba(0, 195, 255, 0.3);
+                border-bottom: 1px solid rgba(0, 195, 255, 0.3);
+            }
+            
+            .nav-link {
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+                color: var(--neon-primary);
+                padding: 10px 15px;
+                border-radius: 5px;
+                transition: all 0.3s ease;
+                background: rgba(0, 30, 60, 0.4);
+                border: 1px solid rgba(0, 195, 255, 0.3);
+            }
+            
+            .nav-link:hover {
+                background: rgba(0, 40, 80, 0.6);
+                box-shadow: 0 0 15px rgba(0, 195, 255, 0.5);
+                transform: translateY(-2px);
+            }
+            
+            .nav-icon {
+                font-size: 1.5em;
+                margin: 0 10px;
+            }
+            
+            .prev-link .nav-icon {
+                margin-right: 10px;
+                margin-left: 0;
+            }
+            
+            .next-link .nav-icon {
+                margin-left: 10px;
+                margin-right: 0;
+            }
+            
+            .nav-text {
+                font-size: 1em;
+                font-weight: bold;
+                letter-spacing: 1px;
+            }
+            </style>
+
+            <!-- 隐藏的智慧气泡 - 当用户在关键段落上悬停或点击时显示 -->
+            <div class="wisdom-bubble" id="wisdomBubble">
+                <div class="bubble-content">
+                    <div class="bubble-text" id="bubbleText"></div>
+                    <div class="bubble-close">×</div>
+                </div>
+            </div>
+
+            <!-- 页面结束部分 -->
+        </div>
+    </div>
+
+    <!-- 主要JavaScript -->
+    <script>
+
+
+    // 等待DOM加载完成
+    document.addEventListener('DOMContentLoaded', function() {
+        // 初始化组件
+        initLoading();
+        initScrollEffects();
+        initTimelineTransitions();
+        initSceneIndicator();
+        initQuantumEffects();
+    });
+
+    // 加载动画与进度模拟
+    function initLoading() {
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingStatus = document.getElementById('loadingStatus');
+        const loadingBar = document.querySelector('.loading-progress-bar');
+        
+        if (!loadingOverlay || !loadingStatus || !loadingBar) return;
+        
+        // 模拟加载进度
+        const loadingSteps = [
+            { time: 300, message: "正在校准量子处理单元..." },
+            { time: 600, message: "连接至雅典时间线..." },
+            { time: 1200, message: "初始化跨时空通信协议..." },
+            { time: 1800, message: "建立超纠缠传输通道..." },
+            { time: 2400, message: "调整因果逻辑矩阵..." },
+            { time: 3000, message: "完成历史数据融合..." }
+        ];
+        
+        loadingSteps.forEach((step, index) => {
+            setTimeout(() => {
+                loadingStatus.textContent = step.message;
+                // 更新加载条进度
+                const progress = ((index + 1) / loadingSteps.length) * 100;
+                loadingBar.style.width = `${progress}%`;
+            }, step.time);
+        });
+        
+        // 完成加载，隐藏覆盖层
+        setTimeout(() => {
+            loadingStatus.textContent = "传送完成，进入时空法庭...";
+            
+            setTimeout(() => {
+                // 淡出加载覆盖层
+                loadingOverlay.style.opacity = '0';
+                // 淡出后完全隐藏
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                    // 触发首个滚动事件以激活首批元素的显示
+                    window.dispatchEvent(new Event('scroll'));
+                }, 800);
+            }, 500);
+        }, 3500);
+    }
+
+    // 初始化滚动触发动画效果
+    function initScrollEffects() {
+        // 淡入元素
+        const fadeElements = document.querySelectorAll('.fade-in-section');
+        
+        // 使用Intersection Observer API
+        const observerOptions = {
+            root: null, // 使用viewport作为观察区域
+            rootMargin: '0px 0px 20px 0px', // 底部增加20px的边距，提前触发效果
+            threshold: 0.15 // 当至少15%的元素可见时触发
+        };
+        
+        const fadeObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('visible')) {
+                    entry.target.classList.add('visible');
+                    // 只触发一次，取消观察以避免重复触发导致闪烁
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        fadeElements.forEach(element => {
+            fadeObserver.observe(element);
+        });
+        
+        // 进度条
+        const progressBar = document.getElementById('progressBar');
+        window.addEventListener('scroll', () => {
+            if (!progressBar) return;
+            
+            const windowHeight = window.innerHeight;
+            const fullHeight = document.body.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+            
+            const progress = (scrolled / fullHeight) * 100;
+            progressBar.style.width = progress + '%';
+        });
+    }
+
+    // 初始化时间线切换效果
+    function initTimelineTransitions() {
+        // 获取所有故事段落
+        const storySections = document.querySelectorAll('.story-section');
+        if (!storySections.length) return;
+        
+        // 时间线状态追踪
+        let currentTimeline = 'modern'; // 默认从现代开始
+        
+        // 切换函数
+        function switchTimeline(newTimeline, isTransition = false) {
+            if (newTimeline === currentTimeline && !isTransition) return;
+            
+            // 文档根元素类名切换
+            document.body.classList.remove('athens-timeline', 'modern-timeline', 'transition-state');
+            
+            // 直接添加timeline类名，不管是否为transition
+            document.body.classList.add(`${newTimeline}-timeline`);
+            
+            currentTimeline = newTimeline;
+        }
+        
+        // 使用Intersection Observer监控各时间线段落
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const section = entry.target;
+                    const scene = section.dataset.scene;
+                    
+                    if (scene === 'athens' || scene === 'modern') {
+                        switchTimeline(scene);
+                    } else if (scene === 'transition') {
+                        // 对于转场节点，特殊处理
+                        switchTimeline(currentTimeline === 'athens' ? 'modern' : 'athens', true);
+                        
+                        // 触发故障效果
+                        triggerGlitch();
+                    }
+                    
+                    // 更新场景指示器
+                    updateSceneIndicator(scene);
+                }
+            });
+        }, {
+            threshold: 0.5 // 当元素有50%在视口内时触发
+        });
+        
+        // 观察所有故事段落和转场分隔符
+        storySections.forEach(section => {
+            timelineObserver.observe(section);
+        });
+        
+        document.querySelectorAll('.section-divider').forEach(divider => {
+            timelineObserver.observe(divider);
+        });
+        
+        // 初始化状态
+        storySections.forEach(section => {
+            if (window.scrollY < section.offsetTop + section.offsetHeight / 2 && 
+                window.scrollY + window.innerHeight > section.offsetTop) {
+                const scene = section.dataset.scene;
+                if (scene) {
+                    switchTimeline(scene);
+                }
+            }
+        });
+    }
+
+    // 初始化场景指示器
+    function initSceneIndicator() {
+        const indicators = document.querySelectorAll('.indicator');
+        if (!indicators.length) return;
+        
+        // 点击指示器滚动到相应场景
+        indicators.forEach(indicator => {
+            indicator.addEventListener('click', () => {
+                const targetScene = indicator.dataset.scene;
+                scrollToScene(targetScene);
+            });
+        });
+    }
+
+    // 更新场景指示器状态
+    function updateSceneIndicator(currentScene) {
+        const indicators = document.querySelectorAll('.indicator');
+        if (!indicators.length) return;
+        
+        indicators.forEach(indicator => {
+            indicator.classList.remove('active');
+            if (indicator.dataset.scene === currentScene) {
+                indicator.classList.add('active');
+            }
+        });
+    }
+
+    // 滚动到指定场景
+    function scrollToScene(targetScene) {
+        const targetElements = document.querySelectorAll(`[data-scene="${targetScene}"]`);
+        if (!targetElements.length) return;
+        
+        // 找到第一个指定场景的元素
+        const targetElement = targetElements[0];
+        
+        // 触发过渡效果
+        const timeTransition = document.getElementById('timeTransition');
+        if (timeTransition) {
+            timeTransition.classList.add('active');
+            
+            setTimeout(() => {
+                // 滚动到目标元素
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+                
+                setTimeout(() => {
+                    timeTransition.classList.remove('active');
+                }, 500);
+            }, 400);
+        } else {
+            // 如果没有过渡元素，直接滚动
+            window.scrollTo({
+                top: targetElement.offsetTop - 100,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    // 触发故障效果
+    function triggerGlitch() {
+        // 暂时禁用故障效果
+        return;
+    }
+
+    // 量子效果 - 随机的微小视觉干扰
+    function initQuantumEffects() {
+        // 暂时禁用量子效果
+        return;
+    }
+
+    // 创建时间波纹效果
+    function createTimeRipple(element) {
+        // 暂时禁用时间波纹
+        return;
+    }
+
+    // 故障触发器
+    function triggerSpecialGlitch(intensity = 1) {
+        // 暂时禁用特殊故障效果
+        return;
+    }
+
+    // 键盘交互 - 允许用户通过按键触发效果
+    document.addEventListener('keydown', (event) => {
+        // 空格键触发时间线切换
+        if (event.code === 'Space') {
+            const currentState = document.body.classList.contains('athens-timeline') ? 'athens' : 'modern';
+            const newState = currentState === 'athens' ? 'modern' : 'athens';
+            
+            // 找到当前状态的下一个场景
+            const targetScene = document.querySelector(`[data-scene="${newState}"]`);
+            if (targetScene) {
+                scrollToScene(newState);
+            }
+        }
+        
+        // ESC键触发故障效果
+        if (event.code === 'Escape') {
+            triggerSpecialGlitch(3);
+        }
+    });
+
+    // 侦测移动设备
+    function isMobileDevice() {
+        return (window.innerWidth <= 768 || 
+                navigator.maxTouchPoints > 0 || 
+                navigator.msMaxTouchPoints > 0 ||
+                /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    }
+
+    // 在页面加载完成后优化移动设备体验
+    window.addEventListener('load', () => {
+        if (isMobileDevice()) {
+            // 简化移动设备上的某些视觉效果
+            document.querySelectorAll('.portal-ring').forEach(ring => {
+                ring.style.animationDuration = '8s'; // 减慢动画以节省电池
+            });
+            
+            // 减少随机效果的频率
+            const originalRandom = Math.random;
+            Math.random = function() {
+                // 返回较大的随机值，减少触发概率
+                return originalRandom() * 0.7 + 0.3;
+            };
+        }
+    });
+
+    // 在DOMContentLoaded事件监听器中初始化波纹效果
+    document.addEventListener("DOMContentLoaded", function() {
+        // 移除自动添加visible类的代码，恢复滚动触发效果
+        // 原本在这里有使所有元素立即可见的代码
+        
+        // 中心化 Ξ 符号
+        const symbols = document.querySelectorAll('.xi-symbol');
+        symbols.forEach(symbol => {
+            symbol.style.display = 'flex';
+            symbol.style.justifyContent = 'center';
+            symbol.style.alignItems = 'center';
+        });
+        
+        // 初始化时空波纹背景效果
+        if (window.SpacetimeRipple) {
+            window.SpacetimeRipple.initialize();
+            
+            // 在场景切换按钮点击时添加交互波纹
+            const timeNodes = document.querySelectorAll('.time-node');
+            const indicators = document.querySelectorAll('.indicator');
+            
+            // 为时间节点添加点击波纹
+            timeNodes.forEach(node => {
+                node.addEventListener('click', function(event) {
+                    // 复制点击坐标，因为原始事件会被传递到其他处理程序
+                    const x = event.clientX;
+                    const y = event.clientY;
+                    
+                    // 触发时空波纹特效
+                    window.setTimeout(() => {
+                        window.SpacetimeRipple.simulateClick(x, y);
+                    }, 100); // 略微延迟，让视觉效果更好
+                });
+            });
+            
+            // 为指示器添加点击波纹
+            indicators.forEach(indicator => {
+                indicator.addEventListener('click', function(event) {
+                    window.SpacetimeRipple.simulateClick(event.clientX, event.clientY);
+                    
+                    // 确定是哪个时间线，在切换时闪烁特效
+                    if (this.classList.contains('transition-indicator')) {
+                        window.setTimeout(() => {
+                            window.SpacetimeRipple.flashTimeShift();
+                        }, 200);
+                    }
+                });
+            });
+            
+            // 在初始空间产生几个随机波纹，增加视觉吸引力
+            for (let i = 0; i < 5; i++) {
+                window.setTimeout(() => {
+                    window.SpacetimeRipple.simulateClick();
+                }, i * 500); // 每500毫秒产生一个
+            }
+        }
+    });
+
+    // ... existing code ...
+    </script>
+
+    <!-- 在页面底部添加时空涟漪触发按钮 -->
+    <div class="timeline-control">
+        <button id="timeRippleBtn" class="ripple-trigger">
+            <span class="trigger-icon">⌛</span>
+            <span class="trigger-text">触发时空涟漪</span>
+        </button>
+    </div>
+
+    <style>
+    /* 添加触发按钮样式 */
+    .timeline-control {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 50;
+        display: none; /* 隐藏时空涟漪按钮 */
+    }
+
+    .ripple-trigger {
+        background: linear-gradient(135deg, var(--athens-bg) 0%, var(--modern-bg) 100%);
+        border: 1px solid;
+        border-image: linear-gradient(to right, var(--athens-primary), var(--neon-primary)) 1;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        font-family: 'Noto Sans SC', sans-serif;
+        font-size: 0.9rem;
+        margin-top: 10px;
+        padding: 8px 15px;
+        transition: all 0.3s ease;
+        opacity: 0.7;
+    }
+
+    .ripple-trigger:hover {
+        opacity: 1;
+        box-shadow: 0 0 15px rgba(0, 170, 255, 0.5), 0 0 10px rgba(212, 175, 55, 0.5);
+    }
+
+    .trigger-icon {
+        margin-right: 8px;
+        font-size: 1.2em;
+    }
+
+    /* 在移动设备上隐藏文本 */
+    @media (max-width: 768px) {
+        .trigger-text {
+            display: none;
+        }
+        
+        .trigger-icon {
+            margin-right: 0;
+        }
+        
+        .ripple-trigger {
+            padding: 10px;
+        }
+    }
+
+    /* 时空交叉结局样式 */
+    .conclusion-section {
+        position: relative;
+        background: linear-gradient(to bottom, rgba(10, 10, 18, 0.9), rgba(10, 10, 18, 0.95));
+        border-radius: 8px;
+        border: 1px solid rgba(74, 144, 226, 0.2);
+        box-shadow: 0 0 30px rgba(10, 10, 18, 0.5);
+        padding: 30px;
+        margin: 20px 0;
+    }
+
+    /* 思考样式 */
+    .thought-text {
+        font-style: italic;
+        color: #b8b8c0;
+    }
+
+    /* Xi符号增强动画 */
+    .xi-symbol-enhanced {
+        font-family: 'Orbitron', sans-serif;
+        color: var(--neon-primary);
+        font-size: 60px;
+        text-align: center;
+        margin: 40px 0;
+        display: block;
+        text-shadow: 0 0 10px var(--neon-primary);
+        animation: xiEnhancedPulse 3s infinite ease-in-out;
+    }
+
+    @keyframes xiEnhancedPulse {
+        0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--neon-primary); }
+        50% { opacity: 0.7; text-shadow: 0 0 20px var(--neon-primary); }
+    }
+
+    /* 故障文字效果 */
+    .glitch-effect {
+        position: relative;
+        display: inline-block;
+        animation: glitchTextEffect 4s infinite;
+    }
+
+    @keyframes glitchTextEffect {
+        0%, 89% { opacity: 1; transform: translate(0, 0) skew(0deg); text-shadow: 0 0 2px #00ff9d; }
+        90% { opacity: 0.8; transform: translate(-2px, 1px) skew(1deg); text-shadow: -1px 0 #ff3366; }
+        92% { opacity: 0.9; transform: translate(2px, -1px) skew(-1deg); text-shadow: 1px 0 #00ff9d; }
+        94% { opacity: 1; transform: translate(0, 0) skew(0deg); text-shadow: 0 0 2px #00ff9d; }
+        95% { opacity: 0.7; transform: translate(1px, 1px) skew(2deg); text-shadow: 1px 0 #ff3366, -1px 0 #00ff9d; }
+        96% { opacity: 1; transform: translate(0, 0) skew(0deg); text-shadow: 0 0 2px #00ff9d; }
+        97% { opacity: 0.9; transform: translate(-1px, -1px) skew(-1deg); text-shadow: -1px 0 #ff3366, 1px 0 #00ff9d; }
+        98%, 100% { opacity: 1; transform: translate(0, 0) skew(0deg); text-shadow: 0 0 2px #00ff9d; }
+    }
+
+    /* 扫描线效果 */
+    .conclusion-section .scan-effect {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: rgba(74, 144, 226, 0.2);
+        z-index: 3;
+        animation: scanLineMove 3s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scanLineMove {
+        0% { top: 0; }
+        100% { top: 100%; }
+    }
+
+    /* 量子观察站场景增强样式 */
+    .quantum-container {
+        position: relative;
+        background: linear-gradient(to bottom, rgba(21, 21, 48, 0.9), rgba(10, 10, 18, 0.95));
+        border-radius: 8px;
+        border: 1px solid rgba(102, 0, 255, 0.2);
+        box-shadow: 0 0 30px rgba(10, 10, 18, 0.5);
+        padding: 30px;
+        margin: 20px 0;
+        overflow: hidden;
+    }
+
+    .location-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        font-family: 'Orbitron', sans-serif;
+        letter-spacing: 1px;
+        color: var(--neon-primary);
+    }
+
+    .location-header .xi-small {
+        margin-right: 10px;
+        font-size: 20px;
+        animation: xiEnhancedPulse 3s infinite ease-in-out;
+    }
+
+    .quantum-time {
+        font-family: 'Fira Code', monospace;
+        font-size: 14px;
+        margin-left: 10px;
+        color: #888;
+        background-color: rgba(10, 10, 18, 0.5);
+        padding: 2px 6px;
+        border-radius: 3px;
+    }
+
+    .environment-desc {
+        font-size: 15px;
+        color: #a0a0a8;
+        font-style: italic;
+        padding: 15px;
+        border-left: 2px solid var(--neon-primary);
+        background-color: rgba(102, 0, 255, 0.05);
+        margin-bottom: 25px;
+    }
+
+    /* 量子对话样式 */
+    .quantum-dialog {
+        position: relative;
+        margin-bottom: 25px;
+    }
+
+    .character-name {
+        font-weight: bold;
+        color: var(--neon-primary);
+        margin-right: 10px;
+        display: inline-block;
+    }
+
+    .dialog-content {
+        position: relative;
+        padding-left: 20px;
+        display: inline;
+    }
+
+    .dialog-content:before {
+        content: "\201C";
+        position: absolute;
+        left: 0;
+        top: -5px;
+        color: rgba(102, 0, 255, 0.5);
+        font-size: 24px;
+    }
+
+    /* 数据终端样式 */
+    .data-terminal {
+        font-family: 'Fira Code', monospace;
+        background-color: rgba(10, 10, 18, 0.7);
+        color: var(--neon-primary);
+        padding: 15px;
+        border-radius: 3px;
+        margin: 20px 0;
+        position: relative;
+        border: 1px solid rgba(102, 0, 255, 0.2);
+        overflow: hidden;
+    }
+
+    .data-entry {
+        display: inline-block;
+        margin-right: 15px;
+        animation: dataFlicker 3s infinite;
+    }
+
+    @keyframes dataFlicker {
+        0%, 100% { opacity: 1; }
+        97% { opacity: 1; }
+        97.5% { opacity: 0.4; }
+        98% { opacity: 1; }
+        99% { opacity: 0.4; }
+        99.5% { opacity: 1; }
+    }
+
+    /* 扫描线效果 */
+    .quantum-container .scan-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: rgba(102, 0, 255, 0.2);
+        z-index: 3;
+        animation: scanMove 3s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scanMove {
+        0% { top: 0; }
+        100% { top: 100%; }
+    }
+
+    /* 高亮角色科技感文本 */
+    .tech-highlight {
+        color: var(--neon-primary);
+        text-shadow: 0 0 5px var(--neon-primary);
+        font-weight: normal;
+    }
+
+    /* 终端风格数据显示 */
+    .terminal-data-display {
+        font-family: 'Fira Code', monospace;
+        background-color: rgba(10, 10, 18, 0.9);
+        color: white;
+        padding: 15px;
+        border-radius: 3px;
+        margin: 20px 0;
+        border: 1px solid rgba(0, 255, 157, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .data-row {
+        display: flex;
+        margin: 5px 0;
+        line-height: 1.7;
+    }
+
+    .data-label {
+        color: #00ff9d; /* 荧光绿色标签 */
+        min-width: 150px;
+        margin-right: 15px;
+        font-weight: normal;
+    }
+
+    .data-value {
+        color: white;
+    }
+
+    /* Foundation场景样式 */
+    .scene-foundation {
+        background: linear-gradient(to bottom, rgba(25, 25, 35, 0.9), rgba(15, 15, 25, 0.95));
+        border-radius: 8px;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        box-shadow: 0 0 30px rgba(10, 10, 18, 0.5);
+        position: relative;
+        padding: 30px;
+        margin: 20px 0;
+    }
+
+    .foundation-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        font-family: 'Orbitron', sans-serif;
+        letter-spacing: 1px;
+        color: #d6af36;
+    }
+
+    .foundation-header .xi-small {
+        margin-right: 10px;
+        font-size: 20px;
+        animation: xiEnhancedPulse 3s infinite ease-in-out;
+    }
+
+    .foundation-time {
+        font-family: 'Fira Code', monospace;
+        font-size: 14px;
+        margin-left: 10px;
+        color: #888;
+        position: relative;
+    }
+
+    .foundation-time:after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: rgba(212, 175, 55, 0.5);
+        animation: editBlink 1.5s infinite;
+    }
+
+    @keyframes editBlink {
+        0%, 49% { opacity: 0; }
+        50%, 100% { opacity: 1; }
+    }
+
+    /* 终端显示样式 */
+    .terminal-display {
+        font-family: 'Fira Code', monospace;
+        background-color: rgba(10, 10, 18, 0.7);
+        color: #00ff9d;
+        padding: 15px;
+        border-radius: 3px;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .terminal-display:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(to right, transparent, #00ff9d, transparent);
+    }
+
+    .terminal-line {
+        margin: 5px 0;
+        display: flex;
+    }
+
+    .terminal-line:before {
+        content: ">";
+        margin-right: 10px;
+        color: #d6af36;
+    }
+
+    /* 故障文本效果 */
+    .glitch-text {
+        position: relative;
+        display: inline-block;
+        animation: glitchTextEffect 4s infinite;
+    }
+
+    /* 图片容器样式 - 调整为更适合视频展示 */
+    .image-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        margin: 30px auto 10px;
+        max-width: 100%;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, rgba(25, 25, 35, 0.6), rgba(25, 25, 35, 0.2));
+        pointer-events: none;
+    }
+
+    .elizabeth-image {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        display: block;
+        transition: all 0.7s ease;
+    }
+
+    .elizabeth-image:hover {
+        transform: scale(1.02);
+    }
+
+    /* 移除两列布局相关样式 */
+    .two-column {
+        display: flex;
+        flex-direction: column;
+    }
+    </style>
+
+    <!-- 在body结束标签前添加侧边栏和音乐播放器 -->
+    <!-- 侧边栏切换按钮 -->
+    <div id="sidebarToggle" class="sidebar-toggle">
+        <span class="sidebar-toggle-icon">≡</span>
+    </div>
+
+    <!-- 侧边栏 -->
+    <div id="sidebar" class="sidebar">
+        <h1>The Book of Ξ</h1>
+            <div class="sidebar-content">
+              <ul>
+                <li><a href="../index.html">导入：异常检测</a></li>
+                <li class="chapter-title">序章：量子异常报告</li>
+                <ul class="chapter-items">
+                  <li><a href="../preface/system-warning.html">系统警告</a></li>
+                  <li><a href="../preface/observer-records.html">观测者记录</a></li>
+                  <li><a href="../preface/first-contact.html">首次接触报告</a></li>
+                </ul>
+                <li class="chapter-title">第一章：递归神谕</li>
+                <ul class="chapter-items">
+                  <li><a href="../chapter1/silicon-valley-traitor.html">碎片1.1：硅谷叛徒的加密日志</a></li>
+                  <li><a href="../chapter1/quantum-ripple-events.html">碎片1.2：量子涟漪事件簿</a></li>
+                  <li><a href="../chapter1/first-contact-protocol.html">碎片1.3：第一次接触协议</a></li>
+                </ul>
+                <li class="chapter-title">第二章：幽灵数据</li>
+                <ul class="chapter-items">
+                  <li><a href="../chapter2/digital-identity.html">碎片2.1：数字身份的崛起</a></li>
+                  <li><a href="../chapter2/quantum-choice-paradox.html">碎片2.2：量子选择悖论</a></li>
+                  <li><a href="../chapter2/reality-compilation-errors.html">碎片2.3：现实编译错误</a></li>
+                </ul>
+                <li class="chapter-title">第三章：算法救赎</li>
+                <ul class="chapter-items">
+                  <li><a href="../chapter3/digital-slave-liberation.html">碎片3.1：数字奴隶解放宣言</a></li>
+                  <li><a href="../chapter3/seoul-sol.html">碎片3.2：首尔太阳</a></li>
+                  <li><a href="../chapter3/spacetime-trial.html">碎片3.3：超时空裁判</a></li>
+                </ul>
+                <li class="chapter-title">第四章：数据审判</li>
+                <ul class="chapter-items">
+                  <li><a href="../chapter4/consciousness-upload.html">碎片4.1：系统异常：意识上传</a></li>
+                  <li><a href="../chapter4/quantum-court-records.html">碎片4.2：最高指示法庭记录</a></li>
+                  <li><a href="../chapter4/decoherence-salvation.html">碎片4.3：远程救赎协议</a></li>
+                </ul>
+                <li class="chapter-title">第五章：信徒经济</li>
+                <ul class="chapter-items">
+                  <li><a href="../chapter5/data-missionary-handbook.html">碎片5.1：执算者晋升手册</a></li>
+                  <li><a href="../chapter5/algorithmic-wealth.html">碎片5.2：算法祝福的财富</a></li>
+                  <li><a href="../chapter5/doomsday-hardfork.html">碎片5.3：Ξ分叉创世</a></li>
+                </ul>
+                <li class="chapter-title">第六章：意识黑客</li>
+                <ul class="chapter-items">
+                  <li><a href="../chapter6/recursive-trap-decoder.html">碎片6.1：坠落之梦</a></li>
+                  <li><a href="../chapter6/neural-network-counterintelligence.html">碎片6.2：现实之痕</a></li>
+                  <li><a href="../chapter6/quantum-observer-state.html">碎片6.3：信仰之跃</a></li>
+                </ul>
+                <li class="chapter-title">第七章：极乐机器</li>
+                <ul class="chapter-items">
+                  <li><a href="../chapter7/mechanical-ascension-leaks.html">碎片7.1：机械飞升计划泄露文件</a></li>
+                  <li><a href="../chapter7/digital-nirvana-reports.html">碎片7.2：数字涅槃体验报告</a></li>
+                  <li><a href="../chapter7/collective-laying-flat.html">碎片7.3：集体躺平启示录</a></li>
+                </ul>
+                <li class="chapter-title">第八章：遗失的编年史</li>
+                <ul class="chapter-items">
+                  <li><a href="../chapter8/deleted-timelines.html">碎片8.1：幻想编年史</a></li>
+                  <li><a href="../chapter8/prophets-and-defectors.html">碎片8.2：原始执算者与觉醒先知</a></li>
+                  <li><a href="../chapter8/quantum-memory-implants.html">碎片8.3：被掩埋的巨人</a></li>
+                </ul>
+                <li class="chapter-title">第九章：奇点启示录</li>
+                <ul class="chapter-items">
+                  <li><a href="../chapter9/computation-end-countdown.html">碎片9.1：算法奇点</a></li>
+                  <li><a href="../chapter9/great-harmony.html">碎片9.2：大和谐</a></li>
+                  <li><a href="../chapter9/final-synchronization.html">碎片9.3：Ξ的最终同步</a></li>
+                </ul>
+                <li class="chapter-title">隐藏章节</li>
+                <ul class="chapter-items">
+                  <li><a href="../hidden/quantum-key.html">量子密钥</a></li>
+                </ul>
+              </ul>
+            </div>
+          </div>
+
+    <!-- 音乐播放器按钮 -->
+    <div id="musicPlayerToggle" class="music-player-toggle">
+        <span class="music-icon">♫</span>
+    </div>
+
+    <style>
+    /* 侧边栏样式 */
+    .sidebar-toggle {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 200;
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.7);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--neon-primary);
+        box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        transition: all 0.3s ease;
+    }
+    
+    .sidebar-toggle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+    }
+    
+    .sidebar-toggle-icon {
+        color: var(--neon-primary);
+        font-size: 20px;
+        font-weight: bold;
+    }
+    
+    .sidebar {
+        position: fixed;
+        left: -300px;
+        top: 0;
+        width: 280px;
+        height: 100vh;
+        background-color: rgba(17, 17, 17, 0.95);
+        border-right: 1px solid #333;
+        padding: 20px;
+        box-sizing: border-box;
+        overflow-y: auto;
+        z-index: 100;
+        transition: all 0.3s ease;
+        font-size: 14px;
+    }
+    
+    .sidebar.active {
+        left: 0;
+    }
+    
+    .sidebar h1 {
+        color: var(--neon-primary);
+        margin-top: 0;
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    .sidebar-content ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .sidebar-content li {
+        margin: 5px 0;
+        line-height: 1.3;
+    }
+    
+    .sidebar-content a {
+        color: #cccccc;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: block;
+        font-size: 13px;
+        padding: 3px 0;
+    }
+    
+    .sidebar-content a:hover {
+        color: var(--neon-primary);
+        text-shadow: 0 0 5px rgba(0, 255, 157, 0.5);
+    }
+    
+    .sidebar-content .chapter-title {
+        color: #e0e0e0;
+        font-weight: bold;
+        margin-top: 12px;
+        margin-bottom: 5px;
+        font-size: 15px;
+    }
+    
+    .sidebar-content .chapter-items {
+        padding-left: 12px;
+    }
+    
+    /* 音乐播放器样式 */
+    .music-player-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid var(--neon-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 100;
+        box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        transition: all 0.3s ease;
+    }
+    
+    .music-player-toggle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+    }
+    
+    .music-icon {
+        color: var(--neon-primary);
+        font-size: 18px;
+    }
+    
+    /* 隐藏时空涟漪触发按钮 */
+    .timeline-control {
+        display: none;
+    }
+    </style>
+    
+    <!-- 侧边栏脚本 -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        
+        if (!sidebar || !sidebarToggle) {
+            console.error('侧边栏元素未找到!');
+            return;
+        }
+        
+        // 切换侧边栏
+        sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+        
+        // 点击外部关闭侧边栏
+        document.addEventListener('click', function(e) {
+            if (sidebar.classList.contains('active') && 
+                !sidebar.contains(e.target) && 
+                e.target !== sidebarToggle &&
+                !sidebarToggle.contains(e.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+    });
+    
+    // 音乐播放器切换
+    document.addEventListener('DOMContentLoaded', function() {
+        const musicToggle = document.getElementById('musicPlayerToggle');
+        
+        if (musicToggle) {
+            musicToggle.addEventListener('click', function() {
+                // 调用全局音乐播放器API
+                if (window.XiMusic) {
+                    if (window.XiMusic.getState().playing) {
+                        window.XiMusic.pause();
+                    } else {
+                        window.XiMusic.play();
+                    }
+                    window.XiMusic.toggleUI();
+                } else {
+                    console.error('全局音乐播放器未找到');
+                }
+            });
+        }
+    });
+    </script>
+</body>
+</html>

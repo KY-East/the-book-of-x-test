@@ -1,0 +1,2960 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字奴隶解放宣言 | The Book of Ξ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Fira+Code:wght@400;700&family=Orbitron:wght@400;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 不在头部直接引入XiCore核心系统，改为在脚本中动态加载 -->
+    <style>
+        :root {
+            --neon-primary: #00ff9d;
+            --neon-secondary: #ff3366;
+            --neon-blue: #0088ff;
+            --neon-purple: #cc00ff;
+            --neon-gold: #FFD700;
+            --neon-cyan: #00ffd9;
+            --bg-primary: #0a0a12;
+            --bg-secondary: #14141e;
+            --bg-dark-blue: #080814;
+            --bg-seoul: #0f1a2a;
+            --terminal-bg: rgba(10, 10, 18, 0.9);
+            --terminal-border: rgba(0, 255, 157, 0.3);
+            --terminal-text: #cccccc;
+            --alert-bg: rgba(20, 0, 0, 0.9);
+            --alert-border: rgba(255, 51, 102, 0.5);
+            --alert-text: #ff3366;
+            --text-primary: #e0e0e0;
+            --text-secondary: #aaaaaa;
+            --glitch-color-1: #ff00ea;
+            --glitch-color-2: #00ff9d;
+            --korean-blue: #003877;
+            --korean-red: #c70025;
+            --seoul-gray: #888888;
+            --neon-sign: #ff00ff;
+            --bg-dark: rgba(15, 26, 42, 0.9);
+            --bg-image-path: "/the-book-of-x-test/assets/images/background/GhIJ3M-WgAElTPW.jpg";
+        }
+
+        /* 新增：页面加载状态 */
+        body.loading {
+            opacity: 0.8;
+            transition: opacity 0.5s ease;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        .delayed-animation {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .delayed-animation.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 新增：优化动画性能 */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Animations */
+        @keyframes neon-flicker {
+            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+                opacity: 0.99;
+                text-shadow: 0 0 10px var(--neon-sign),
+                            0 0 20px var(--neon-sign),
+                            0 0 30px var(--neon-sign);
+            }
+            20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+                opacity: 0.4;
+                text-shadow: none;
+            }
+        }
+
+        @keyframes seoul-rain {
+            0% {
+                transform: translateY(-100vh);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        @keyframes xi-rotate {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        @keyframes seoul-pulse {
+            0%, 100% {
+                box-shadow: 0 0 10px var(--neon-blue);
+            }
+            50% {
+                box-shadow: 0 0 25px var(--neon-blue), 0 0 40px rgba(0, 136, 255, 0.4);
+            }
+        }
+
+        @keyframes data-stream {
+            0% { 
+                background-position: 0% 50%;
+            }
+            100% { 
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes phone-glow {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(0, 136, 255, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(0, 136, 255, 0.5);
+            }
+        }
+
+        /* 新增：音乐播放器动画 */
+        @keyframes music-wave {
+            0%, 100% { 
+                height: 3px; 
+            }
+            50% { 
+                height: 15px; 
+            }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% {
+                opacity: 0.7;
+                box-shadow: 0 0 5px var(--neon-blue);
+            }
+            50% {
+                opacity: 1;
+                box-shadow: 0 0 10px var(--neon-blue);
+            }
+        }
+
+        /* Basic styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-seoul);
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        /* 背景图层 - 使用伪元素添加背景图片 */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../assets/images/background/GhIJ3M-WgAElTPW.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            opacity: 0.15; /* 淡淡的背景效果 */
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 136, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 56, 119, 0.05) 0%, transparent 45%);
+            opacity: 0.15;
+            z-index: -1;
+            filter: blur(1.2px) brightness(0.65) contrast(1.2) saturate(1.1);
+            will-change: opacity; /* 性能优化 */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Seoul Rain Effect */
+        .seoul-rain-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+            will-change: transform; /* 性能优化 */
+        }
+
+        .rain-drop {
+            position: absolute;
+            width: 2px;
+            height: 15px;
+            background: linear-gradient(to bottom, rgba(0, 136, 255, 0), rgba(0, 136, 255, 0.5));
+            opacity: 0.3;
+            animation: seoul-rain linear infinite;
+            will-change: transform; /* 性能优化 */
+        }
+
+        /* Page title */
+        .page-title-container {
+            position: relative;
+            margin: 30px 0;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .page-title {
+            color: var(--neon-blue);
+            text-align: center;
+            font-size: 3rem;
+            font-family: 'Cinzel', serif;
+            text-shadow: 0 0 10px var(--neon-blue);
+            position: relative;
+            animation: seoul-pulse 4s infinite;
+            letter-spacing: 3px;
+            display: inline-block;
+            will-change: box-shadow; /* 性能优化 */
+        }
+
+        .page-subtitle {
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        /* Seoul Cityscape Header */
+        .cityscape-header {
+            position: relative;
+            height: 200px;
+            margin-bottom: 50px;
+            overflow: hidden;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .cityscape-night {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            background: linear-gradient(to bottom, #050e1a, #0f2a4a);
+            z-index: 1;
+        }
+
+        .cityscape-buildings {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200"><path d="M0,200 L0,100 L20,100 L20,120 L40,120 L40,80 L60,80 L60,150 L80,150 L80,70 L100,70 L100,130 L120,130 L120,90 L140,90 L140,110 L160,110 L160,60 L180,60 L180,140 L200,140 L200,100 L220,100 L220,160 L240,160 L240,120 L260,120 L260,80 L280,80 L280,130 L300,130 L300,60 L320,60 L320,110 L340,110 L340,140 L360,140 L360,90 L380,90 L380,150 L400,150 L400,50 L420,50 L420,120 L440,120 L440,70 L460,70 L460,100 L480,100 L480,150 L500,150 L500,40 L520,40 L520,110 L540,110 L540,80 L560,80 L560,130 L580,130 L580,60 L600,60 L600,90 L620,90 L620,140 L640,140 L640,70 L660,70 L660,160 L680,160 L680,130 L700,130 L700,70 L720,70 L720,100 L740,100 L740,120 L760,120 L760,50 L780,50 L780,90 L800,90 L800,140 L820,140 L820,100 L840,100 L840,70 L860,70 L860,120 L880,120 L880,60 L900,60 L900,130 L920,130 L920,80 L940,80 L940,110 L960,110 L960,130 L980,130 L980,90 L1000,90 L1000,200 Z" fill="%23050e1a" /></svg>');
+            background-size: cover;
+            background-position: center;
+            z-index: 2;
+        }
+
+        .cityscape-lights {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            z-index: 3;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200"><rect x="30" y="110" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="70" y="140" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="110" y="90" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="150" y="120" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="190" y="80" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="230" y="150" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="270" y="100" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="310" y="70" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="350" y="130" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="390" y="110" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="430" y="90" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="470" y="120" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="510" y="60" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="550" y="100" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="590" y="80" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="630" y="110" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="670" y="140" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="710" y="90" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="750" y="70" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="790" y="120" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="830" y="110" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="870" y="80" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="910" y="100" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /><rect x="950" y="120" width="4" height="4" fill="%23ffdc6a" opacity="0.7" /></svg>');
+            opacity: 0.8;
+        }
+
+        .cityscape-neon {
+            position: absolute;
+            top: 50px;
+            right: 100px;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-sign);
+            font-size: 1.5rem;
+            text-shadow: 0 0 5px var(--neon-sign), 0 0 10px var(--neon-sign);
+            z-index: 4;
+            animation: neon-flicker 3s infinite;
+            will-change: opacity, text-shadow; /* 性能优化 */
+        }
+
+        /* Section styles */
+        .section {
+            margin-bottom: 60px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            background-color: rgba(15, 26, 42, 0.7);
+            padding: 30px;
+            border-left: 5px solid var(--neon-blue);
+            border-radius: 5px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            will-change: opacity, transform; /* 性能优化 */
+        }
+
+        .section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            color: var(--neon-blue);
+            font-size: 2rem;
+            font-family: 'Rajdhani', sans-serif;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--neon-blue);
+            text-shadow: 0 0 5px var(--neon-blue);
+            position: relative;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--neon-blue), transparent);
+            animation: seoul-pulse 2s infinite;
+            will-change: box-shadow; /* 性能优化 */
+        }
+
+        /* Paragraph styles */
+        .section p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            position: relative;
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .section p:first-of-type::first-letter {
+            font-size: 3em;
+            float: left;
+            margin-right: 10px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 5px var(--neon-blue);
+            line-height: 0.8;
+        }
+
+        .section p.dialogue {
+            padding-left: 20px;
+            font-style: italic;
+            border-left: 2px solid var(--neon-blue);
+        }
+
+        .section p.dialogue.sun {
+            border-left-color: var(--neon-gold);
+        }
+
+        .section p.dialogue.lawyer {
+            border-left-color: var(--neon-blue);
+        }
+
+        .section p.dialogue.monika {
+            border-left-color: var(--neon-purple);
+        }
+
+        .section p.dialogue.ajumma {
+            border-left-color: var(--neon-cyan);
+        }
+
+        /* 新增：侧边栏音乐播放器 */
+        .music-player {
+            position: fixed;
+            right: -300px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            background-color: rgba(0, 30, 60, 0.9);
+            border-radius: 10px 0 0 10px;
+            box-shadow: 0 0 15px rgba(0, 136, 255, 0.5);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            border-left: 2px solid #0088ff;
+            padding: 10px;
+            font-family: 'Rajdhani', sans-serif;
+            color: white;
+        }
+        
+        .music-player.active {
+            right: 0;
+        }
+        
+        .music-player-toggle {
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 30, 60, 0.9);
+            color: #0088ff;
+            border: 2px solid #0088ff;
+            border-right: none;
+            border-radius: 5px 0 0 5px;
+            width: 30px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: -5px 0 10px rgba(0, 136, 255, 0.3);
+            animation: seoul-pulse 4s infinite;
+            z-index: 1001; /* 确保在最上层 */
+        }
+        
+        .music-cover {
+            width: 100%;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        
+        .music-cover img {
+            width: 90%;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 136, 255, 0.5);
+            border: 2px solid #0088ff;
+        }
+        
+        .music-info {
+            padding: 10px 0;
+        }
+        
+        .music-title {
+            font-weight: bold;
+            font-size: 18px;
+            color: #0088ff;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 0 5px rgba(0, 136, 255, 0.5);
+        }
+        
+        .music-artist {
+            font-size: 14px;
+            color: #a0d8ff;
+            margin-bottom: 15px;
+        }
+        
+        .music-progress-container {
+            margin-bottom: 10px;
+        }
+        
+        .music-progress {
+            width: 100%;
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            position: relative;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        
+        .music-progress-bar {
+            height: 100%;
+            background-color: #0088ff;
+            position: absolute;
+            left: 0;
+            top: 0;
+            border-radius: 2px;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 5px rgba(0, 136, 255, 0.5);
+        }
+        
+        .music-time {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 5px;
+        }
+        
+        .music-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .music-control-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            border: 1px solid rgba(0, 136, 255, 0.5);
+            color: #0088ff;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .music-control-button:hover {
+            background-color: rgba(0, 136, 255, 0.2);
+            box-shadow: 0 0 10px rgba(0, 136, 255, 0.3);
+        }
+        
+        .music-control-button.primary {
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            border-color: #0088ff;
+            box-shadow: 0 0 10px rgba(0, 136, 255, 0.3);
+        }
+        
+        .music-visualizer {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 20px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .music-bar {
+            width: 3px;
+            height: 3px;
+            background-color: #0088ff;
+            margin: 0 2px;
+            border-radius: 1px;
+            transition: height 0.1s ease;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .music-player {
+                width: 250px;
+                top: 70px;
+                right: -230px;
+            }
+            
+            .music-cover {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .music-control-button {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .music-control-button.primary {
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        /* Smartphone UI */
+        .smartphone {
+            position: relative;
+            width: 280px;
+            height: 500px;
+            margin: 30px auto;
+            border: 10px solid #333;
+            border-radius: 30px;
+            background-color: #111;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            animation: phone-glow 3s infinite;
+            will-change: box-shadow; /* 性能优化 */
+        }
+
+        .smartphone-screen {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .smartphone-status-bar {
+            height: 25px;
+            background-color: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 0.8rem;
+            color: #fff;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .smartphone-app {
+            height: calc(100% - 25px);
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .app-header {
+            height: 50px;
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: var(--neon-blue);
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+        }
+
+        .app-content {
+            height: calc(100% - 100px);
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .app-footer {
+            height: 50px;
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #333;
+        }
+
+        .app-footer-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--neon-blue);
+            opacity: 0.8;
+        }
+
+        .app-order-item {
+            background-color: #1a1a1a;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--neon-blue);
+        }
+
+        .app-order-title {
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .app-order-details {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .app-order-status {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            color: var(--neon-blue);
+            font-size: 0.8rem;
+        }
+
+        /* Data Stream visualization */
+        .data-stream {
+            height: 30px;
+            width: 100%;
+            background: linear-gradient(90deg, 
+                rgba(0, 136, 255, 0.1), 
+                rgba(0, 136, 255, 0.3), 
+                rgba(0, 136, 255, 0.1));
+            background-size: 200% 100%;
+            margin: 20px 0;
+            animation: data-stream 10s linear infinite;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .data-stream::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="30" viewBox="0 0 100 30"><path d="M0,15 L10,15 M20,15 L30,15 M40,15 L50,15 M60,15 L70,15 M80,15 L90,15" stroke="%230088ff" stroke-width="0.5" opacity="0.7"/></svg>');
+            background-size: 100px 30px;
+            background-repeat: repeat-x;
+            animation: data-stream 5s linear infinite reverse;
+        }
+
+        /* Separator */
+        .separator {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--neon-blue), transparent);
+            margin: 40px 0;
+            position: relative;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .separator.active {
+            opacity: 1;
+        }
+
+        .separator::before {
+            content: 'Ξ';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--bg-seoul);
+            padding: 0 15px;
+            color: var(--neon-blue);
+            font-size: 1.5rem;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Xi symbol special style */
+        .xi-symbol {
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            font-size: 1.3em;
+            color: var(--neon-blue);
+            text-shadow: 0 0 5px var(--neon-blue);
+            display: inline-block;
+            animation: seoul-pulse 4s infinite;
+        }
+
+        .xi-3d {
+            display: inline-block;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            font-size: 1.5em;
+            color: var(--neon-blue);
+            text-shadow: 0 0 5px var(--neon-blue);
+            perspective: 500px;
+            transform-style: preserve-3d;
+        }
+
+        .xi-3d span {
+            display: inline-block;
+            animation: xi-rotate 6s ease-in-out infinite;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+        }
+
+        .nav-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: rgba(0, 136, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(0, 136, 255, 0.2);
+            box-shadow: 0 0 10px rgba(0, 136, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .nav-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .nav-button:hover::after {
+            animation: shine 1.5s ease;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: rotate(45deg) translate(-100%, -100%);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: rotate(45deg) translate(100%, 100%);
+                opacity: 0;
+            }
+        }
+
+        /* 法院场景样式 */
+        .courthouse {
+            background-color: rgba(10, 20, 40, 0.7);
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--neon-blue);
+        }
+
+        .courthouse-header {
+            background: linear-gradient(to right, #003366, #001a33);
+            color: var(--text-primary);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 136, 255, 0.3);
+        }
+
+        .courthouse-symbol {
+            font-size: 1.8rem;
+            margin-right: 15px;
+            color: var(--neon-gold);
+            text-shadow: 0 0 5px var(--neon-gold);
+        }
+
+        .courthouse-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            flex: 1;
+        }
+
+        .courthouse-date {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-family: 'Fira Code', monospace;
+        }
+
+        .courthouse-content {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        /* 根据角色添加不同颜色的对话 */
+        .dialogue.lawyer {
+            border-left-color: var(--neon-blue);
+        }
+
+        /* 警局场景样式 */
+        .police-station {
+            position: relative;
+            background-color: rgba(20, 20, 30, 0.7);
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 0, 255, 0.3);
+        }
+
+        .police-light {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ff0000;
+            box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+            animation: police-light 2s infinite alternate;
+        }
+
+        @keyframes police-light {
+            0% {
+                background-color: #ff0000;
+                box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+            }
+            50% {
+                background-color: #0000ff;
+                box-shadow: 0 0 10px #0000ff, 0 0 20px #0000ff;
+            }
+            100% {
+                background-color: #ff0000;
+                box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+            }
+        }
+
+        .police-header {
+            background-color: #1a1a2a;
+            color: #ffffff;
+            padding: 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+            text-align: center;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .police-content {
+            padding: 20px;
+        }
+
+        /* Basement style */
+        .basement {
+            position: relative;
+            margin: 40px 0;
+            background-color: rgba(10, 15, 25, 0.9);
+            border: 1px solid #222;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .basement::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><path d="M0,0 L50,0 L50,50 L0,50 Z" fill="none" stroke="%23333" stroke-width="1" opacity="0.1"/></svg>');
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .basement-header {
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: bold;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+        }
+
+        .basement-content {
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--text-secondary);
+        }
+
+        /* Court Room style */
+        .court-room {
+            position: relative;
+            margin: 40px 0;
+            background-color: rgba(25, 35, 50, 0.9);
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .court-emblem {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="%23999" stroke-width="2"/><path d="M30,70 L70,70 L70,80 L30,80 Z" fill="%23999"/><path d="M40,30 L40,70 L35,70 L35,30 Z M65,30 L65,70 L60,70 L60,30 Z M50,20 L70,35 L30,35 Z" fill="%23999"/></svg>');
+            background-size: contain;
+            opacity: 0.3;
+        }
+
+        .court-header {
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-family: 'Cinzel', serif;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .court-content {
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .cityscape-header {
+                height: 150px;
+            }
+
+            .smartphone {
+                width: 240px;
+                height: 420px;
+            }
+        }
+
+        /* 首尔蓝色主题动画 */
+        @keyframes seoul-blue-pulse {
+            0%, 100% {
+                box-shadow: 0 0 10px #0088ff;
+            }
+            50% {
+                box-shadow: 0 0 25px #0088ff, 0 0 40px rgba(0, 136, 255, 0.4);
+            }
+        }
+
+        /* 首尔主题音乐播放器 */
+        .music-player {
+            position: fixed;
+            right: -300px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            background-color: rgba(0, 30, 60, 0.9);
+            border-radius: 10px 0 0 10px;
+            box-shadow: 0 0 15px rgba(0, 136, 255, 0.5);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            border-left: 2px solid #0088ff;
+            padding: 10px;
+            font-family: 'Rajdhani', sans-serif;
+            color: white;
+        }
+
+        .music-player.active {
+            right: 0;
+        }
+
+        .music-player-toggle {
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 30, 60, 0.9);
+            color: #0088ff;
+            border: 2px solid #0088ff;
+            border-right: none;
+            border-radius: 5px 0 0 5px;
+            width: 30px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: -5px 0 10px rgba(0, 136, 255, 0.3);
+            animation: seoul-pulse 4s infinite;
+            z-index: 1001; /* 确保在最上层 */
+        }
+
+        .music-cover img {
+            border: 2px solid #0088ff;
+            box-shadow: 0 0 10px rgba(0, 136, 255, 0.5);
+        }
+
+        .music-title {
+            color: #0088ff;
+            text-shadow: 0 0 5px rgba(0, 136, 255, 0.5);
+        }
+
+        .music-artist {
+            color: #a0d8ff;
+        }
+
+        .music-progress-bar {
+            background-color: #0088ff;
+            box-shadow: 0 0 5px rgba(0, 136, 255, 0.5);
+        }
+
+        .music-control-button {
+            border: 1px solid rgba(0, 136, 255, 0.5);
+            color: #0088ff;
+        }
+
+        .music-control-button:hover {
+            background-color: rgba(0, 136, 255, 0.2);
+            box-shadow: 0 0 10px rgba(0, 136, 255, 0.3);
+        }
+
+        .music-control-button.primary {
+            border-color: #0088ff;
+            box-shadow: 0 0 10px rgba(0, 136, 255, 0.3);
+        }
+
+        .music-bar {
+            background-color: #0088ff;
+        }
+
+        /* 整体页面样式 */
+        body {
+            font-family: 'Noto Sans KR', 'Noto Sans SC', sans-serif;
+            background-color: #0f111a;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        /* 容器样式 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* 雨滴效果 */
+        .seoul-rain-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #101624 0%, #090a0f 100%);
+            overflow: hidden;
+        }
+        
+        .rain-drop {
+            position: absolute;
+            top: -20px;
+            background: linear-gradient(to bottom, rgba(0, 136, 255, 0), rgba(0, 136, 255, 0.4));
+            width: 1px;
+            height: 20px;
+            animation: rain linear infinite;
+        }
+        
+        @keyframes rain {
+            0% {
+                transform: translateY(-100px);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+        
+        /* 标题样式 */
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #0088ff;
+            text-shadow: 0 0 5px rgba(0, 136, 255, 0.7);
+            font-weight: 700;
+        }
+        
+        h2.section-title {
+            font-size: 1.8rem;
+            color: #0088ff;
+            border-bottom: 1px solid rgba(0, 136, 255, 0.3);
+            padding-bottom: 8px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        
+        /* 段落样式 */
+        p {
+            margin: 15px 0;
+            line-height: 1.7;
+        }
+        
+        /* 对话样式 */
+        p.dialogue {
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        p.dialogue::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            background-color: #0088ff;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+        
+        p.dialogue.sun {
+            color: #e0e0e0;
+        }
+        
+        p.dialogue.sun::before {
+            background-color: #ffd700;
+        }
+        
+        p.dialogue.monika {
+            color: #e0e0e0;
+        }
+        
+        p.dialogue.monika::before {
+            background-color: #ff77a8;
+        }
+        
+        /* Xi符号样式 */
+        .xi-3d {
+            text-align: center;
+            margin: 30px 0;
+            perspective: 800px;
+        }
+        
+        .xi-3d span {
+            display: inline-block;
+            font-size: 2.5rem;
+            color: #0088ff;
+            text-shadow: 0 0 5px rgba(0, 136, 255, 0.7);
+            animation: xi-rotate 10s infinite linear;
+        }
+        
+        @keyframes xi-rotate {
+            0% {
+                transform: rotateY(0deg);
+            }
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
+        
+        /* 导航按钮 */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            gap: 20px;
+        }
+        
+        .nav-button {
+            display: block;
+            padding: 10px 20px;
+            background-color: rgba(0, 136, 255, 0.1);
+            color: #0088ff;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 136, 255, 0.3);
+            transition: all 0.3s ease;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .nav-button:hover {
+            background-color: rgba(0, 136, 255, 0.2);
+            border-color: rgba(0, 136, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 136, 255, 0.2);
+        }
+        
+        /* 警局场景样式 */
+        .police-station {
+            position: relative;
+            background-color: rgba(20, 20, 30, 0.7);
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 0, 255, 0.3);
+        }
+        
+        .police-light {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ff0000;
+            box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+            animation: police-light 2s infinite alternate;
+        }
+        
+        @keyframes police-light {
+            0% {
+                background-color: #ff0000;
+                box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+            }
+            50% {
+                background-color: #0000ff;
+                box-shadow: 0 0 10px #0000ff, 0 0 20px #0000ff;
+            }
+            100% {
+                background-color: #ff0000;
+                box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+            }
+        }
+        
+        /* 首尔蓝色主题动画 */
+        @keyframes seoul-blue-pulse {
+            0%, 100% {
+                box-shadow: 0 0 10px #0088ff;
+            }
+            50% {
+                box-shadow: 0 0 25px #0088ff, 0 0 40px rgba(0, 136, 255, 0.4);
+            }
+        }
+
+        /* 侧边栏按钮 */
+        .sidebar-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 30, 60, 0.9);
+            border: 2px solid #0088ff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: #0088ff;
+            font-weight: bold;
+            animation: seoul-blue-pulse 4s infinite;
+            box-shadow: 0 0 15px rgba(0, 136, 255, 0.5);
+        }
+        
+        .sidebar-toggle:hover {
+            background-color: rgba(0, 136, 255, 0.2);
+            transform: scale(1.1);
+        }
+        
+        /* 首尔蓝色主题音乐播放器 */
+        .music-player {
+            position: fixed;
+            right: -300px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            background-color: rgba(0, 30, 60, 0.9);
+            border-radius: 10px 0 0 10px;
+            box-shadow: 0 0 15px rgba(0, 136, 255, 0.5);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            border-left: 2px solid #0088ff;
+            padding: 15px;
+            color: white;
+        }
+        
+        .music-player.active {
+            right: 0;
+        }
+        
+        .music-player-toggle {
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 30, 60, 0.9);
+            color: #0088ff;
+            border: 2px solid #0088ff;
+            border-right: none;
+            border-radius: 5px 0 0 5px;
+            width: 30px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: -5px 0 10px rgba(0, 136, 255, 0.3);
+            animation: seoul-blue-pulse 4s infinite;
+            z-index: 1001;
+        }
+        
+        .music-cover {
+            width: 100%;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        
+        .music-cover img {
+            width: 90%;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 136, 255, 0.5);
+            border: 2px solid #0088ff;
+        }
+        
+        .music-info {
+            padding: 10px 0;
+        }
+        
+        .music-title {
+            font-weight: bold;
+            font-size: 18px;
+            color: #0088ff;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 0 5px rgba(0, 136, 255, 0.5);
+        }
+        
+        .music-artist {
+            font-size: 14px;
+            color: #a0d8ff;
+            margin-bottom: 15px;
+        }
+        
+        .music-progress-container {
+            margin-bottom: 10px;
+        }
+        
+        .music-progress {
+            width: 100%;
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            position: relative;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        
+        .music-progress-bar {
+            height: 100%;
+            background-color: #0088ff;
+            position: absolute;
+            left: 0;
+            top: 0;
+            border-radius: 2px;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 5px rgba(0, 136, 255, 0.5);
+        }
+        
+        .music-time {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 5px;
+        }
+        
+        .music-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .music-control-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            border: 1px solid rgba(0, 136, 255, 0.5);
+            color: #0088ff;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .music-control-button:hover {
+            background-color: rgba(0, 136, 255, 0.2);
+            box-shadow: 0 0 10px rgba(0, 136, 255, 0.3);
+        }
+        
+        .music-control-button.primary {
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            border-color: #0088ff;
+            box-shadow: 0 0 10px rgba(0, 136, 255, 0.3);
+        }
+        
+        .music-visualizer {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 20px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .music-bar {
+            width: 3px;
+            height: 3px;
+            background-color: #0088ff;
+            margin: 0 2px;
+            border-radius: 1px;
+            transition: height 0.1s ease;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .music-player {
+                width: 250px;
+                top: 70px;
+                right: -230px;
+            }
+            
+            .music-cover {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .music-control-button {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .music-control-button.primary {
+                width: 45px;
+                height: 45px;
+            }
+        }
+        
+        /* 当前内容样式 */
+        
+        /* 新闻片段样式 */
+        .news-container {
+            margin: 30px 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .news-snippet {
+            background: rgba(10, 20, 40, 0.7);
+            border-left: 3px solid var(--neon-blue);
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 136, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .news-snippet.collapsed .news-full-content {
+            display: none;
+        }
+        
+        .news-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(0, 136, 255, 0.3);
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .news-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+        }
+        
+        .news-logo {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .news-source {
+            color: var(--neon-blue);
+            font-weight: bold;
+            flex-grow: 1;
+        }
+        
+        .news-date {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            margin: 0 10px;
+        }
+        
+        .news-expand-btn {
+            background: rgba(0, 136, 255, 0.2);
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            font-size: 16px;
+        }
+        
+        .news-expand-btn:hover {
+            background: rgba(0, 136, 255, 0.4);
+            box-shadow: 0 0 10px rgba(0, 136, 255, 0.5);
+        }
+        
+        .news-title {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 10px 0;
+            color: white;
+            font-size: 1.1rem;
+        }
+        
+        .news-summary {
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+        
+        .news-full-content {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dotted rgba(0, 136, 255, 0.3);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .news-full-content p {
+            margin: 10px 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* 报纸风格 - 重新设计更像真实纸质报纸 */
+        .news-paper {
+            background: rgba(248, 248, 240, 0.9);
+            border: 1px solid #999;
+            border-left: 3px solid #000;
+            font-family: 'Times New Roman', '宋体', serif;
+            color: #000;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .news-paper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAVDSURBVHja7Jldj2xTFIbfvfc+p7q6qntIDCLMRxMJmUQQl8jExyVuRVz7Ff4Av8Cd4GZIuBMJIbjpEEQQH0EijI8xxvQYPd1dXXXO3stuF6dP1+nuGtVVNep0MslO1jlVu2qv961Za73rXauMmWEHIcBOQ4AAdg5kYXnTTnufofYj64LMEX/HzGbWQFnXy3uvfu+z7/0Q2J0DmfcBQMRqraM9LMFrXu+JGUQMZkJ7mKPVzFDzLF7AviXCPWcLPHlGHeu8EhFADGaK9zofA6F9f56QnoBsFOYGIbT4NqZoOkYrY7QzQsszWg5YZsbCArC0SHjgDMblyxl/rUXsu5jw1N0GP5/2eP5CwJ9nPJ46R+j8bz5mAGBTQT5eZXx8xWMjBIQIZhFEsb8ahNfPBrz+XQTf+MzXVxjvnvNw7np4qwJZXgavL3s0hwkLDcIgAwBCYLz8dUCInPibHwKevZDQJNaJnpnMfIhAOPptwBsPG7iC0PAGwNVXgigCABe+D/hiJTUVaC8jKmJ3lCWlz75eSTj6Ta95qkaqiNnMlHPAdytMn1+OuNRJb1zmBGS9K1+tJqy2GIPR1L9qgkSVjzHAH6sJX68I+r6fEMuRrJmbZUQxKSO8d9EXPaLH0qj3dDEK9EJ/r7TlQWS8IzJhIqoGnQfEEhvzCKTLnX3vwTAWwS0YSCk6IlolD/J4rlgPRu9a6I2RGXOh74s5whTQ9wpDnrdOeYNzLyIVV07DSlJNUY1qrHMIE1eUY3YjlSvpcwVLVdCkTICUKTlNMUYVzPHfX6G7VgUwpupDTGVVZMZAkMnEJxSJNu5WJJPtODHKsIxUaRExY9EBDx0wuHfJoDEgNBzQXHDgVAEhjIBv2oxWh+FTwMMnLO47bjH4OxZG35eTUdDl7HZiVJGCVAYx0wOgMEA7AO9fSnj3YkLmgJ0C8sAJwgunLA4dMJjKtQ4/2xMvXIp49uuIL1cIr5yx8I7R7nKVhxgiAlNK0yEplwZHvw948xuPTgC2MiK6gVHJhZBw4tOI4582eOBEwKvnDF463QMhYq0sCCAGUsRfHcJKh4tGREXeEmtpMwDoCo59FPHsyQYeO0043Bz0yfIgoCDqgYy4WMtwogaKDNKqAGCKHKfDh9a9/hxBiLUiGHkvdDVTRyKqfU5MgxIzBbUqB5DJhFmGQUaciIo+JwVJUUcYpXnMVEwYoxAVYNXAJvOBRG1TQZLUASLAGKoSIWEK26gQWoRmxMUuJ2JmoDc/JKISPyECURFEpCsz9TlvRECnVu+BqDGYgkhKAMnoRYnKqL9mX6UcZgZSUosMU/3rC0Z56YFIwkRE6qxGOd+ItRRJqF6Fkb5H9SBGxXpViIwSPKIyInDfmETgDGIuuoJK2qbIQRkHEVR5m+uBqLUGQY4c1+j5v2ZUZbMPxEhSmSbEVOV9VUelIkxEVYikUh+o9xUkFSElqnJJVcwUgRU5JaiZgbIbPbSM5PtdJtZKVKNMxaoGqUDEFQDUpYiqpk1VtQP1JoQoFUlUTdCPWA9HRwWgsgwDLTumMvumwCqIEZd5IoZLMDkIZgILwbIC3FytQkrIRKqLGy3BSKo9UUmtRCVbVvGIGBkLbDEIVJn4eMNHFG6V1RrEWG0JxExAErBhLYx7Bl5KI1IKKxUFUlmtQYyJjUomEgwzA+s4RFXXjbEK0R2Hq+tEBVk3IdKo8tHDT0NMY14fT7FO2P8PsL+PaXdXQG4XyN0lwDv3LWyuQP4ZADNmO1qgvQGYAAAAAElFTkSuQmCC");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .news-paper .news-header {
+            border-bottom: 2px solid #000;
+            background: #f0f0e8;
+            padding: 5px 10px;
+        }
+        
+        .news-paper .news-title {
+            font-weight: bold;
+            font-family: 'Times New Roman', '宋体', serif;
+            color: #000;
+            font-size: 1.2rem;
+            margin-top: 12px;
+        }
+        
+        .news-paper .news-logo {
+            color: #000;
+            background: #000;
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            display: inline-block;
+            text-align: center;
+            line-height: 22px;
+            border-radius: 3px;
+        }
+        
+        .news-paper .news-source {
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .news-paper .news-date {
+            color: #555;
+        }
+        
+        .news-paper .news-summary {
+            font-style: italic;
+            color: #333;
+        }
+        
+        .news-paper .news-expand-btn {
+            background: #eee;
+            color: #000;
+            border: 1px solid #000;
+        }
+        
+        .news-paper .news-full-content {
+            color: #000;
+            line-height: 1.5;
+        }
+        
+        .news-paper .news-full-content p {
+            text-indent: 1.5em;
+        }
+
+        /* 网站风格 */
+        .news-website {
+            background: rgba(10, 20, 35, 0.7);
+            border-left-color: #00aaff;
+            font-family: 'Rajdhani', 'Noto Sans KR', sans-serif;
+        }
+
+        .news-website .news-title {
+            color: #00aaff;
+        }
+
+        .news-website .news-logo {
+            color: #00aaff;
+        }
+
+        /* 电视风格 */
+        .news-tv {
+            background: rgba(20, 25, 40, 0.8);
+            border-left-color: #cc0000;
+        }
+
+        .news-tv .news-header {
+            padding-left: 8px;
+            background: rgba(204, 0, 0, 0.3);
+            margin: -15px -15px 10px -15px;
+            padding: 8px 15px;
+            border-bottom: 2px solid #cc0000;
+        }
+
+        .news-tv .news-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+        }
+
+        .news-tv .news-logo {
+            color: #cc0000;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 媒体适配 */
+        @media (max-width: 768px) {
+            .news-container {
+                margin: 20px 0;
+            }
+            
+            .news-snippet {
+                padding: 12px;
+            }
+            
+            .news-title {
+                font-size: 1rem;
+            }
+
+            .news-summary {
+                font-size: 0.8rem;
+            }
+            
+            .news-full-content p {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Seoul Rain Animation -->
+    <div class="seoul-rain-container" id="seoul-rain"></div>
+    
+    <!-- 背景图路径修复脚本 -->
+    <script>
+    (function() {
+        // 检测是否在GitHub Pages环境
+        const isGithubPages = window.location.hostname.includes('github.io');
+        const bodyAfterElement = document.querySelector('body');
+        
+        if (bodyAfterElement) {
+            // 获取计算后的样式
+            const computedStyle = getComputedStyle(bodyAfterElement, '::after');
+            const backgroundImage = computedStyle.backgroundImage;
+            
+            // 如果是GitHub Pages环境，使用绝对路径
+            if (isGithubPages) {
+                document.styleSheets[0].addRule('body::after', 
+                    'background-image: url("/the-book-of-x-test/assets/images/background/GhIJ3M-WgAElTPW.jpg") !important');
+            } else {
+                // 本地环境使用相对路径
+                document.styleSheets[0].addRule('body::after', 
+                    'background-image: url("../assets/images/background/GhIJ3M-WgAElTPW.jpg") !important');
+            }
+        }
+    })();
+    </script>
+    
+    <!-- 侧边栏按钮 -->
+    <div class="sidebar-toggle" id="sidebarToggle">Ξ</div>
+    
+    <!-- 音乐播放器部分 -->
+    <div class="music-player" id="musicPlayer">
+        <div class="music-cover">
+            <img id="musicCover" src="" alt="专辑封面">
+        </div>
+        <div class="music-info">
+            <div id="musicTitle" class="music-title">加载中...</div>
+            <div id="musicArtist" class="music-artist">请稍候</div>
+        </div>
+        <div class="music-progress-container">
+            <div id="musicProgress" class="music-progress">
+                <div id="musicProgressBar" class="music-progress-bar" style="width: 0%;"></div>
+            </div>
+            <div class="music-time">
+                <span id="currentTime">00:00</span>
+                <span id="totalTime">00:00</span>
+            </div>
+        </div>
+        <div class="music-controls">
+            <button id="prevButton" class="music-control-button">◀◀</button>
+            <button id="backButton" class="music-control-button">◀</button>
+            <button id="playPauseButton" class="music-control-button primary">▶</button>
+            <button id="forwardButton" class="music-control-button">▶</button>
+            <button id="nextButton" class="music-control-button">▶▶</button>
+        </div>
+        <div class="music-visualizer">
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+        </div>
+    </div>
+    <div id="musicPlayerToggle" class="music-player-toggle">◀</div>
+
+    <div class="container">
+        <div class="page-title-container">
+            <h1 class="page-title">数字奴隶解放宣言</h1>
+            <h2 class="page-subtitle">碎片3.1：第二节</h2>
+        </div>
+        
+        <!-- 韩国新闻片段 - 背景信息 -->
+        <div class="news-container">
+            <div class="news-snippet news-paper collapsed">
+                <div class="news-header">
+                    <div class="news-icon"><span class="news-logo">韩</span></div>
+                    <span class="news-source">韩国日报</span>
+                    <span class="news-date">2024年5月</span>
+                    <button class="news-expand-btn">+</button>
+                </div>
+                <h3 class="news-title">尹锡悦提出《弱势劳动者保护法》草案</h3>
+                <p class="news-summary">韩国总统尹锡悦提出《弱势劳动者保护法》草案，旨在为包括配送员在内的"平台工人"提供法律保障...</p>
+                <div class="news-full-content">
+                    <p>韩国总统尹锡悦提出《弱势劳动者保护法》草案，旨在为包括配送员在内的"平台工人"提供法律保障。</p>
+                    <p>该法案建议设立"配送互助会"，为因病、伤或失业的配送员提供经济援助。</p>
+                    <p>此外，政府计划降低配送员的保险费用，并设立争议仲裁委员会，以便快速解决纠纷。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Seoul Cityscape Header -->
+        <div class="cityscape-header">
+            <div class="cityscape-night"></div>
+            <div class="cityscape-buildings"></div>
+            <div class="cityscape-lights"></div>
+            <div class="cityscape-neon">首尔 SEOUL</div>
+        </div>
+        
+        <!-- Main content -->
+        <div class="section active" id="seoul-sol">
+            <h2 class="section-title">《首尔太阳 Seoul Sol》</h2>
+            
+            <p>清晨5:42分，九老区某老旧公寓地下一层。</p>
+            
+            <p>郑太阳的闹钟在黑暗中像做了噩梦一样大声尖叫起来，他伸手按掉手机屏幕上跳动的数字，起身时小心避开头顶过低的水管。</p>
+            
+            <p>这间半地下室公寓是他毕业三年来的栖身之所，潮湿的墙面上贴着首尔国立大学哲学系的毕业照，旁边是他的毕业论文证书，题目《权力意志与现代社会的异化》。</p>
+            
+            <p>冰箱上方的架子堆满各种账单和通知：学生贷款、水电费、手机费、医疗保险。太阳将它们整齐地分类，又从抽屉里取出一个皱巴巴的信封，里面是他每月固定寄回老家的钱。他的母亲李美善十五年前从北朝鲜逃亡至韩国，带着年幼的他开始了新生活。"太阳"这个名字是她给儿子的希望——能够朝南像太阳一样光明灿烂地生活。不过在一线之隔的北方，太阳只有一种解释。</p>
+            
+            <div class="separator active"></div>
+            
+            <p class="dialogue ajumma">"呀，太阳啊！又这么早出门吗？"</p>
+            
+            <p>隔壁的金阿姨——一位四十多岁的保洁工人——正要出门上班，看见太阳也在门口整理他的配送设备。</p>
+            
+            <p class="dialogue sun">"是啊，아줌마，早上好。昨晚休息得怎样？"</p>
+            
+            <p>太阳礼貌地鞠躬。</p>
+            
+            <p class="dialogue ajumma">"唉，做了个奇怪的梦，梦见你站在法庭上。"</p>
+            
+            <p>阿姨摇摇头，</p>
+            
+            <p class="dialogue ajumma">"你这样聪明的孩子，为什么不去好公司应聘呢？你不是首尔大毕业的吗？"</p>
+            
+            <p class="dialogue sun">"阿姨，简历都投到投不起了，普通人还是做些普通的事吧….."</p>
+            
+            <p>太阳苦笑一下，调整着头盔的带子。</p>
+            
+            <p>她明白他的意思。在韩国这个讲究背景和人脉的社会，有些隐形的门是永远关闭的。</p>
+            
+            <p class="dialogue ajumma">"那你这工作至少稳定吧？"</p>
+            
+            <p>她转移话题。</p>
+            
+            <p>太阳点开手机上的"闪电配送"App，界面显示：</p>
+            
+            <div class="smartphone">
+                <div class="smartphone-screen">
+                    <div class="smartphone-status-bar">
+                        <span>5:45 AM</span>
+                        <span>4G LTE</span>
+                        <span>83%</span>
+                    </div>
+                    <div class="smartphone-app">
+                        <div class="app-header">
+                            闪电配送
+                        </div>
+                        <div class="app-content">
+                            <div style="margin: 10px 0; text-align: center; color: #888;">
+                                <span style="font-weight: bold; color: var(--neon-blue);">郑太阳</span> | 信用评级: 4.73/5.00
+                            </div>
+                            <div style="background-color: #1a1a1a; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                    <span>今日订单目标:</span>
+                                    <span style="color: var(--neon-blue);">35单</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                    <span>昨日完成率:</span>
+                                    <span style="color: var(--neon-blue);">92%</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>本月奖金资格:</span>
+                                    <span style="color: #FFA500;">待定</span>
+                                </div>
+                            </div>
+                            <div class="app-order-item">
+                                <div class="app-order-title">江南区 #1352</div>
+                                <div class="app-order-details">咖啡厅 → 办公楼</div>
+                                <div class="app-order-status">
+                                    <span>6.2km</span>
+                                    <span>¥15,000</span>
+                                </div>
+                            </div>
+                            <div class="app-order-item">
+                                <div class="app-order-title">麻浦区 #1353</div>
+                                <div class="app-order-details">餐厅 → 住宅</div>
+                                <div class="app-order-status">
+                                    <span>3.7km</span>
+                                    <span>¥12,500</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app-footer">
+                            <div class="app-footer-icon"></div>
+                            <div class="app-footer-icon" style="background-color: var(--neon-gold);"></div>
+                            <div class="app-footer-icon" style="background-color: var(--neon-purple);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="dialogue sun">"只要每天完成的话，就会有稳定收入。"</p>
+            
+            <p>太阳戴上头盔，</p>
+            
+            <p class="dialogue sun">"但如果接单率低或评分下降，系统会自动减少你的派单量。现在经济没以前好，挺激烈的—竞争。"</p>
+            
+            <p class="dialogue ajumma">"听起来像电脑在管理人，"阿姨皱起眉头。</p>
+            
+            <p class="dialogue sun">"时代变了，阿姨，"太阳骑上摩托车，扬起一个刻意的微笑，"我们不叫'被管理'，叫'算法赋能'。"</p>
+        </div>
+        
+        <div class="separator active"></div>
+        
+        <div class="section active" id="sky-view">
+            <h2 class="section-title">天空视野</h2>
+            
+            <p>中午12:43，江南区清潭洞"Sky View"豪华公寓。</p>
+            
+            <div class="data-stream"></div>
+            
+            <p>郑太阳的摩托车穿过城市喧嚣，从拥挤的九老区一路行驶到另外一个世界—江南。从保时捷走下的看不出整容痕迹的美女，用手挡着超短裙防止走光，在这里是独特的风景线。</p>
+            
+            <p>"闪电配送"App上显示他今天第17单的送餐地点是清潭洞最高端的公寓之一，订单金额超过30万韩元——是家庭常规外卖的十倍多。</p>
+            
+            <p>大楼保安以怀疑的眼光检查他的配送证件，然后冷淡地指向货运电梯：</p>
+            
+            <p class="dialogue">"送餐员走那边，3007号，顶层，按PH，你知道的吧。"</p>
+            
+            <p>太阳在电梯里看着自己在镜子中的倒影——蓝色配送制服已经有些褪色，头盔下头发被压的扁扁的。</p>
+            
+            <p>手机屏幕闪烁： [送达时间剩余：5分钟23秒] [超时将影响您的及时率统计]</p>
+            
+            <p>电梯门在30楼打开，豪华的走廊铺着厚重的地毯，每一步都像踩在云上。3007号房门前，太阳听到屋内传来嘈杂的音乐声和笑声。他按下门铃，等待着。</p>
+            
+            <p>没人应答。他再次按门铃，同时紧张地看着手机计时器倒数。</p>
+            
+            <p>终于，门开了。一个约莫二十出头、染着金发的年轻男子站在门口，眼神迷离，身上散发着酒精和鼻腔还有白色粉末的残留。</p>
+            
+            <p class="dialogue">"你他妈的怎么这么慢？"年轻人不耐烦地质问，声音因醉酒而含糊。</p>
+            
+            <p class="dialogue sun">"非常抱歉，客人。"太阳低头道歉，"餐厅准备了很多菜品，有些延迟..."</p>
+            
+            <p class="dialogue">"我说迟到就是迟到，"年轻人打断他，"我们已经等了一个小时。"</p>
+            
+            <p>太阳看了眼手机，配送时间显示他实际上比预计时间提前了两分钟。但客户至上的法则让他保持沉默，只是将食物递上前。</p>
+            
+            <p class="dialogue">"进来放好。"年轻人命令道。</p>
+            
+            <p>太阳犹豫了一下，公司规定通常不允许配送员进入客户家中，但面对这种情况，他不敢拒绝。踏入门厅，他看到一群年轻人在宽敞的客厅里三三两两地坐着，有人在沙发上半躺，有人围着一张玻璃茶几不知在做什么。</p>
+            
+            <p class="dialogue">"放那边桌子上。"金发年轻人指向一张巨大的餐桌。</p>
+            
+            <p>太阳小心翼翼地将十几个保温袋一一打开，摆放整齐。正当他准备离开时，那个金发年轻人突然叫住他。</p>
+            
+            <p class="dialogue">"喂，东西好像少了。"</p>
+            
+            <p class="dialogue sun">"抱歉，客人。我确认过配送单，所有菜品都已送达..."</p>
+            
+            <p class="dialogue">"你在跟我顶嘴？"金发男子突然提高了声音，引来其他人的注意。</p>
+            
+            <p>屋内的音乐停了，所有目光都落在了太阳身上。</p>
+            
+            <p class="dialogue">"我是金珉宇。"男子直接对太阳说，"这是老子的生日派对。"</p>
+            
+            <p>太阳瞬间明白了站在他面前的是谁——SK集团会长金宗勋的小儿子，韩国财经媒体常报道的"财阀三代"。</p>
+            
+            <p class="dialogue sun">"祝您生日快乐，金先生。"太阳鞠躬，"如有任何问题，我可以联系餐厅为您解决。"</p>
+            
+            <p class="dialogue">"这里说应该有冰的烧酒，我没看到冰块都。"</p>
+            
+            <p class="dialogue sun">"酒类需要另外确认年龄，在这个保温盒里..."</p>
+            
+            <p>太阳指向最后一个没打开的袋子。金珉宇不等他说完，直接上前一把抓住袋子，但因为醉酒动作不稳，袋子从他手中滑落，玻璃酒瓶落地碎裂，酒液飞溅，一些溅到了金珉宇的衣服和鞋子上。</p>
+            
+            <p>房间里瞬间安静下来。</p>
+            
+            <p class="dialogue">"你他妈......"金珉宇看着自己的衣服，脸色变得铁青，"知道这套多少钱吗？"</p>
+            
+            <p class="dialogue sun">"非常抱歉，但我—"</p>
+            
+            <p>没等太阳把话说完，金珉宇已经一把推开他，力道之大让太阳踉跄后退，撞到了墙角的装饰柜。一阵剧痛从太阳的后脑勺传来，他感到有温热的液体顺着颈部流下。</p>
+            
+            <p class="dialogue">"滚出去！狗东西！"金珉宇怒吼道。</p>
+            
+            <p>太阳的耳朵嗡嗡作响，他挣扎着站起来，感到一阵眩晕。他的第一反应是掏出手机，想确认自己的伤势，同时下意识地打开了录像功能。</p>
+            
+            <p class="dialogue">"你敢录我？"</p>
+            
+            <p>金珉宇看到后，一把夺过他的手机，将它扔在地上，</p>
+            
+            <p class="dialogue">"知道我是谁吗？你这辈子都完了！"</p>
+            
+            <p>房间里其他人开始窃窃私语，有人劝阻金珉宇，有人却笑着起哄。太阳不顾头痛，弯腰捡起被摔裂屏幕的手机，踉跄着走出了公寓。</p>
+        </div>
+        
+        <div class="separator active"></div>
+        
+        <div class="section active" id="police-station">
+            <h2 class="section-title">警局</h2>
+            
+            <!-- 移到警局场景上方的韩国经济网新闻 -->
+            <div class="news-snippet news-website collapsed">
+                <div class="news-header">
+                    <div class="news-icon"><span class="news-logo">经</span></div>
+                    <span class="news-source">韩国经济网</span>
+                    <span class="news-date">2024年8月</span>
+                    <button class="news-expand-btn">+</button>
+                </div>
+                <h3 class="news-title">首尔法院裁定配送员不属于《劳动基准法》员工</h3>
+                <p class="news-summary">首尔中央地方法院裁定，某配送平台的骑手不属于《劳动基准法》定义的员工...</p>
+                <div class="news-full-content">
+                    <p>首尔中央地方法院裁定，某配送平台的骑手不属于《劳动基准法》定义的员工。</p>
+                    <p>法院认为，骑手可以自主决定接单与否、工作时间和路线，且自行承担交通工具的维护费用，因此不符合员工的定义。</p>
+                    <p>这一判决与最高法院对"TADA"司机的判决形成对比，显示出司法实践中的分歧。</p>
+                </div>
+            </div>
+            
+            <div class="police-station">
+                <div class="police-light"></div>
+                <div class="police-header">
+                    警局询问记录
+                </div>
+                <div class="police-content">
+                    <p class="dialogue">"郑先生，让我确认一下，您是说金珉宇……先生...推了您？"</p>
+                    
+                    <p>警官金东勋慢慢地记录着，语气有些惊讶。</p>
+                    
+                    <p class="dialogue sun">"是的，我去他的生日会送餐，他把我推到墙上，我的头撞到了装饰柜的角上。"</p>
+                    
+                    <p>太阳指着自己后脑上刚包扎好的伤口，</p>
+                    
+                    <p class="dialogue sun">"医院说是轻微脑震荡，需要观察。"</p>
+                    
+                    <p class="dialogue">"您有证据吗？"金警官看了看医疗单据，又看了看太阳破裂的手机屏幕。</p>
+                    
+                    <p class="dialogue sun">"我的手机录下了一部分，但屏幕已经裂了...我不确定能不能恢复数据。"</p>
+                    
+                    <p class="dialogue">"这类案件没有确切证据很难推进，郑先生。"金警官叹了口气。</p>
+                    
+                    <p class="dialogue sun">"那我怎么办？"</p>
+                    
+                    <p>太阳感到一阵无力。</p>
+                    
+                    <p class="dialogue">"郑先生，我可以做的是记录这个案件，但老实说，这种情况最好的解决方式是私下和解。对方如果愿意支付您的医疗费和一些补偿金..."</p>
+                </div>
+            </div>
+            
+            <p>当太阳走出派出所时，一个熟悉的声音叫住了他。</p>
+            
+            <p class="dialogue monika">"太阳，你怎么在这里？"</p>
+            
+            <p>朴智恩靠在一辆自行车旁，手里还拿着一杯美式咖啡。她是太阳的同事，也是"闪电配送"江南区域的资深配送员。</p>
+            
+            <p>郑太阳一五一十的和朴智恩讲述今天的遭遇。</p>
+            
+            <p class="dialogue sun">"警察暗示我最好私下解决。"</p>
+            
+            <p>太阳苦笑。朴智恩叹了口气，递给他咖啡：</p>
+            
+            <p class="dialogue monika">"这个社会就是这样，对吧？"</p>
+            
+            <p>太阳接过咖啡，感受到温度透过纸杯传来：</p>
+            
+            <!-- 电视新闻片段 - SK集团回应 -->
+            <div class="news-snippet news-tv collapsed">
+                <div class="news-header">
+                    <div class="news-icon"><span class="news-logo">首</span></div>
+                    <span class="news-source">首尔卫视财经</span>
+                    <span class="news-date">今日播出</span>
+                    <button class="news-expand-btn">+</button>
+                </div>
+                <h3 class="news-title">SK集团发言人回应"送餐员事件"：纯属误会</h3>
+                <p class="news-summary">SK集团今日发表声明，称网络上流传的所谓"金珉宇殴打送餐员"视频经查实为恶意剪辑...</p>
+                <div class="news-full-content">
+                    <p>SK集团今日发表声明，称网络上流传的所谓"金珉宇殴打送餐员"视频经查实为恶意剪辑，实际情况是该送餐员酒后失态。</p>
+                    <p>集团发言人金正浩表示："金珉宇先生本人对此事感到十分遗憾，但必须澄清的是，视频只显示事件的一部分。该送餐员因酒精影响举止失常，对金先生及其朋友构成骚扰。"</p>
+                    <p>SK集团已向警方提供完整监控录像，并表示将采取法律行动应对网络上的不实言论。同时，集团已向涉事送餐员提供医疗费用报销。</p>
+                </div>
+            </div>
+            
+            <p class="dialogue sun">"我想应该放弃了，智恩。"</p>
+            
+            <p class="dialogue monika">"不行。"</p>
+            
+            <p>她的语气突然变得坚决，</p>
+            
+            <p class="dialogue monika">"如果每个人都选择沉默，那些人就永远不会受到惩罚。"</p>
+            
+            <p>太阳抬头看着她。朴智恩今年33岁，曾是一名调查记者，7年前因报道三星准太子李在容向崔顺实及朴槿惠总统行贿而被报社解雇，后来加入了配送行业。她比太阳大许多，但两人因为共同的文学爱好而成为朋友。</p>
+            
+            <p class="dialogue sun">"智恩，"太阳犹豫地说，"你不明白..."</p>
+            
+            <p class="dialogue monika">"我很明白。"</p>
+            
+            <p>她的眼睛直视着他，</p>
+            
+            <p class="dialogue monika">"听着，我认识一个法律咨询中心的人，他们可能会接这个案子。至少值得一试。"</p>
+            
+            <p class="dialogue sun">"为什么要帮我？"</p>
+            
+            <p>太阳问。</p>
+            
+            <p class="dialogue monika">"因为我们都一样。"</p>
+            
+            <p>她转头对他微笑，</p>
+            
+            <p class="dialogue monika">"而且，我上次借的书还没还你呢。"</p>
+            
+            <p>开庭在两周后，仁川地方法院。</p>
+            
+            <div class="xi-3d"><span>Ξ</span></div>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="navigation">
+            <a href="digital-slave-liberation-1.html" class="nav-button">« 返回第一节</a>
+            <a href="digital-slave-liberation-3.html" class="nav-button">继续阅读 第三节 »</a>
+        </div>
+    </div>
+
+    <script>
+        // 调试信息
+        console.log('[首尔之歌] 开始加载页面脚本');
+        
+        // 全局变量
+        let basePath = '';
+        
+        // 等待页面加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('[首尔之歌] DOM内容已加载');
+            
+            // 检查环境路径
+            detectEnvironment();
+            
+            // Seoul Rain Effect
+            createRainEffect();
+            
+            // 初始化音乐播放器UI
+            initMusicPlayerUI();
+            
+            // 加载全局音乐播放器
+            loadGlobalMusicPlayer();
+            
+            // 初始化侧边栏
+            initSidebar();
+        });
+        
+        // 检测环境并设置基础路径
+        function detectEnvironment() {
+            // 检测是GitHub Pages还是本地环境
+            const isGitHubPages = window.location.hostname.includes('github.io');
+            const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            
+            console.log('[环境检测] 主机名:', window.location.hostname);
+            console.log('[环境检测] 路径名:', window.location.pathname);
+            
+            // 设置基础路径
+            if (isGitHubPages) {
+                basePath = '/the-book-of-x-test';
+                console.log('[环境检测] GitHub Pages 环境，基础路径:', basePath);
+            } else if (isLocalhost) {
+                // 本地环境，根据具体部署情况可能需要调整
+                basePath = '';
+                console.log('[环境检测] 本地环境，基础路径:', basePath);
+            } else {
+                // 其他环境，尝试自动检测
+                const pathSegments = window.location.pathname.split('/');
+                if (pathSegments.length > 1 && pathSegments[1] === 'the-book-of-x-test') {
+                    basePath = '/the-book-of-x-test';
+                }
+                console.log('[环境检测] 其他环境，基础路径:', basePath);
+            }
+        }
+        
+        // 初始化侧边栏
+        function initSidebar() {
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            if (!sidebarToggle) {
+                console.error('[侧边栏] 找不到侧边栏按钮');
+                return;
+            }
+            
+            console.log('[侧边栏] 初始化侧边栏按钮');
+            
+            // 为侧边栏按钮添加点击事件
+            sidebarToggle.addEventListener('click', function() {
+                console.log('[侧边栏] 点击侧边栏按钮');
+                
+                // 加载XiCore侧边栏模块
+                const xiSidebarPath = `${basePath}/public/XiCore/modules/xi-sidebar.js`;
+                console.log('[侧边栏] 尝试加载模块:', xiSidebarPath);
+                
+                const script = document.createElement('script');
+                script.src = xiSidebarPath;
+                
+                script.onload = function() {
+                    console.log('[侧边栏] 模块加载成功');
+                    if (typeof window.XiSidebar !== 'undefined') {
+                        // 初始化侧边栏
+                        window.XiSidebar.init();
+                        // 立即打开侧边栏
+                        window.XiSidebar.toggle();
+                    } else {
+                        console.error('[侧边栏] 模块已加载但未找到XiSidebar对象');
+                    }
+                };
+                
+                script.onerror = function() {
+                    console.error('[侧边栏] 无法加载模块，尝试备用路径');
+                    
+                    // 尝试不带public的路径
+                    const altPath = `${basePath}/XiCore/modules/xi-sidebar.js`;
+                    console.log('[侧边栏] 尝试备用路径:', altPath);
+                    
+                    const altScript = document.createElement('script');
+                    altScript.src = altPath;
+                    
+                    altScript.onload = function() {
+                        console.log('[侧边栏] 备用路径加载成功');
+                        if (typeof window.XiSidebar !== 'undefined') {
+                            window.XiSidebar.init();
+                            window.XiSidebar.toggle();
+                        }
+                    };
+                    
+                    document.head.appendChild(altScript);
+                };
+                
+                document.head.appendChild(script);
+            });
+        }
+        
+        // 创建雨滴效果
+        function createRainEffect() {
+            const rainContainer = document.getElementById('seoul-rain');
+            if (!rainContainer) {
+                console.warn('[雨滴效果] 找不到雨滴容器');
+                return;
+            }
+            
+            // 创建30个雨滴
+            for (let i = 0; i < 30; i++) {
+                const drop = document.createElement('div');
+                drop.classList.add('rain-drop');
+                
+                // 随机位置
+                const randomLeft = Math.random() * 100;
+                const randomHeight = 10 + Math.random() * 20;
+                const randomDuration = 7 + Math.random() * 5;
+                const randomDelay = Math.random() * 5;
+                const randomOpacity = 0.2 + Math.random() * 0.3;
+                
+                drop.style.left = `${randomLeft}%`;
+                drop.style.height = `${randomHeight}px`;
+                drop.style.animationDuration = `${randomDuration}s`;
+                drop.style.animationDelay = `${randomDelay}s`;
+                drop.style.opacity = randomOpacity;
+                
+                rainContainer.appendChild(drop);
+            }
+            
+            console.log('[雨滴效果] 已创建雨滴动画');
+        }
+        
+        // 初始化音乐播放器UI部分
+        function initMusicPlayerUI() {
+            const musicPlayer = document.getElementById('musicPlayer');
+            const musicToggle = document.getElementById('musicPlayerToggle');
+            
+            if (!musicPlayer || !musicToggle) {
+                console.error('[音乐播放器] 找不到播放器元素');
+                return;
+            }
+            
+            // 播放器切换显示/隐藏
+            musicToggle.addEventListener('click', function() {
+                console.log('[音乐播放器] 切换显示状态');
+                musicPlayer.classList.toggle('active');
+                
+                // 更新切换按钮图标
+                if (musicPlayer.classList.contains('active')) {
+                    musicToggle.textContent = '▶';
+                } else {
+                    musicToggle.textContent = '◀';
+                }
+            });
+            
+            // 确保播放器切换按钮可见并提高可见性
+            musicToggle.style.display = 'flex';
+            musicToggle.style.opacity = '1';
+            musicToggle.style.zIndex = '9999';
+            
+            // 特效：初始闪烁提示
+            musicToggle.style.animation = 'seoul-blue-pulse 1s infinite';
+            
+            console.log('[音乐播放器] UI初始化完成');
+        }
+        
+        // 加载全局音乐播放器
+        function loadGlobalMusicPlayer() {
+            console.log('[音乐播放器] 开始加载全局音乐播放器');
+            
+            try {
+                // 全局音乐播放器路径 - 尝试多个可能路径
+                const possiblePaths = [
+                    `${basePath}/public/global-music-player.js`,
+                    `${basePath}/global-music-player.js`,
+                    '/global-music-player.js',
+                    '/public/global-music-player.js',
+                    '/the-book-of-x-test/global-music-player.js'
+                ];
+                
+                console.log('[音乐播放器] 尝试可能路径:', possiblePaths);
+                
+                // 尝试第一个路径
+                loadScriptWithFallbacks(possiblePaths, 0);
+                
+                // 设置超时保底方案，确保UI可用
+                setTimeout(function() {
+                    if (typeof window.XiMusic === 'undefined') {
+                        console.warn('[音乐播放器] 未能加载全局播放器，使用保底方案');
+                        setupFallbackPlayer();
+                    }
+                }, 5000);
+            } catch (err) {
+                console.error('[音乐播放器] 加载失败:', err);
+                setupFallbackPlayer();
+            }
+        }
+        
+        // 使用可能的路径列表依次尝试加载
+        function loadScriptWithFallbacks(paths, index) {
+            if (index >= paths.length) {
+                console.error('[音乐播放器] 所有路径尝试失败');
+                setupFallbackPlayer();
+                return;
+            }
+            
+            const path = paths[index];
+            console.log(`[音乐播放器] 尝试路径 (${index+1}/${paths.length}):`, path);
+            
+            const script = document.createElement('script');
+            script.src = path;
+            
+            script.onload = function() {
+                console.log('[音乐播放器] 加载成功:', path);
+                // 延迟连接UI，确保XiMusic完全初始化
+                setTimeout(function() {
+                    if (typeof window.XiMusic !== 'undefined') {
+                        console.log('[音乐播放器] XiMusic已找到，连接UI');
+                        connectPlayerUI();
+                    } else {
+                        console.warn('[音乐播放器] 脚本已加载但XiMusic未找到，尝试下一个路径');
+                        loadScriptWithFallbacks(paths, index + 1);
+                    }
+                }, 500);
+            };
+            
+            script.onerror = function() {
+                console.warn('[音乐播放器] 加载失败:', path);
+                loadScriptWithFallbacks(paths, index + 1);
+            };
+            
+            document.head.appendChild(script);
+        }
+        
+        // 连接播放器UI到全局音乐播放器
+        function connectPlayerUI() {
+            if (typeof window.XiMusic === 'undefined') {
+                console.error('[音乐播放器] 全局音乐播放器不可用，无法连接UI');
+                setupFallbackPlayer();
+                return;
+            }
+            
+            console.log('[音乐播放器] 连接播放器UI到全局音乐播放器');
+            
+            // 使用首尔主题
+            if (typeof window.XiMusic.setTheme === 'function') {
+                const seoulTheme = {
+                    backgroundColor: 'rgba(0, 30, 60, 0.9)',
+                    textColor: '#ffffff',
+                    accentColor: '#0088ff',
+                    borderColor: '#0088ff',
+                    shadowColor: 'rgba(0, 136, 255, 0.5)',
+                    progressBarColor: '#0088ff'
+                };
+                window.XiMusic.setTheme(seoulTheme);
+            }
+            
+            // 获取UI元素
+            const playPauseBtn = document.getElementById('playPauseButton');
+            const prevBtn = document.getElementById('prevButton');
+            const nextBtn = document.getElementById('nextButton');
+            const backBtn = document.getElementById('backButton');
+            const forwardBtn = document.getElementById('forwardButton');
+            const progressContainer = document.getElementById('musicProgress');
+            const progressBar = document.getElementById('musicProgressBar');
+            const currentTimeEl = document.getElementById('currentTime');
+            const totalTimeEl = document.getElementById('totalTime');
+            const musicTitle = document.getElementById('musicTitle');
+            const musicArtist = document.getElementById('musicArtist');
+            const musicCover = document.getElementById('musicCover');
+            const visualizerBars = document.querySelectorAll('.music-bar');
+            
+            // 强制播放状态更新
+            function forceUpdatePlayerState() {
+                try {
+                    // 获取当前曲目
+                    const currentTrack = window.XiMusic.getCurrentTrack();
+                    if (!currentTrack) {
+                        console.warn('[音乐播放器] 没有当前曲目信息');
+                        return;
+                    }
+                    
+                    // 更新标题和艺术家
+                    if (musicTitle) musicTitle.textContent = currentTrack.title || '未知曲目';
+                    if (musicArtist) musicArtist.textContent = currentTrack.artist || '未知艺术家';
+                    
+                    // 更新封面
+                    if (musicCover) {
+                        musicCover.src = currentTrack.cover || `${basePath}/public/assets/images/cover-default.jpg`;
+                        musicCover.onerror = function() {
+                            this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%230f1a2a"/><text x="50%" y="50%" font-family="Arial" font-size="20" text-anchor="middle" fill="%230088ff">Music</text></svg>';
+                        };
+                    }
+                    
+                    // 更新播放/暂停按钮
+                    if (playPauseBtn) {
+                        playPauseBtn.textContent = window.XiMusic.isPlaying() ? '⏸' : '▶';
+                    }
+                    
+                    // 更新进度和时间
+                    updateProgress();
+                    console.log('[音乐播放器] 播放状态已更新:', currentTrack.title);
+                } catch (err) {
+                    console.error('[音乐播放器] 更新状态错误:', err);
+                }
+            }
+            
+            // 更新进度条
+            function updateProgress() {
+                try {
+                    const progress = window.XiMusic.getProgress() || 0;
+                    const duration = window.XiMusic.getDuration() || 0;
+                    const currentTime = window.XiMusic.getCurrentTime() || 0;
+                    
+                    // 更新进度条
+                    if (progressBar) {
+                        progressBar.style.width = `${progress * 100}%`;
+                    }
+                    
+                    // 更新时间显示
+                    if (currentTimeEl) currentTimeEl.textContent = formatTime(currentTime);
+                    if (totalTimeEl) totalTimeEl.textContent = formatTime(duration);
+                } catch (err) {
+                    console.error('[音乐播放器] 更新进度错误:', err);
+                }
+            }
+            
+            // 格式化时间 (秒 -> MM:SS)
+            function formatTime(seconds) {
+                if (isNaN(seconds) || seconds < 0) return '00:00';
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+            
+            // 启动可视化效果
+            let visualizerInterval = null;
+            function startVisualizer() {
+                if (visualizerInterval) {
+                    clearInterval(visualizerInterval);
+                }
+                
+                visualizerInterval = setInterval(function() {
+                    try {
+                        const isPlaying = window.XiMusic.isPlaying && window.XiMusic.isPlaying();
+                        
+                        if (!isPlaying) {
+                            visualizerBars.forEach(bar => {
+                                bar.style.height = '3px';
+                            });
+                            return;
+                        }
+                        
+                        visualizerBars.forEach(bar => {
+                            const height = 3 + Math.random() * 12;
+                            bar.style.height = `${height}px`;
+                        });
+                    } catch (err) {
+                        console.error('[音乐播放器] 可视化错误:', err);
+                    }
+                }, 100);
+                
+                return visualizerInterval;
+            }
+            
+            // 添加事件监听
+            if (playPauseBtn) {
+                playPauseBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('[音乐播放器] 点击播放/暂停按钮');
+                    try {
+                        window.XiMusic.togglePlay();
+                        setTimeout(forceUpdatePlayerState, 100);
+                    } catch (err) {
+                        console.error('[音乐播放器] 播放/暂停错误:', err);
+                    }
+                });
+            }
+            
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('[音乐播放器] 点击上一曲按钮');
+                    try {
+                        window.XiMusic.prev();
+                        setTimeout(forceUpdatePlayerState, 100);
+                    } catch (err) {
+                        console.error('[音乐播放器] 上一曲错误:', err);
+                    }
+                });
+            }
+            
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('[音乐播放器] 点击下一曲按钮');
+                    try {
+                        window.XiMusic.next();
+                        setTimeout(forceUpdatePlayerState, 100);
+                    } catch (err) {
+                        console.error('[音乐播放器] 下一曲错误:', err);
+                    }
+                });
+            }
+            
+            if (backBtn) {
+                backBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('[音乐播放器] 点击后退按钮');
+                    try {
+                        const currentTime = window.XiMusic.getCurrentTime() || 0;
+                        window.XiMusic.seek(Math.max(0, currentTime - 5));
+                        setTimeout(updateProgress, 100);
+                    } catch (err) {
+                        console.error('[音乐播放器] 后退错误:', err);
+                    }
+                });
+            }
+            
+            if (forwardBtn) {
+                forwardBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('[音乐播放器] 点击前进按钮');
+                    try {
+                        const currentTime = window.XiMusic.getCurrentTime() || 0;
+                        const duration = window.XiMusic.getDuration() || 0;
+                        window.XiMusic.seek(Math.min(duration, currentTime + 5));
+                        setTimeout(updateProgress, 100);
+                    } catch (err) {
+                        console.error('[音乐播放器] 前进错误:', err);
+                    }
+                });
+            }
+            
+            if (progressContainer) {
+                progressContainer.addEventListener('click', function(e) {
+                    try {
+                        const rect = this.getBoundingClientRect();
+                        const clickPos = (e.clientX - rect.left) / rect.width;
+                        const duration = window.XiMusic.getDuration() || 0;
+                        window.XiMusic.seek(duration * clickPos);
+                        setTimeout(updateProgress, 100);
+                    } catch (err) {
+                        console.error('[音乐播放器] 进度条点击错误:', err);
+                    }
+                });
+            }
+            
+            // 初始更新
+            try {
+                // 立即更新
+                forceUpdatePlayerState();
+                
+                // 启动周期性更新，防止与全局播放器脱节
+                setInterval(forceUpdatePlayerState, 1000);
+                
+                // 启动可视化效果
+                startVisualizer();
+                
+                console.log('[音乐播放器] UI已成功连接到全局音乐播放器');
+            } catch (err) {
+                console.error('[音乐播放器] 初始化错误:', err);
+            }
+        }
+        
+        // 保底方案：本地播放器 (如果全局加载失败)
+        function setupFallbackPlayer() {
+            console.log('[音乐播放器] 使用保底方案播放器');
+            
+            // 获取UI元素
+            const playPauseBtn = document.getElementById('playPauseButton');
+            const prevBtn = document.getElementById('prevButton');
+            const nextBtn = document.getElementById('nextButton');
+            const backBtn = document.getElementById('backButton');
+            const forwardBtn = document.getElementById('forwardButton');
+            const progressContainer = document.getElementById('musicProgress');
+            const progressBar = document.getElementById('musicProgressBar');
+            const currentTimeEl = document.getElementById('currentTime');
+            const totalTimeEl = document.getElementById('totalTime');
+            const musicTitle = document.getElementById('musicTitle');
+            const musicArtist = document.getElementById('musicArtist');
+            const musicCover = document.getElementById('musicCover');
+            const visualizerBars = document.querySelectorAll('.music-bar');
+            
+            // 模拟音乐库
+            const fallbackMusicLibrary = [
+                {
+                    title: "燃烧",
+                    artist: "Seoul Soundscape",
+                    duration: 330,
+                    cover: `${basePath}/public/assets/images/cover-default.jpg`
+                },
+                {
+                    title: "Metaphysics",
+                    artist: "Digital Awakening",
+                    duration: 288,
+                    cover: `${basePath}/public/assets/images/cover-default.jpg`
+                },
+                {
+                    title: "Budapest",
+                    artist: "Urban Echo",
+                    duration: 246,
+                    cover: `${basePath}/public/assets/images/cover-default.jpg`
+                }
+            ];
+            
+            let currentTrack = 0;
+            let isPlaying = false;
+            let currentTime = 0;
+            let progressTimer = null;
+            let visualizerTimer = null;
+            
+            // 加载曲目
+            function loadTrack(index) {
+                currentTrack = index;
+                const track = fallbackMusicLibrary[index];
+                
+                if (musicTitle) musicTitle.textContent = track.title;
+                if (musicArtist) musicArtist.textContent = track.artist;
+                if (musicCover) {
+                    musicCover.src = track.cover;
+                    musicCover.onerror = function() {
+                        this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%230f1a2a"/><text x="50%" y="50%" font-family="Arial" font-size="20" text-anchor="middle" fill="%230088ff">Music</text></svg>';
+                    };
+                }
+                
+                if (totalTimeEl) totalTimeEl.textContent = formatTime(track.duration);
+                
+                currentTime = 0;
+                updateProgressBar();
+            }
+            
+            // 格式化时间显示
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+            
+            // 更新进度条
+            function updateProgressBar() {
+                if (!progressBar || !currentTimeEl) return;
+                
+                const track = fallbackMusicLibrary[currentTrack];
+                const progress = (currentTime / track.duration) * 100;
+                progressBar.style.width = `${progress}%`;
+                currentTimeEl.textContent = formatTime(currentTime);
+            }
+            
+            // 切换播放/暂停
+            function togglePlay() {
+                isPlaying = !isPlaying;
+                
+                if (isPlaying) {
+                    playPauseBtn.textContent = '⏸';
+                    startProgress();
+                    startVisualizer();
+                } else {
+                    playPauseBtn.textContent = '▶';
+                    stopProgress();
+                    stopVisualizer();
+                }
+            }
+            
+            // 开始进度更新
+            function startProgress() {
+                if (progressTimer) clearInterval(progressTimer);
+                
+                progressTimer = setInterval(function() {
+                    const track = fallbackMusicLibrary[currentTrack];
+                    currentTime++;
+                    
+                    if (currentTime >= track.duration) {
+                        nextTrack();
+                    } else {
+                        updateProgressBar();
+                    }
+                }, 1000);
+            }
+            
+            // 停止进度更新
+            function stopProgress() {
+                if (progressTimer) {
+                    clearInterval(progressTimer);
+                    progressTimer = null;
+                }
+            }
+            
+            // 下一曲
+            function nextTrack() {
+                const nextIndex = (currentTrack + 1) % fallbackMusicLibrary.length;
+                loadTrack(nextIndex);
+                
+                if (isPlaying) {
+                    stopProgress();
+                    startProgress();
+                }
+            }
+            
+            // 上一曲
+            function prevTrack() {
+                const prevIndex = (currentTrack - 1 + fallbackMusicLibrary.length) % fallbackMusicLibrary.length;
+                loadTrack(prevIndex);
+                
+                if (isPlaying) {
+                    stopProgress();
+                    startProgress();
+                }
+            }
+            
+            // 可视化效果
+            function startVisualizer() {
+                if (visualizerTimer) clearInterval(visualizerTimer);
+                
+                visualizerTimer = setInterval(function() {
+                    visualizerBars.forEach(bar => {
+                        const height = 3 + Math.random() * 12;
+                        bar.style.height = `${height}px`;
+                    });
+                }, 100);
+            }
+            
+            function stopVisualizer() {
+                if (visualizerTimer) {
+                    clearInterval(visualizerTimer);
+                    visualizerTimer = null;
+                    
+                    visualizerBars.forEach(bar => {
+                        bar.style.height = '3px';
+                    });
+                }
+            }
+            
+            // 添加事件监听
+            if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlay);
+            if (nextBtn) nextBtn.addEventListener('click', nextTrack);
+            if (prevBtn) prevBtn.addEventListener('click', prevTrack);
+            
+            if (backBtn) {
+                backBtn.addEventListener('click', function() {
+                    currentTime = Math.max(0, currentTime - 5);
+                    updateProgressBar();
+                });
+            }
+            
+            if (forwardBtn) {
+                forwardBtn.addEventListener('click', function() {
+                    const track = fallbackMusicLibrary[currentTrack];
+                    currentTime = Math.min(track.duration, currentTime + 5);
+                    updateProgressBar();
+                });
+            }
+            
+            if (progressContainer) {
+                progressContainer.addEventListener('click', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const clickPos = (e.clientX - rect.left) / rect.width;
+                    const track = fallbackMusicLibrary[currentTrack];
+                    currentTime = Math.floor(track.duration * clickPos);
+                    updateProgressBar();
+                });
+            }
+            
+            // 初始化
+            loadTrack(0);
+            console.log('[音乐播放器] 保底方案初始化完成');
+        }
+
+        // 添加滚动效果
+        function addScrollEffects() {
+            // 滚动监听
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('.section');
+                
+                sections.forEach(function(section) {
+                    const rect = section.getBoundingClientRect();
+                    
+                    // 当部分进入视口时添加活动类
+                    if (rect.top < window.innerHeight * 0.8) {
+                        section.classList.add('active');
+                    }
+                });
+            });
+            
+            // 初始触发一次
+            window.dispatchEvent(new Event('scroll'));
+        }
+        
+        // 初始化新闻片段交互
+        function initNewsSnippets() {
+            const expandButtons = document.querySelectorAll('.news-expand-btn');
+            
+            expandButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const newsSnippet = this.closest('.news-snippet');
+                    
+                    if (newsSnippet.classList.contains('collapsed')) {
+                        // 展开新闻
+                        newsSnippet.classList.remove('collapsed');
+                        this.textContent = '−';
+                    } else {
+                        // 折叠新闻
+                        newsSnippet.classList.add('collapsed');
+                        this.textContent = '+';
+                    }
+                });
+            });
+            
+            console.log('[新闻片段] 初始化完成');
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('[首尔太阳] 页面已加载');
+            
+            // 初始化各个功能
+            initSidebar();
+            createRainEffect();
+            initMusicPlayerUI();
+            loadGlobalMusicPlayer();
+            addScrollEffects();
+            initNewsSnippets(); // 添加新闻片段交互功能
+        });
+    </script>
+</body>
+</html>

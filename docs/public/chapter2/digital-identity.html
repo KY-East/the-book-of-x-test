@@ -840,6 +840,132 @@
             }
         }
 
+        /* 移动设备适配调整 */
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem 10px;
+                overflow-x: hidden; /* 防止水平滚动 */
+                width: 100%;
+            }
+            
+            .page-title {
+                font-size: 1.8rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1rem;
+            }
+            
+            /* 全息图区域强制适配 */
+            .hologram-ad {
+                height: auto !important;
+                max-height: 450px !important; /* 增加最大高度 */
+                padding: 20px 10px !important;
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+            
+            .hologram-image-container {
+                width: 180px !important;
+                height: 220px !important; /* 增加高度以便更好地显示图像 */
+                margin: 0 auto 20px !important; /* 增加底部间距 */
+            }
+            
+            .hologram-image {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: contain !important;
+                max-width: 180px !important;
+                max-height: 220px !important; /* 匹配容器高度 */
+            }
+            
+            .ad-tagline, .ad-slogan {
+                font-size: 0.9rem !important;
+                width: 100% !important;
+                white-space: normal !important;
+                overflow: visible !important;
+                text-align: center !important;
+            }
+            
+            .ad-freedom {
+                font-size: 1.2rem !important;
+                white-space: normal !important;
+                padding: 0 10px !important;
+                width: 100% !important;
+                text-align: center !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* 赛博朋克Banner强制适配 */
+            .cyberpunk-banner {
+                height: 150px !important;
+                margin: 2rem auto !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            
+            .banner-image {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+            }
+            
+            .banner-text {
+                font-size: 0.9rem !important;
+                padding-right: 10px !important;
+            }
+            
+            /* 消息界面适配 */
+            .terminal-content {
+                padding: 10px !important;
+            }
+            
+            .message-text {
+                max-width: 100% !important;
+                font-size: 0.9rem !important;
+                word-break: break-word !important;
+            }
+            
+            /* DID验证面板适配 */
+            .did-verification-panel {
+                padding: 1rem !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            .verification-results {
+                width: 100% !important;
+            }
+            
+            .result-item {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                margin-bottom: 5px !important;
+            }
+            
+            .label {
+                width: 90px !important;
+                min-width: 90px !important;
+                font-size: 0.9rem !important;
+            }
+            
+            .value {
+                font-size: 0.9rem !important;
+                word-break: break-word !important;
+            }
+            
+            /* 故事段落适配 */
+            .story-segment {
+                padding: 1.2rem !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            .story-segment p {
+                font-size: 0.95rem !important;
+            }
+        }
+
         /* DID验证系统 */
         .did-verification-panel {
             background-color: rgba(5, 5, 15, 0.8);
@@ -1600,7 +1726,12 @@
             <div class="hologram-container">
                 <div class="hologram-image-container">
                     <div class="image-placeholder">
-                        <div class="placeholder-dots" id="placeholderDots"></div>
+                        <div class="placeholder-dots" id="placeholderDots">
+                            <!-- 添加3D模型容器和画布 -->
+                            <div id="dodecahedronContainer" style="width: 100%; height: 100%;">
+                                <canvas id="dodecahedronCanvas" style="width: 100%; height: 100%;"></canvas>
+                            </div>
+                        </div>
                         <div class="placeholder-text">Alya Sofia</div>
                         <div class="placeholder-size">250×250</div>
                     </div>
@@ -1835,8 +1966,8 @@
           <li class="chapter-title">第三章：算法救赎</li>
           <ul class="chapter-items">
             <li><a href="../chapter3/digital-slave-liberation.html">碎片3.1：数字奴隶解放宣言</a></li>
-            <li><a href="../chapter3/quantum-minimalism.html">碎片3.2：算法寡欲主义</a></li>
-            <li><a href="../chapter3/network-hermit.html">碎片3.3：投资才是真正的修行</a></li>
+            <li><a href="../chapter3/seoul-sol.html">碎片3.2：首尔太阳</a></li>
+            <li><a href="../chapter3/spacetime-trial.html">碎片3.3：超时空裁判</a></li>
           </ul>
           <li class="chapter-title">第四章：数据审判</li>
           <ul class="chapter-items">
@@ -2597,6 +2728,26 @@
               window.location.href = `../${chapterFolder}/${chapterFile}.html`;
             }
         });
+</script>
+
+<!-- 添加Three.js库和加载器 -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FBXLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/fflate.min.js"></script>
+
+<!-- 添加十二面体模型的初始化脚本 -->
+<script src="/the-book-of-x-test/assets/3D/dodecahedron-code/dodecahedron.js"></script>
+<script>
+    // 在页面加载完成后初始化3D模型
+    setTimeout(function() {
+        if (typeof initThreeDodecahedron === 'function') {
+            console.log("正在调用3D模型初始化函数...");
+            initThreeDodecahedron();
+        } else {
+            console.error('3D模型初始化函数不存在');
+        }
+    }, 1000);
 </script>
 </body>
 </html>

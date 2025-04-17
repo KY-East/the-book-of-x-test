@@ -118,7 +118,19 @@ function enhancedHtmlPlugin(options = {}) {
         
         // 处理xi-visual-effects.js引用
         .replace(/<script src="(?:\.\.\/)+scripts\/xi-visual-effects\.js"><\/script>/g, 
-          `<script src="${base}scripts/xi-visual-effects.js"></script>`);
+          `<script src="${base}scripts/xi-visual-effects.js"></script>`)
+          
+        // 处理XiVisualEffects目录引用 - 相对路径版本
+        .replace(/<script src="(?:\.\.\/)+XiVisualEffects\/([^"]+)"><\/script>/g, 
+          `<script src="${base}public/XiVisualEffects/$1"></script>`)
+          
+        // 处理XiVisualEffects目录引用 - 绝对路径版本
+        .replace(/<script src="\/XiVisualEffects\/([^"]+)"><\/script>/g, 
+          `<script src="${base}public/XiVisualEffects/$1"></script>`)
+          
+        // 处理XiVisualEffects目录引用 - 已有public版本
+        .replace(/<script src="\/public\/XiVisualEffects\/([^"]+)"><\/script>/g, 
+          `<script src="${base}public/XiVisualEffects/$1"></script>`);
       
       return processed;
     }

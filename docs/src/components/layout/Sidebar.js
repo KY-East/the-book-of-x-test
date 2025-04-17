@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
  * 修改记录：
  * - 2024-03-19: 创建初始版本
  * - 2024-03-19: 根据clean-html版本更新样式和结构
+ * - 2024-07-29: 更新章节结构，与XiCore模块和模板保持一致
  */
 export default function Sidebar() {
   const router = useRouter();
@@ -49,8 +50,8 @@ export default function Sidebar() {
       path: '/chapter3',
       children: [
         { title: '碎片3.1：数字奴隶解放宣言', path: '/chapter3/digital-slave-liberation' },
-        { title: '碎片3.2：算法寡欲主义', path: '/chapter3/quantum-minimalism' },
-        { title: '碎片3.3：投资才是真正的修行', path: '/chapter3/network-hermit' }
+        { title: '碎片3.2：超时空裁判', path: '/chapter3/spacetime-trial' },
+        { title: '碎片3.3：首尔太阳', path: '/chapter3/seoul-sol' }
       ]
     },
     {

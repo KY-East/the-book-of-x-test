@@ -63,8 +63,8 @@ function initThreeDodecahedron() {
     controls.dampingFactor = 0.05;
     
     // 加载FBX模型
-    const modelPath = '/assets/3D/一个镂空的正十二面体fbx/一个镂空的正十_0324014923_texture.fbx';
-    const texturePath = '/assets/3D/一个镂空的正十二面体fbx/一个镂空的正十_0324014923_texture.png';
+    const modelPath = '/the-book-of-x-test/assets/3D/一个镂空的正十二面体fbx/一个镂空的正十_0324014923_texture.fbx';
+    const texturePath = '/the-book-of-x-test/assets/3D/一个镂空的正十二面体fbx/一个镂空的正十_0324014923_texture.png';
     const loader = new THREE.FBXLoader();
     let fbxModel;
     
@@ -157,18 +157,18 @@ function initThreeDodecahedron() {
         },
         (error) => {
             console.error("FBX模型加载失败:", error);
-            // 尝试使用相对路径
-            const relativePath = '../../assets/3D/一个镂空的正十二面体fbx/一个镂空的正十_0324014923_texture.fbx';
-            console.log("尝试使用相对路径:", relativePath);
+            // 尝试使用备用路径
+            const fallbackPath = '/the-book-of-x-test/assets/3D/一个镂空的正十二面体fbx/一个镂空的正十_0324014923_texture.fbx';
+            console.log("尝试使用备用路径:", fallbackPath);
             
-            // 对相对路径同样进行编码
-            const encodedRelativePath = encodeURI(relativePath);
-            console.log("编码后的相对路径:", encodedRelativePath);
+            // 对备用路径同样进行编码
+            const encodedFallbackPath = encodeURI(fallbackPath);
+            console.log("编码后的备用路径:", encodedFallbackPath);
             
             loader.load(
-                encodedRelativePath,
+                encodedFallbackPath,
                 (object) => {
-                    console.log("使用相对路径加载成功");
+                    console.log("使用备用路径加载成功");
                     fbxModel = object;
                     scene.remove(placeholder);
                     
@@ -204,12 +204,12 @@ function initThreeDodecahedron() {
                     });
                     const borderLines = new THREE.LineSegments(borderEdges, edgeMaterial);
                     
-                    // 加载纹理 - 相对路径
-                    const relativeTexturePath = '../../assets/3D/一个镂空的正十二面体fbx/一个镂空的正十_0324014923_texture.png';
-                    const encodedRelativeTexturePath = encodeURI(relativeTexturePath);
+                    // 加载纹理 - 备用路径
+                    const fallbackTexturePath = '/the-book-of-x-test/assets/3D/一个镂空的正十二面体fbx/一个镂空的正十_0324014923_texture.png';
+                    const encodedFallbackTexturePath = encodeURI(fallbackTexturePath);
                     const textureLoader = new THREE.TextureLoader();
                     textureLoader.load(
-                        encodedRelativeTexturePath,
+                        encodedFallbackTexturePath,
                         (texture) => {
                             fbxModel.traverse((child) => {
                                 if (child.isMesh) {
@@ -229,7 +229,7 @@ function initThreeDodecahedron() {
                         },
                         undefined,
                         (error) => {
-                            console.error("纹理加载失败(相对路径):", error);
+                            console.error("纹理加载失败(备用路径):", error);
                             scene.add(fbxModel);
                             scene.add(borderGlass);
                             scene.add(borderLines);
@@ -238,10 +238,10 @@ function initThreeDodecahedron() {
                 },
                 (xhr) => {
                     const percent = Math.floor((xhr.loaded / xhr.total) * 100);
-                    console.log(`模型加载进度(相对路径): ${percent}%`);
+                    console.log(`模型加载进度(备用路径): ${percent}%`);
                 },
                 (error) => {
-                    console.error("FBX模型加载失败(相对路径):", error);
+                    console.error("FBX模型加载失败(备用路径):", error);
                     // 显示占位模型
                     scene.add(placeholder);
                 }

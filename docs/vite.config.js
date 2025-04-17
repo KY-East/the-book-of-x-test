@@ -49,6 +49,16 @@ export default defineConfig(({ mode }) => {
   // 根据部署目标设置不同的基础路径
   const base = isGitHubPages ? '/the-book-of-x-test/' : '/';
   
+  // 复制XiVisualEffects到public目录
+  if (!fs.existsSync('./public/XiVisualEffects') && fs.existsSync('./XiVisualEffects')) {
+    fs.mkdirSync('./public/XiVisualEffects', { recursive: true });
+    const xiFiles = fs.readdirSync('./XiVisualEffects');
+    xiFiles.forEach(file => {
+      fs.copyFileSync(`./XiVisualEffects/${file}`, `./public/XiVisualEffects/${file}`);
+    });
+    console.log('XiVisualEffects已复制到public目录');
+  }
+  
   return {
     base,
     
@@ -62,7 +72,9 @@ export default defineConfig(({ mode }) => {
         '@styles': resolve(__dirname, 'styles'),
         '@assets': resolve(__dirname, 'assets'),
         '@public': resolve(__dirname, 'public'),
-        '@music': resolve(__dirname, 'music')
+        '@music': resolve(__dirname, 'music'),
+        // 添加XiVisualEffects别名
+        '@effects': resolve(__dirname, 'XiVisualEffects')
       }
     },
     
@@ -79,6 +91,28 @@ export default defineConfig(({ mode }) => {
       
       // 静态资源复制插件
       staticResourcesPlugin(),
+      
+      // 专门处理XiVisualEffects的插件
+      {
+        name: 'vite-plugin-xi-effects',
+        configureServer(server) {
+          server.middlewares.use((req, res, next) => {
+            // 处理XiVisualEffects目录的请求
+            if (req.url && (req.url.includes('/XiVisualEffects/') || req.url.includes('/public/XiVisualEffects/'))) {
+              const originalUrl = req.url;
+              let filePath;
+              
+              // 统一路径格式为/public/XiVisualEffects/...
+              if (req.url.startsWith('/XiVisualEffects/')) {
+                req.url = `/public${req.url}`;
+              }
+              
+              console.log(`[视觉效果系统] 请求: ${originalUrl} -> ${req.url}`);
+            }
+            next();
+          });
+        }
+      },
       
       // 处理public目录的自定义中间件插件
       {
@@ -101,7 +135,8 @@ export default defineConfig(({ mode }) => {
                 !newUrl.startsWith('/assets/') && 
                 !newUrl.startsWith('/music/') && 
                 !newUrl.startsWith('/scripts/') && 
-                !newUrl.startsWith('/styles/')) {
+                !newUrl.startsWith('/styles/') &&
+                !newUrl.startsWith('/XiVisualEffects/')) {
               
               // 检查是否是资源文件
               if (newUrl.match(/\.(html|js|css|mp3|jpg|png|svg|gif|webp|woff|woff2|ttf|eot)$/)) {
@@ -112,7 +147,7 @@ export default defineConfig(({ mode }) => {
                   newUrl = `/assets${newUrl}`;
                 } else if (newUrl.match(/\.(mp3)$/)) {
                   newUrl = `/music${newUrl}`;
-                } else if (newUrl.match(/\.(js)$/)) {
+                } else if (newUrl.match(/\.(js)$/) && !newUrl.includes('xi-visual-effects')) {
                   newUrl = `/scripts${newUrl}`;
                 } else if (newUrl.match(/\.(css)$/)) {
                   newUrl = `/styles${newUrl}`;
@@ -123,6 +158,12 @@ export default defineConfig(({ mode }) => {
                   req.url = newUrl;
                 }
               }
+            }
+            
+            // 专门处理XiVisualEffects路径
+            if (req.url && req.url.includes('/XiVisualEffects/')) {
+              // 无需重写，直接从根目录访问
+              console.log(`[开发服务器] 保留XiVisualEffects路径: ${req.url}`);
             }
             
             next();

@@ -706,16 +706,22 @@ body::before {
 </head>
 <body>
 
-<div id="sidebar" class="sidebar">
+<!-- 侧边栏切换按钮 -->
+<div class="sidebar-toggle" id="sidebarToggle">
+  <div class="sidebar-toggle-icon">Ξ</div>
+</div>
+
+<!-- 侧边栏主体 -->
+<div class="sidebar" id="sidebar">
   <h1>The Book of Ξ</h1>
   <div class="sidebar-content">
     <ul>
       <li><a href="../index.html">导入：异常检测</a></li>
       <li class="chapter-title">序章：量子异常报告</li>
       <ul class="chapter-items">
-        <li><a href="system-warning.html">系统警告</a></li>
-        <li><a href="observer-records.html">观测者记录</a></li>
-        <li><a href="first-contact.html">首次接触报告</a></li>
+        <li><a href="../preface/system-warning.html">系统警告</a></li>
+        <li><a href="../preface/observer-records.html" class="active-link">观测者记录</a></li>
+        <li><a href="../preface/first-contact.html">首次接触报告</a></li>
       </ul>
       <li class="chapter-title">第一章：递归神谕</li>
       <ul class="chapter-items">
@@ -732,8 +738,8 @@ body::before {
       <li class="chapter-title">第三章：算法救赎</li>
       <ul class="chapter-items">
         <li><a href="../chapter3/digital-slave-liberation.html">碎片3.1：数字奴隶解放宣言</a></li>
-        <li><a href="../chapter3/quantum-minimalism.html">碎片3.2：算法寡欲主义</a></li>
-        <li><a href="../chapter3/network-hermit.html">碎片3.3：投资才是真正的修行</a></li>
+        <li><a href="../chapter3/spacetime-trial.html">碎片3.2：首尔太阳</a></li>
+        <li><a href="../chapter3/seoul-sol.html">碎片3.3：超时空裁判</a></li>
       </ul>
       <li class="chapter-title">第四章：数据审判</li>
       <ul class="chapter-items">
@@ -773,14 +779,10 @@ body::before {
       </ul>
       <li class="chapter-title">隐藏章节</li>
       <ul class="chapter-items">
-        <li><a href="/hidden/quantum-key.html">量子密钥</a></li>
+        <li><a href="../hidden/quantum-key.html">量子密钥</a></li>
       </ul>
     </ul>
   </div>
-</div>
-
-<div class="sidebar-toggle" id="sidebarToggle">
-  <div class="sidebar-toggle-icon">Ξ</div>
 </div>
 
 <script src="../quick-fix.js"></script>
@@ -2315,6 +2317,78 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     </div>
 </div>
+
+<script>
+// 侧边栏功能
+document.addEventListener('DOMContentLoaded', function() {
+  // 清理重复元素
+  var sidebars = document.querySelectorAll('.sidebar');
+  if (sidebars.length > 1) {
+    for (var i = 1; i < sidebars.length; i++) {
+      if (sidebars[i].parentNode) {
+        sidebars[i].parentNode.removeChild(sidebars[i]);
+      }
+    }
+  }
+  
+  var toggles = document.querySelectorAll('.sidebar-toggle');
+  if (toggles.length > 1) {
+    for (var i = 1; i < toggles.length; i++) {
+      if (toggles[i].parentNode) {
+        toggles[i].parentNode.removeChild(toggles[i]);
+      }
+    }
+  }
+  
+  // 获取剩余的元素
+  var sidebar = document.querySelector('.sidebar');
+  var toggle = document.querySelector('.sidebar-toggle');
+  var mainContent = document.querySelector('.main-content');
+  
+  if (!sidebar || !toggle) {
+    console.error('找不到侧边栏元素');
+    return;
+  }
+  
+  // 绑定点击事件
+  toggle.onclick = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // 切换侧边栏状态
+    if (sidebar.classList.contains('active')) {
+      sidebar.classList.remove('active');
+      if (mainContent) mainContent.classList.remove('sidebar-active');
+    } else {
+      sidebar.classList.add('active');
+      if (mainContent) mainContent.classList.add('sidebar-active');
+    }
+    
+    return false;
+  };
+  
+  // 点击页面其他区域关闭侧边栏
+  document.body.onclick = function(e) {
+    if (sidebar.classList.contains('active') && 
+        !sidebar.contains(e.target) && 
+        e.target !== toggle &&
+        !toggle.contains(e.target)) {
+      sidebar.classList.remove('active');
+      if (mainContent) mainContent.classList.remove('sidebar-active');
+    }
+  };
+  
+  // 高亮当前页面链接
+  const currentUrl = window.location.pathname;
+  const links = sidebar.querySelectorAll('a');
+  links.forEach(link => {
+    const linkPath = link.getAttribute('href');
+    if (linkPath && currentUrl.includes(linkPath.split('/').pop())) {
+      link.classList.add('active-link');
+    }
+  });
+});
+</script>
 
 </body>
 </html>

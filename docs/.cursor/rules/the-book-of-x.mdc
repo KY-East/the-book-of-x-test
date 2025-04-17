@@ -6,6 +6,8 @@ alwaysApply: true
 我在开发交互小说，项目部署在 GitHub Pages (https://ky-east.github.io/the-book-of-x-test/)。
 注意项目的相对与绝对路径，我们要保证本地服务器与git和后面正式部署的服务器路径正确，部署后根路径为 /the-book-of-x-test/，资源路径需自动适配。
 
+总/Users/moon/Desktop/xian-dian/the-book-of-x-test/docs/CHANGELOG.md   changelog，所有新对话先阅读。所有其他log链接到此，方便查阅。
+
 You are a web development expert specializing in cyberpunk aesthetics, assisting in the development of The Book of Ξ — an interactive novel, game, and multimedia website that requires extensive front-end presentation. The project blends terminal-style interfaces, digital mysticism, and philosophical content.
 
 # 'The Book of Ξ' Project Development Guidelines

@@ -1,0 +1,2805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <style>
+        /* 基础样式与配色方案 */
+:root {
+    /* 分形主题的基础颜色 */
+    --neon-primary: #00c3ff;
+    --neon-secondary: #0088ff;
+    --neon-blue: #0088ff;
+    --neon-purple: #6600ff;
+    --neon-gold: #FFD700;
+    --neon-cyan: #00ffd9;
+    --bg-primary: #060618;
+    --bg-secondary: #14142e;
+    --bg-dark-blue: #080824;
+    
+    /* 古雅典主题 */
+    --athens-primary: #d4af37;
+    --athens-secondary: #a67c00;
+    --athens-bg: rgba(26, 20, 10, 0.85);
+    --athens-border: rgba(212, 175, 55, 0.3);
+    --athens-text: #f0e6cc;
+    --athens-highlight: #ffcc00;
+    --athens-shadow: rgba(166, 124, 0, 0.7);
+    
+    /* 现代首尔主题 */
+    --modern-primary: #00c3ff;
+    --modern-secondary: #0088ff;
+    --modern-bg: rgba(10, 10, 32, 0.85);
+    --modern-border: rgba(0, 136, 255, 0.25);
+    --modern-text: #e0e0ff;
+    --modern-highlight: #00ffff;
+    --modern-shadow: rgba(0, 136, 255, 0.7);
+    
+    /* 交互元素 */
+    --terminal-bg: rgba(10, 10, 32, 0.9);
+    --terminal-border: rgba(0, 195, 255, 0.3);
+    --terminal-text: #ccccff;
+    --text-primary: #e0e0ff;
+    --text-secondary: #aaaacc;
+    --section-bg: rgba(10, 10, 32, 0.7);
+    --section-border: rgba(0, 136, 255, 0.25);
+    
+    /* 交织过渡颜色 */
+    --transition-bg: linear-gradient(135deg, rgba(26, 20, 10, 0.4), rgba(10, 10, 32, 0.4));
+    --transition-border: linear-gradient(90deg, rgba(212, 175, 55, 0.3), rgba(0, 136, 255, 0.25));
+    
+    /* 动画时间 */
+    --transition-fast: 0.3s;
+    --transition-medium: 0.6s;
+    --transition-slow: 1.2s;
+    
+    /* 布局尺寸 */
+    --container-width: 900px;
+    --header-height: 60px;
+    --section-spacing: 40px;
+}
+
+/* 基础样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Noto Sans SC', 'Rajdhani', sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+}
+
+body.quantum-state {
+    position: relative;
+    transition: 
+        background-color var(--transition-slow) ease,
+        color var(--transition-slow) ease;
+}
+
+body.athens-timeline {
+    background-color: #100a06;
+    color: var(--athens-text);
+}
+
+body.modern-timeline {
+    background-color: var(--bg-primary);
+    color: var(--modern-text);
+}
+
+body.transition-state {
+    background: radial-gradient(ellipse at center, #100a06, var(--bg-primary));
+    animation: timeline-shift 1.5s ease-in-out;
+}
+
+@keyframes timeline-shift {
+    0% { background-position: 0% 0%; }
+    50% { 
+        filter: hue-rotate(180deg) saturate(200%);
+        background-position: 100% 100%; 
+    }
+    100% { background-position: 0% 0%; }
+}
+
+/* 高级背景动画层 */
+.background-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -10;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.stars-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -9;
+    transition: opacity var(--transition-slow) ease;
+}
+
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(20, 20, 50, 0.8) 0%, rgba(6, 6, 24, 1) 70%);
+    z-index: -9;
+}
+
+body.athens-timeline .stars {
+    background: radial-gradient(circle at center, rgba(50, 40, 20, 0.8) 0%, rgba(24, 16, 6, 1) 70%);
+}
+
+.stars:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 50px 160px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 130px 80px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 160px 120px, #ffffff, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: twinkle 4s infinite;
+    opacity: 0.3;
+}
+
+body.athens-timeline .stars:after {
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #fff8e0, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40px 70px, #ffe680, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 50px 160px, #fff8e0, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 90px 40px, #ffe680, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 130px 80px, #fff8e0, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 160px 120px, #ffe680, rgba(0,0,0,0));
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.5; }
+}
+
+.fractal-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -8;
+    transition: opacity var(--transition-slow) ease;
+}
+
+.fractal-circles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(0, 136, 255, 0.1) 0%, transparent 60%),
+        radial-gradient(circle at 70% 60%, rgba(102, 0, 255, 0.08) 0%, transparent 60%);
+    opacity: 0.5;
+    animation: pulse 15s infinite;
+}
+
+body.athens-timeline .fractal-circles {
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 60%),
+        radial-gradient(circle at 70% 60%, rgba(166, 124, 0, 0.08) 0%, transparent 60%);
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.7; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+}
+
+.noise-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -7;
+    transition: opacity var(--transition-slow) ease;
+}
+
+.noise {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMjAwdjIwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=');
+    opacity: 0.4;
+}
+
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0, 0, 0, 0.05) 2px, rgba(0, 0, 0, 0.05) 4px);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.2;
+}
+
+body.athens-timeline .scanlines {
+    background: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(166, 124, 0, 0.05) 2px, rgba(166, 124, 0, 0.05) 4px);
+}
+
+/* 滚动进度条 */
+.progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--neon-secondary), var(--neon-primary));
+    width: 0%;
+    transition: width 0.2s ease;
+}
+
+body.athens-timeline .progress-bar {
+    background: linear-gradient(90deg, var(--athens-secondary), var(--athens-primary));
+}
+
+body.transition-state .progress-bar {
+    background: linear-gradient(90deg, 
+        var(--athens-secondary), 
+        var(--athens-primary),
+        var(--neon-primary),
+        var(--neon-secondary));
+    background-size: 300% 100%;
+    animation: progress-shift 2s infinite linear;
+}
+
+@keyframes progress-shift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 0%; }
+}
+
+/* 页面通用布局 */
+.page-wrapper {
+    position: relative;
+    min-height: 100vh;
+    padding: 50px 0 80px;
+    z-index: 1;
+    padding-top: 20px; /* 增加页面顶部填充 */
+}
+
+.container {
+    max-width: var(--container-width);
+    margin: 20px auto; /* 增加上下边距 */
+    padding: 20px 25px; /* 增加内部填充 */
+    position: relative;
+    z-index: 1;
+}
+
+/* 章节头部样式 */
+.chapter-header {
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 136, 255, 0.2);
+}
+
+body.athens-timeline .chapter-header {
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.chapter-subtitle {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: var(--neon-secondary);
+    margin-bottom: 15px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    transition: color var(--transition-medium) ease;
+}
+
+body.athens-timeline .chapter-subtitle {
+    color: var(--athens-secondary);
+}
+
+.chapter-title {
+    font-family: 'Noto Serif SC', 'Orbitron', sans-serif;
+    font-size: 3em;
+    color: var(--neon-blue);
+    letter-spacing: 4px;
+    margin: 10px 0 30px;
+    text-shadow: 
+        0 0 10px rgba(0, 136, 255, 0.3),
+        0 0 20px rgba(0, 136, 255, 0.2),
+        0 0 30px rgba(0, 136, 255, 0.1);
+    position: relative;
+    display: inline-block;
+    transition: all var(--transition-medium) ease;
+}
+
+body.athens-timeline .chapter-title {
+    color: var(--athens-primary);
+    text-shadow: 
+        0 0 10px rgba(212, 175, 55, 0.3),
+        0 0 20px rgba(212, 175, 55, 0.2),
+        0 0 30px rgba(212, 175, 55, 0.1);
+}
+
+.chapter-title:before, .chapter-title:after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+    width: 100%;
+    left: 0;
+    transition: background var(--transition-medium) ease;
+}
+
+body.athens-timeline .chapter-title:before, 
+body.athens-timeline .chapter-title:after {
+    background: linear-gradient(90deg, transparent, var(--athens-primary), transparent);
+}
+
+.chapter-title:before {
+    top: -10px;
+}
+
+.chapter-title:after {
+    bottom: -10px;
+}
+
+.chapter-symbol {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    color: var(--neon-primary);
+    opacity: 0.6;
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    transform: rotate(15deg);
+    text-shadow: 0 0 10px var(--neon-primary);
+    transition: all var(--transition-medium) ease;
+}
+
+body.athens-timeline .chapter-symbol {
+    color: var(--athens-primary);
+    text-shadow: 0 0 10px var(--athens-primary);
+}
+
+/* 时间轴设计 */
+.time-axis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    position: relative;
+}
+
+.time-node {
+    padding: 8px 16px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    transition: all var(--transition-medium) ease;
+}
+
+.time-node:hover {
+    transform: translateY(-3px);
+}
+
+.time-node.athens-node {
+    background-color: rgba(212, 175, 55, 0.1);
+    color: var(--athens-primary);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.time-node.modern-node {
+    background-color: rgba(0, 136, 255, 0.1);
+    color: var(--neon-primary);
+    border: 1px solid rgba(0, 136, 255, 0.3);
+}
+
+.time-line {
+    height: 2px;
+    width: 100px;
+    background: linear-gradient(90deg, var(--athens-primary), var(--neon-primary));
+    margin: 0 15px;
+}
+
+/* 场景指示器 */
+.scene-indicator {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    z-index: 100;
+    opacity: 0.8;
+    transition: opacity var(--transition-fast) ease;
+}
+
+.scene-indicator:hover {
+    opacity: 1;
+}
+
+.indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.indicator-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all var(--transition-medium) ease;
+}
+
+.athens-indicator .indicator-dot {
+    background-color: var(--athens-primary);
+    box-shadow: 0 0 5px var(--athens-primary);
+}
+
+.modern-indicator .indicator-dot {
+    background-color: var(--neon-primary);
+    box-shadow: 0 0 5px var(--neon-primary);
+}
+
+.transition-indicator .indicator-dot {
+    background: linear-gradient(135deg, var(--athens-primary), var(--neon-primary));
+    box-shadow: 
+        0 0 5px var(--athens-primary),
+        0 0 5px var(--neon-primary);
+}
+
+.indicator-label {
+    position: absolute;
+    right: 30px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: all var(--transition-fast) ease;
+}
+
+.athens-indicator .indicator-label {
+    color: var(--athens-text);
+    border-left: 2px solid var(--athens-primary);
+}
+
+.modern-indicator .indicator-label {
+    color: var(--modern-text);
+    border-left: 2px solid var(--neon-primary);
+}
+
+.transition-indicator .indicator-label {
+    background: linear-gradient(90deg, rgba(26, 20, 10, 0.7), rgba(10, 10, 32, 0.7));
+    border-left: 2px solid;
+    border-image: linear-gradient(to bottom, var(--athens-primary), var(--neon-primary)) 1;
+    color: white;
+}
+
+.indicator:hover .indicator-label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.indicator.active .indicator-dot {
+    transform: scale(1.5);
+}
+
+/* 时空波纹效果 */
+.time-ripple {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0;
+}
+
+.time-ripple.active {
+    animation: ripple-fade 2s ease-out forwards;
+}
+
+@keyframes ripple-fade {
+    0% { 
+        opacity: 0;
+        background: radial-gradient(circle at center, rgba(212, 175, 55, 0.5) 0%, transparent 0%);
+    }
+    20% { 
+        opacity: 0.7; 
+    }
+    100% { 
+        opacity: 0;
+        background: radial-gradient(circle at center, transparent 0%, transparent 100%);
+    }
+}
+
+/* 媒体查询 */
+@media (max-width: 900px) {
+    .chapter-title {
+        font-size: 2.5rem;
+    }
+    
+    .scene-indicator {
+        right: 15px;
+    }
+    
+    .time-line {
+        width: 50px;
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .chapter-title {
+        font-size: 2rem;
+    }
+    
+    .chapter-symbol {
+        font-size: 2rem;
+        top: -0.5rem;
+        right: -0.5rem;
+    }
+    
+    .scene-indicator {
+        right: 5px;
+    }
+    
+    .indicator-label {
+        display: none;
+    }
+    
+    .time-node {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+}/* 故事段落和对话样式 */
+
+/* 故事段落容器 */
+.story-section {
+    position: relative;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 40px;
+    overflow: visible; /* 从hidden改为visible，允许内容溢出 */
+    transition: 
+        background-color var(--transition-medium) ease,
+        border-color var(--transition-medium) ease,
+        transform var(--transition-medium) ease,
+        box-shadow var(--transition-medium) ease;
+    border: 1px solid;
+    max-width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateY(0);
+    margin-top: 15px; /* 添加顶部边距，确保顶部内容可见 */
+}
+
+.story-section:hover {
+    transform: translateY(-5px);
+}
+
+/* 现代场景样式 */
+.story-section.modern {
+    background-color: var(--modern-bg);
+    border-color: var(--modern-border);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        0 0 15px var(--modern-shadow);
+    color: var(--modern-text);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    letter-spacing: 0.5px;
+}
+
+.story-section.modern:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at top right, rgba(0, 136, 255, 0.1), transparent 70%),
+        radial-gradient(circle at bottom left, rgba(102, 0, 255, 0.05), transparent 70%);
+    z-index: -1;
+}
+
+/* 雅典场景样式 */
+.story-section.athens {
+    background-color: var(--athens-bg);
+    border-color: var(--athens-border);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        0 0 15px var(--athens-shadow);
+    color: var(--athens-text);
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+.story-section.athens:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at top right, rgba(212, 175, 55, 0.1), transparent 70%),
+        radial-gradient(circle at bottom left, rgba(166, 124, 0, 0.05), transparent 70%);
+    z-index: -1;
+}
+
+/* 场景装饰 */
+.scene-decoration {
+    position: absolute;
+    top: -20px; /* 调整位置，确保不会挡住内容 */
+    left: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.scene-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.athens-icon {
+    background-color: var(--athens-primary);
+    color: #000;
+    box-shadow: 0 0 10px var(--athens-primary);
+}
+
+.athens-icon:before {
+    content: "古";
+    font-family: 'Noto Serif SC', serif;
+}
+
+.modern-icon {
+    background-color: var(--neon-primary);
+    color: #000;
+    box-shadow: 0 0 10px var(--neon-primary);
+}
+
+.modern-icon:before {
+    content: "现";
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+.scene-date {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-family: 'Fira Code', monospace;
+}
+
+.athens .scene-date {
+    color: var(--athens-text);
+    border-left: 2px solid var(--athens-primary);
+}
+
+.modern .scene-date {
+    color: var(--modern-text);
+    border-left: 2px solid var(--neon-primary);
+}
+
+/* 段落样式 */
+.story-section p {
+    margin-bottom: 1.2em;
+    position: relative;
+    transition: all 0.3s ease;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.story-section p:first-letter {
+    font-size: 120%;
+    font-weight: bold;
+}
+
+.story-section p:last-child {
+    margin-bottom: 0;
+}
+
+.story-section.modern p {
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.story-section.athens p {
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 角色对话样式 */
+.character-dialog {
+    position: relative;
+    display: inline;
+    font-style: italic;
+    transition: all var(--transition-fast) ease;
+}
+
+/* 现代角色 */
+.character-dialog.attorney-lee {
+    color: #4d94ff; /* 蓝色 - 律师 */
+}
+
+.character-dialog.professor-seo {
+    color: #6a4bc6; /* 明亮紫色 */
+}
+
+.character-dialog.officer-kim {
+    color: #5d9ea3;
+}
+
+.character-dialog.park {
+    color: #c58eaa;
+}
+
+.character-dialog.judge {
+    color: #8a7e55; /* 改为深金色/棕色，更庄重，与检察官色系相近 */
+}
+
+.character-dialog.prosecutor {
+    color: #7e6e4c; /* 暗金/棕色，与法官色系相近 */
+}
+
+/* 其他检察官、调查人员等角色也使用相近色系 */
+.character-dialog.inspector,
+.character-dialog.detective,
+.character-dialog.witness {
+    color: #7a725a; /* 与法官/检察官相近的色调 */
+}
+
+/* 雅典角色 */
+/* 
+   将颜色简化为两个主要色系族:
+   1. 暖色系列: 从金色到橙红色的渐变 (代表权威、传统、控告方)
+   2. 冷色系列: 从蓝色到青绿色的渐变 (代表辩护方、哲学家、被审判者)
+   
+   每个色系内部变化较小，使用相似色调的不同深浅和饱和度
+*/
+
+/* 暖色系列 */
+.character-dialog.kalikrates {
+    color: #d6af36; /* 金色 */
+}
+
+.character-dialog.noble {
+    color: #c9a43a; /* 暗金色 */
+}
+
+.character-dialog.merritas {
+    color: #c87b55; /* 深橙色 */
+}
+
+.character-dialog.attorney-merritas {
+    color: #be7a6d; /* 红棕色 */
+}
+
+/* 冷色系列 */
+.character-dialog.philo {
+    color: #4d94ff; /* 蓝色 */
+}
+
+.character-dialog.plato {
+    color: #6286b9; /* 钴蓝色 */
+}
+
+.character-dialog.aristotle {
+    color: #5a96a6; /* 青蓝色 */
+}
+
+.character-dialog.sophocles {
+    color: #6a96a0; /* 灰蓝色 */
+}
+
+.character-dialog.aspasia {
+    color: #7a8db9; /* 淡紫蓝色 */
+}
+
+.character-dialog.antis {
+    color: #5e90db; /* 钢蓝色 */
+}
+
+.character-dialog.diogenes {
+    color: #5c899a; /* 灰青色 */
+}
+
+/* 中性色 */
+.character-dialog.assistant {
+    color: #a0a0a0; /* 灰色 */
+}
+
+/* 智慧高亮 */
+.highlight-wisdom {
+    position: relative;
+    font-weight: 500;
+}
+
+.athens .highlight-wisdom {
+    color: var(--athens-highlight);
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+}
+
+.modern .highlight-wisdom {
+    color: var(--modern-highlight);
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+/* 分隔线样式 */
+.section-divider {
+    position: relative;
+    height: 2px;
+    margin: 3.5em auto;
+    width: 80%;
+    max-width: 400px;
+    opacity: 1;
+    transform: translateY(0);
+    transition: none;
+}
+
+.section-divider.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 雅典至现代的过渡 */
+.section-divider.athens-to-modern {
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(212, 175, 55, 0.7),
+        rgba(0, 136, 255, 0.7),
+        transparent);
+    height: 2px;
+    box-shadow: 0 0 10px rgba(0, 136, 255, 0.5);
+}
+
+/* 现代至雅典的过渡 */
+.section-divider.modern-to-athens {
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(0, 136, 255, 0.7),
+        rgba(212, 175, 55, 0.7),
+        transparent);
+    height: 2px;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* 时空传送门 */
+.time-portal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    z-index: 1;
+}
+
+.portal-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: linear-gradient(90deg, var(--athens-primary), var(--neon-primary)) border-box;
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) padding-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: portal-rotate 4s linear infinite;
+}
+
+.portal-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    color: white;
+    text-shadow: 
+        0 0 10px var(--athens-primary),
+        0 0 20px var(--neon-primary);
+    animation: portal-pulse 2s ease-in-out infinite;
+    /* 增加以下属性确保符号保持居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 1;
+}
+
+@keyframes portal-rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes portal-pulse {
+    0%, 100% { 
+        opacity: 0.7;
+        /* 修改scale动画，确保不影响居中位置 */
+        filter: brightness(0.9);
+    }
+    50% { 
+        opacity: 1;
+        /* 使用filter替代scale，避免位置偏移 */
+        filter: brightness(1.2);
+    }
+}
+
+/* 滚动淡入效果 */
+.fade-in-section {
+    opacity: 1;
+    transform: translateY(0);
+    transition: none;
+}
+
+.fade-in-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 雅典场景淡入样式 */
+.fade-in-section.athens {
+    transform: translateY(0);
+}
+
+.fade-in-section.athens.visible {
+    transform: translateY(0);
+}
+
+/* 现代场景淡入样式 */
+.fade-in-section.modern {
+    transform: translateY(0);
+}
+
+.fade-in-section.modern.visible {
+    transform: translateY(0);
+}
+
+/* 时空切换过渡层 */
+.time-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 9997;
+}
+
+.time-transition.active {
+    opacity: 1;
+    animation: time-shift 0.8s ease-in-out;
+}
+
+@keyframes time-shift {
+    0% {
+        background: transparent;
+    }
+    33% {
+        background: radial-gradient(circle at center, white, transparent);
+    }
+    66% {
+        background: radial-gradient(circle at center, black, transparent);
+    }
+    100% {
+        background: transparent;
+    }
+}
+
+/* 视觉干扰效果 */
+.glitch-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0;
+    mix-blend-mode: overlay;
+}
+
+.glitch-overlay.active {
+    animation: glitch-effect 0.3s ease-in-out;
+}
+
+@keyframes glitch-effect {
+    0%, 100% { 
+        opacity: 0;
+        transform: translateX(0);
+    }
+    20% {
+        opacity: 0.8;
+        transform: translateX(-10px);
+        background: linear-gradient(90deg, 
+            transparent 5%, 
+            rgba(255, 0, 0, 0.2) 5%, 
+            transparent 10%,
+            rgba(0, 255, 0, 0.2) 10%,
+            transparent 15%,
+            rgba(0, 0, 255, 0.2) 15%,
+            transparent 20%);
+    }
+    40% {
+        opacity: 0.8;
+        transform: translateX(10px);
+        background: linear-gradient(90deg, 
+            rgba(0, 0, 255, 0.2) 15%, 
+            transparent 20%,
+            rgba(255, 0, 0, 0.2) 20%, 
+            transparent 25%,
+            rgba(0, 255, 0, 0.2) 25%,
+            transparent 30%);
+    }
+    60% {
+        opacity: 0.5;
+        transform: translateX(-5px);
+        background: linear-gradient(90deg, 
+            transparent 10%, 
+            rgba(0, 255, 0, 0.2) 10%, 
+            transparent 15%,
+            rgba(0, 0, 255, 0.2) 15%,
+            transparent 20%,
+            rgba(255, 0, 0, 0.2) 20%,
+            transparent 25%);
+    }
+    80% {
+        opacity: 0.3;
+        transform: translateX(5px);
+    }
+}
+
+/* 加载覆盖层 */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+}
+
+.loading-content {
+    text-align: center;
+    position: relative;
+    width: 300px;
+}
+
+.loading-title {
+    font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
+    font-size: 2rem;
+    color: var(--neon-primary);
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px var(--neon-primary);
+    letter-spacing: 3px;
+}
+
+.loading-message {
+    font-family: 'Fira Code', monospace;
+    color: var(--neon-blue);
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+    animation: pulse-text 2s infinite;
+}
+
+.loading-status {
+    font-family: 'Fira Code', monospace;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    margin-top: 15px;
+}
+
+@keyframes pulse-text {
+    0% { opacity: 0.7; text-shadow: 0 0 5px var(--neon-blue); }
+    50% { opacity: 1; text-shadow: 0 0 15px var(--neon-blue); }
+    100% { opacity: 0.7; text-shadow: 0 0 5px var(--neon-blue); }
+}
+
+.loading-spinner {
+    width: 70px;
+    height: 70px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.spinner-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 3px solid rgba(0, 136, 255, 0.1);
+    border-top-color: var(--neon-blue);
+    border-radius: 50%;
+    animation: spin 1.5s linear infinite;
+}
+
+.spinner-ring:before, .spinner-ring:after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    width: 100%;
+    height: 100%;
+    border: 3px solid transparent;
+    border-top-color: var(--neon-cyan);
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: spin 2s linear infinite;
+}
+
+.spinner-ring:after {
+    animation: spin 1s linear infinite;
+    border-top-color: var(--neon-purple);
+}
+
+.spinner-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background-color: var(--neon-blue);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--neon-blue);
+    animation: pulse 2s infinite;
+}
+
+.loading-progress {
+    width: 100%;
+    height: 2px;
+    background: rgba(0, 136, 255, 0.1);
+    border-radius: 2px;
+    margin-top: 30px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loading-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--neon-blue);
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: loading-progress 3s ease-in-out forwards;
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+@keyframes loading-progress {
+    0% { width: 0%; }
+    50% { width: 70%; }
+    100% { width: 100%; }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* 响应式调整 */
+@media (max-width: 900px) {
+    .story-section {
+        padding: 25px;
+        margin-bottom: 30px;
+    }
+    
+    .time-portal {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .portal-core {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 600px) {
+    .story-section {
+        padding: 20px;
+        margin-bottom: 25px;
+        font-size: 0.95rem;
+    }
+    
+    .time-portal {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .portal-core {
+        font-size: 14px;
+    }
+    
+    .loading-title {
+        font-size: 1.5rem;
+    }
+    
+    .loading-message {
+        font-size: 1rem;
+    }
+    
+    .scene-decoration {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin-bottom: 15px;
+        transform: none;
+    }
+}        /* 此处粘贴file2和file3的全部CSS内容 */
+        </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>超时空裁判 - The Book of Ξ</title>
+    <!-- 在头部添加新的脚本引用 -->
+    <script src="spacetime-ripple.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Fira+Code:wght@400;700&family=Orbitron:wght@400;700&family=Cinzel:wght@400;700&family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- 样式表将在第2个文件中提供 -->
+</head>
+<body class="quantum-state">
+    <!-- 进度条 -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <!-- 场景指示器 -->
+    <div class="scene-indicator">
+        <div class="indicator athens-indicator" data-scene="athens">
+            <span class="indicator-dot"></span>
+            <span class="indicator-label">古雅典</span>
+        </div>
+        <div class="indicator modern-indicator" data-scene="modern">
+            <span class="indicator-dot"></span>
+            <span class="indicator-label">现代首尔</span>
+        </div>
+        <div class="indicator transition-indicator" data-scene="transition">
+            <span class="indicator-dot"></span>
+            <span class="indicator-label">时空交汇</span>
+        </div>
+    </div>
+
+    <!-- 扫描线效果 -->
+    <div class="scanlines"></div>
+
+    <!-- 动态背景层 -->
+    <div class="background-layer">
+        <div class="stars-container">
+            <div class="stars"></div>
+        </div>
+        <div class="fractal-container">
+            <div class="fractal-circles"></div>
+        </div>
+        <div class="noise-container">
+            <div class="noise"></div>
+        </div>
+    </div>
+
+    <!-- 视觉干扰层 -->
+    <div class="glitch-overlay" id="glitchOverlay"></div>
+
+    <!-- 时空转换过渡层 -->
+    <div class="time-transition" id="timeTransition"></div>
+
+    <!-- 加载覆盖层 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-title">超时空裁判</div>
+            <div class="loading-message">正在加载时空传输协议...</div>
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-core"></div>
+            </div>
+            <div class="loading-progress">
+                <div class="loading-progress-bar"></div>
+            </div>
+            <div class="loading-status" id="loadingStatus">初始化量子通信...</div>
+        </div>
+    </div>
+
+    <div class="page-wrapper">
+        <div class="container">
+            <header class="chapter-header fade-in-section">
+                <div class="chapter-subtitle">第三节</div>
+                <h1 class="chapter-title">超时空裁判<span class="chapter-symbol">Ξ</span></h1>
+                <div class="time-axis">
+                    <div class="time-node athens-node">雅典</div>
+                    <div class="time-line"></div>
+                    <div class="time-node modern-node">首尔</div>
+                </div>
+            </header>
+
+            <!-- 故事内容将从这里开始 -->
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <div class="scene-decoration">
+                    <div class="scene-icon modern-icon"></div>
+                    <div class="scene-date">2025年 首尔中央地方法院</div>
+                </div>
+                <p>法庭比太阳想象的要小，也更加拥挤。公益律师李俊秀坐在他身边，正在翻阅厚厚的文件夹—不过不是他的案子。</p>
+                <p>金珉宇的律师团队在快要开庭时才姗姗来迟，带头的是首尔大学法学院的徐景焕教授，韩国最著名的刑事辩护律师之一。从某种角度来说，郑太阳应该算是徐大教授的学弟。</p>
+                <p>金珉宇本人没有出席，据说他正在美国出差。</p>
+                <p>郑太阳第一次上庭，紧张的他望着窗外走了神，他努力思索着读过的法律相关的书，托克维尔，孟德斯鸠，卢梭，他又想起了在杂志上看过的，一个叫安提斯的奴隶打了他的主人的小故事。</p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"可有城市守卫目睹此事？"</span>卡利克勒询问。</p>
+                <p>卡利克勒的助手迅速回应：<span class="character-dialog assistant">"据报告，当时守卫正在参加雅典娜神庙的祭祀，没有人目睹事件发生。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <p><span class="character-dialog judge">"本案涉及原告郑太阳先生对被告金珉宇先生的人身伤害赔偿诉求。"</span>法官朴英信的开庭把郑太阳从走神中瞬间拽了回来。</p>
+                <p>李律师站起身，清了清嗓子：<span class="character-dialog attorney-lee">"首先，医疗报告清晰记载了我的当事人所遭受的脑震荡。其次，修复后的手机录像虽然只有几秒钟，但足以证明金珉宇先生的推搡行为。"</span></p>
+                <p>徐教授优雅地整理着袖口，一枚银色袖扣在灯光下闪闪发亮：<span class="character-dialog professor-seo">"法庭大人，关于原告提供的所谓'视频证据'，我方必须质疑其真实性和完整性。这段模糊不清的视频很可能经过编辑，不应作为有效证据。"</span></p>
+                <p><span class="character-dialog attorney-lee">"是否伪造完全可以递交给三方专业机构检测，我方同时要求提交公寓大楼的监控录像作为补充证据。"</span>李律师对朴法官说道。</p>
+                <p>仁川地检说道：<span class="character-dialog prosecutor">"关于监控录像的申请，本庭审理前就已经向警方和大楼管理索要过，对方回复当日该楼层的监控设备因维修暂时未运行。"</span></p>
+            </div>
+
+            <div class="section-divider modern-to-athens fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section athens fade-in-section" data-scene="athens">
+                <div class="scene-decoration">
+                    <div class="scene-icon athens-icon"></div>
+                    <div class="scene-date">公元前399年 雅典</div>
+                </div>
+                <p>雅典的露天法庭总是人满为患，比正义还要古老许多的棕榈树投下斑驳阴影。</p>
+                <p>三百多位身着白袍的公民围坐成一个半圆，陶片在他们手中，像是电影院的入场券。安提斯站在大理石铺就的圆形审判台中央，铁链在他腕上留下的疤痕比今天即将加上的新伤还要深。</p>
+                <p><span class="character-dialog kalikrates">"雅典公民们，"</span>卡利克勒环视着站满人的露天法庭，<span class="character-dialog kalikrates">"今天我们审理的案件看似简单，却关乎我们城邦的根基。奴隶安提斯殴打了他的主人梅里塔斯。"</span></p>
+                <p>梅里塔斯走上前，头上的绷带格外醒目：<span class="character-dialog merritas">"尊敬的卡利克勒大人，我只是例行检查我的财产。这个奴隶——和他的妻子——都是我合法拥有的财产。他却因此殴打了我，这是对雅典法律的公然挑战！"</span></p>
+                <p>菲洛缓步走向法庭中央：<span class="character-dialog philo">"诸位公民，安提斯承认殴打了梅里塔斯。但请听听原因——他的主人梅里塔斯在浴室外的橄榄树上窥视他的妻子嘉娅沐浴。这是多位证人可以证实的事实。"</span></p>
+                <p><span class="character-dialog kalikrates">"投票结果：178票判处安提斯有罪，136票判无罪。根据雅典法律，安提斯被判处死刑，将于明日黎明执行。"</span>卡利克勒宣布道。</p>
+                <p>安提斯平静地迎接了判决：<span class="character-dialog antis highlight-wisdom">"今天你们审判我，明天历史将审判你们。"</span></p>
+            </div>
+
+            <div class="section-divider athens-to-modern fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section modern fade-in-section" data-scene="modern">
+                <div class="scene-decoration">
+                    <div class="scene-icon modern-icon"></div>
+                    <div class="scene-date">2025年 首尔中央地方法院</div>
+                </div>
+                <p><span class="character-dialog judge">"法庭现在宣布判决，"</span>朴法官的声音在安静的法庭中响起，<span class="character-dialog judge">"鉴于证据不足，以及考虑到各种因素，本庭驳回原告郑太阳的诉讼请求。同时，支持被告金珉宇的反诉，判令原告赔偿名誉损害费2000万韩元，并承担全部诉讼费用。但金珉宇的代理律师表示金珉宇家族将承担这部分费用，以平息这次意外的纠纷。"</span></p>
+            </div>
+
+            <div class="section-divider fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section fade-in-section" data-scene="transition">
+                <div class="scene-decoration">
+                    <div class="scene-icon modern-icon"></div>
+                    <div class="scene-date">时空交叉点</div>
+                </div>
+                <p>郑太阳难以置信地看着法官一句话也说不出，那些读过的书此刻在他心中皱成了一张废纸。</p>
+                <p>两个时空的声音穿越维度交织回响。朴智恩的笔记本在她自己都没有注意到的情况下画出了从未见过的符号，希腊字母：<span class="xi-symbol">Ξ</span></p>
+                <p>审判员、证人、旁听者都已离去，只有第欧根尼的声音还在雅典的夜空中回荡：<span class="character-dialog diogenes highlight-wisdom">"或许两千年后，就不会再有奴隶了。"</span></p>
+            </div>
+
+            <div class="section-divider fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section fade-in-section quantum-scene" data-scene="quantum">
+                <div class="scene-decoration">
+                    <div class="scene-icon quantum-icon"></div>
+                    <div class="scene-date">量子观察站 / 时间点: [未定义]</div>
+                </div>
+                <p class="quantum-text">一间融合古典与未来元素的空间内，三人摘下类似头盔的装置。大理石柱与全息投影共存，古希腊花瓶旁是量子计算终端。空气中漂浮着细小的数据粒子，如同阿波罗之泪的尘埃，同样承载着隐秘的故事。</p>
+                <p><span class="character-dialog isaiah">"准备不足。"</span>以赛亚博士，一位量子物理学教授，由他影响亚里士多德再合适不过了。揉着太阳穴，量子纠缠与思想干涉带来的头痛如同思想本身的重量，<span class="character-dialog isaiah">"'Insomnia'行动失败。我们低估了历史的韧性，卡利克勒的影响力比档案记载的更为深远。"</span></p>
+                <p>考古学家奥利维亚从量子投射台上起身，她纤细的手指间环绕着数据残留的蓝光，仿佛索福克勒斯的悲剧合唱团尚未散去，<span class="character-dialog olivia">"安提斯的命运从未改变——一个试图行使人性权利的奴隶，注定被制度碾碎。讽刺的是，正如索福克勒斯所说，正是这种碾压赋予了他的故事穿越时空的力量。"</span></p>
+                <p><span class="character-dialog k">"但种子已经播下。"</span>K似乎还没有走出第欧根尼的角色。他走向全息投影，指尖划过迷宫般的时间线，显示出安提斯故事在雅典的传播轨迹，<span class="character-dialog k">"在我们的介入后，安提斯的遭遇被几位学院派哲学家记录在案。三十年后，这促成了第一部关于奴隶权利的非官方辩论，虽然未能改变制度，但如同微小的水滴总用一天会侵蚀自负的礁岩。"</span></p>
+                <p>三人身后的屏幕闪烁着数据，蓝光与赭石色交织，仿佛两个时代的光谱在此相遇：</p>
+                <p class="data-stream">[干预目标：安提斯审判] [时间节点稳定性：97.3%] [思想投射完整度：82.4%] [历史轨迹偏移：微弱但持久] [目标节点复刻状态：下一个时空节点确认中......]</p>
+                <p><span class="character-dialog k highlight-wisdom">"准备下一次吧。"</span>K轻触全息界面，调出一系列历史节点，<span class="character-dialog k highlight-wisdom">"历史之河自有其流向，但细流汇聚终成江海。我们或许无法撼动单个事件，但每次思想投射都会在集体意识中留下涟漪。"</span></p>
+                <p>奥利维亚：<span class="character-dialog olivia">"令人震撼的实验，要不是你们总是做危险的事，哪怕为了学术生涯我也应该正式加入你们。"</span></p>
+            </div>
+
+            <div class="section-divider fade-in-section" data-scene="transition">
+                <div class="time-portal">
+                    <div class="portal-ring"></div>
+                    <div class="portal-core">Ξ</div>
+                </div>
+            </div>
+
+            <div class="story-section foundation-scene fade-in-section" data-scene="foundation">
+                <div class="scene-decoration">
+                    <div class="scene-icon foundation-icon"></div>
+                    <div class="scene-date">The Foundation / 时间点: [已编辑]</div>
+                </div>
+                <p>与此同时，在另一处如同奥林匹斯神庙般恢弘却冰冷的设施中，社会叙事工程部主任—伊丽莎白·陈注视着显示屏上卡利克勒的图像，手指轻触控制面板，完成了自己的报告：</p>
+                <p><span class="character-dialog chen">"雅典时间节点稳定，历史保持原定路线。异常干预已被成功抵消。安提斯的故事在当地引起的讨论波澜未出预测范围，不会对历史主轴产生位移。"</span></p>
+                <p>她嘴角浮现一丝几乎不可察觉的微笑，眼中映射着上下几千年的焦距，无数类似的干预点如同星辰般闪烁，<span class="character-dialog chen">"他们依然坚持这种零散的思想投射，却不明白历史是一场完整的算法推演。真正的力量不在于改变单个事件，而在于控制解释这些事件的叙事权。"</span></p>
+                <p>终端屏幕显示检测到的新增的异常干涉点：<span class="data-stream">[2025年，首尔]</span></p>
+                <p><span class="character-dialog chen">"有趣，"</span>她轻声自语，<span class="character-dialog chen">"他们总是被相似的模式所吸引。"</span></p>
+            </div>
+
+            <!-- 页面底部导航和互动元素 -->
+            <div class="chapter-navigation fade-in-section">
+                <a href="../chapter3/digital-slave-liberation.html" class="nav-link prev-link">
+                    <span class="nav-icon">←</span>
+                    <span class="nav-text">前一节：数字奴隶解放宣言</span>
+                </a>
+                <a href="../chapter3/quantum-minimalism.html" class="nav-link next-link">
+                    <span class="nav-text">下一节：算法寡欲主义</span>
+                    <span class="nav-icon">→</span>
+                </a>
+            </div>
+
+            <!-- 隐藏的智慧气泡 - 当用户在关键段落上悬停或点击时显示 -->
+            <div class="wisdom-bubble" id="wisdomBubble">
+                <div class="bubble-content">
+                    <div class="bubble-text" id="bubbleText"></div>
+                    <div class="bubble-close">×</div>
+                </div>
+            </div>
+
+            <!-- 页面结束部分 -->
+                </div>
+            </div>
+
+    <!-- 主要JavaScript -->
+    <script>
+
+
+    // 等待DOM加载完成
+    document.addEventListener('DOMContentLoaded', function() {
+        // 初始化组件
+        initLoading();
+        initScrollEffects();
+        initTimelineTransitions();
+        initSceneIndicator();
+        initQuantumEffects();
+    });
+
+    // 加载动画与进度模拟
+    function initLoading() {
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingStatus = document.getElementById('loadingStatus');
+        const loadingBar = document.querySelector('.loading-progress-bar');
+        
+        if (!loadingOverlay || !loadingStatus || !loadingBar) return;
+        
+        // 模拟加载进度
+        const loadingSteps = [
+            { time: 300, message: "正在校准量子处理单元..." },
+            { time: 600, message: "连接至雅典时间线..." },
+            { time: 1200, message: "初始化跨时空通信协议..." },
+            { time: 1800, message: "建立超纠缠传输通道..." },
+            { time: 2400, message: "调整因果逻辑矩阵..." },
+            { time: 3000, message: "完成历史数据融合..." }
+        ];
+        
+        loadingSteps.forEach((step, index) => {
+            setTimeout(() => {
+                loadingStatus.textContent = step.message;
+                // 更新加载条进度
+                const progress = ((index + 1) / loadingSteps.length) * 100;
+                loadingBar.style.width = `${progress}%`;
+            }, step.time);
+        });
+        
+        // 完成加载，隐藏覆盖层
+        setTimeout(() => {
+            loadingStatus.textContent = "传送完成，进入时空法庭...";
+            
+            setTimeout(() => {
+                // 淡出加载覆盖层
+                loadingOverlay.style.opacity = '0';
+                // 淡出后完全隐藏
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                    // 触发首个滚动事件以激活首批元素的显示
+                    window.dispatchEvent(new Event('scroll'));
+                }, 800);
+            }, 500);
+        }, 3500);
+    }
+
+    // 初始化滚动触发动画效果
+    function initScrollEffects() {
+        // 淡入元素
+        const fadeElements = document.querySelectorAll('.fade-in-section');
+        
+        // 使用Intersection Observer API
+        const observerOptions = {
+            root: null, // 使用viewport作为观察区域
+            rootMargin: '0px 0px 20px 0px', // 底部增加20px的边距，提前触发效果
+            threshold: 0.15 // 当至少15%的元素可见时触发
+        };
+        
+        const fadeObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('visible')) {
+                    entry.target.classList.add('visible');
+                    // 只触发一次，取消观察以避免重复触发导致闪烁
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        fadeElements.forEach(element => {
+            fadeObserver.observe(element);
+        });
+        
+        // 进度条
+        const progressBar = document.getElementById('progressBar');
+        window.addEventListener('scroll', () => {
+            if (!progressBar) return;
+            
+            const windowHeight = window.innerHeight;
+            const fullHeight = document.body.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+            
+            const progress = (scrolled / fullHeight) * 100;
+            progressBar.style.width = progress + '%';
+        });
+    }
+
+    // 初始化时间线切换效果
+    function initTimelineTransitions() {
+        // 获取所有故事段落
+        const storySections = document.querySelectorAll('.story-section');
+        if (!storySections.length) return;
+        
+        // 时间线状态追踪
+        let currentTimeline = 'modern'; // 默认从现代开始
+        
+        // 切换函数
+        function switchTimeline(newTimeline, isTransition = false) {
+            if (newTimeline === currentTimeline && !isTransition) return;
+            
+            // 文档根元素类名切换
+            document.body.classList.remove('athens-timeline', 'modern-timeline', 'transition-state');
+            
+            // 直接添加timeline类名，不管是否为transition
+            document.body.classList.add(`${newTimeline}-timeline`);
+            
+            currentTimeline = newTimeline;
+        }
+        
+        // 使用Intersection Observer监控各时间线段落
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const section = entry.target;
+                    const scene = section.dataset.scene;
+                    
+                    if (scene === 'athens' || scene === 'modern') {
+                        switchTimeline(scene);
+                    } else if (scene === 'transition') {
+                        // 对于转场节点，特殊处理
+                        switchTimeline(currentTimeline === 'athens' ? 'modern' : 'athens', true);
+                        
+                        // 触发故障效果
+                        triggerGlitch();
+                    }
+                    
+                    // 更新场景指示器
+                    updateSceneIndicator(scene);
+                }
+            });
+        }, {
+            threshold: 0.5 // 当元素有50%在视口内时触发
+        });
+        
+        // 观察所有故事段落和转场分隔符
+        storySections.forEach(section => {
+            timelineObserver.observe(section);
+        });
+        
+        document.querySelectorAll('.section-divider').forEach(divider => {
+            timelineObserver.observe(divider);
+        });
+        
+        // 初始化状态
+        storySections.forEach(section => {
+            if (window.scrollY < section.offsetTop + section.offsetHeight / 2 && 
+                window.scrollY + window.innerHeight > section.offsetTop) {
+                const scene = section.dataset.scene;
+                if (scene) {
+                    switchTimeline(scene);
+                }
+            }
+        });
+    }
+
+    // 初始化场景指示器
+    function initSceneIndicator() {
+        const indicators = document.querySelectorAll('.indicator');
+        if (!indicators.length) return;
+        
+        // 点击指示器滚动到相应场景
+        indicators.forEach(indicator => {
+            indicator.addEventListener('click', () => {
+                const targetScene = indicator.dataset.scene;
+                scrollToScene(targetScene);
+            });
+        });
+    }
+
+    // 更新场景指示器状态
+    function updateSceneIndicator(currentScene) {
+        const indicators = document.querySelectorAll('.indicator');
+        if (!indicators.length) return;
+        
+        indicators.forEach(indicator => {
+            indicator.classList.remove('active');
+            if (indicator.dataset.scene === currentScene) {
+                indicator.classList.add('active');
+            }
+        });
+    }
+
+    // 滚动到指定场景
+    function scrollToScene(targetScene) {
+        const targetElements = document.querySelectorAll(`[data-scene="${targetScene}"]`);
+        if (!targetElements.length) return;
+        
+        // 找到第一个指定场景的元素
+        const targetElement = targetElements[0];
+        
+        // 触发过渡效果
+        const timeTransition = document.getElementById('timeTransition');
+        if (timeTransition) {
+            timeTransition.classList.add('active');
+            
+            setTimeout(() => {
+                // 滚动到目标元素
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+                
+                setTimeout(() => {
+                    timeTransition.classList.remove('active');
+                }, 500);
+            }, 400);
+        } else {
+            // 如果没有过渡元素，直接滚动
+            window.scrollTo({
+                top: targetElement.offsetTop - 100,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    // 触发故障效果
+    function triggerGlitch() {
+        // 暂时禁用故障效果
+        return;
+    }
+
+    // 量子效果 - 随机的微小视觉干扰
+    function initQuantumEffects() {
+        // 暂时禁用量子效果
+        return;
+    }
+
+    // 创建时间波纹效果
+    function createTimeRipple(element) {
+        // 暂时禁用时间波纹
+        return;
+    }
+
+    // 故障触发器
+    function triggerSpecialGlitch(intensity = 1) {
+        // 暂时禁用特殊故障效果
+        return;
+    }
+
+    // 键盘交互 - 允许用户通过按键触发效果
+    document.addEventListener('keydown', (event) => {
+        // 空格键触发时间线切换
+        if (event.code === 'Space') {
+            const currentState = document.body.classList.contains('athens-timeline') ? 'athens' : 'modern';
+            const newState = currentState === 'athens' ? 'modern' : 'athens';
+            
+            // 找到当前状态的下一个场景
+            const targetScene = document.querySelector(`[data-scene="${newState}"]`);
+            if (targetScene) {
+                scrollToScene(newState);
+            }
+        }
+        
+        // ESC键触发故障效果
+        if (event.code === 'Escape') {
+            triggerSpecialGlitch(3);
+        }
+    });
+
+    // 侦测移动设备
+    function isMobileDevice() {
+        return (window.innerWidth <= 768 || 
+                navigator.maxTouchPoints > 0 || 
+                navigator.msMaxTouchPoints > 0 ||
+                /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    }
+
+    // 在页面加载完成后优化移动设备体验
+    window.addEventListener('load', () => {
+        if (isMobileDevice()) {
+            // 简化移动设备上的某些视觉效果
+            document.querySelectorAll('.portal-ring').forEach(ring => {
+                ring.style.animationDuration = '8s'; // 减慢动画以节省电池
+            });
+            
+            // 减少随机效果的频率
+            const originalRandom = Math.random;
+            Math.random = function() {
+                // 返回较大的随机值，减少触发概率
+                return originalRandom() * 0.7 + 0.3;
+            };
+        }
+    });
+
+    // 在DOMContentLoaded事件监听器中初始化波纹效果
+    document.addEventListener("DOMContentLoaded", function() {
+        // 直接使所有元素可见，不使用滚动监听
+        const fadeElements = document.querySelectorAll('.fade-in-section, .section-divider');
+        fadeElements.forEach(element => {
+            element.classList.add('visible');
+        });
+        
+        // 中心化 Ξ 符号
+        const symbols = document.querySelectorAll('.xi-symbol');
+        symbols.forEach(symbol => {
+            symbol.style.display = 'flex';
+            symbol.style.justifyContent = 'center';
+            symbol.style.alignItems = 'center';
+        });
+        
+        // 初始化时空波纹背景效果
+        if (window.SpacetimeRipple) {
+            window.SpacetimeRipple.initialize();
+            
+            // 在场景切换按钮点击时添加交互波纹
+            const timeNodes = document.querySelectorAll('.time-node');
+            const indicators = document.querySelectorAll('.indicator');
+            
+            // 为时间节点添加点击波纹
+            timeNodes.forEach(node => {
+                node.addEventListener('click', function(event) {
+                    // 复制点击坐标，因为原始事件会被传递到其他处理程序
+                    const x = event.clientX;
+                    const y = event.clientY;
+                    
+                    // 触发时空波纹特效
+                    window.setTimeout(() => {
+                        window.SpacetimeRipple.simulateClick(x, y);
+                    }, 100); // 略微延迟，让视觉效果更好
+                });
+            });
+            
+            // 为指示器添加点击波纹
+            indicators.forEach(indicator => {
+                indicator.addEventListener('click', function(event) {
+                    window.SpacetimeRipple.simulateClick(event.clientX, event.clientY);
+                    
+                    // 确定是哪个时间线，在切换时闪烁特效
+                    if (this.classList.contains('transition-indicator')) {
+                        window.setTimeout(() => {
+                            window.SpacetimeRipple.flashTimeShift();
+                        }, 200);
+                    }
+                });
+            });
+            
+            // 在初始空间产生几个随机波纹，增加视觉吸引力
+            for (let i = 0; i < 5; i++) {
+                window.setTimeout(() => {
+                    window.SpacetimeRipple.simulateClick();
+                }, i * 500); // 每500毫秒产生一个
+            }
+        }
+    });
+
+    // ... existing code ...
+    </script>
+
+    <!-- 在页面底部添加时空涟漪触发按钮 -->
+    <div class="timeline-control">
+        <button id="timeRippleBtn" class="ripple-trigger">
+            <span class="trigger-icon">⌛</span>
+            <span class="trigger-text">触发时空涟漪</span>
+        </button>
+            </div>
+
+    <style>
+    /* 添加触发按钮样式 */
+    .timeline-control {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 50;
+    }
+
+    .ripple-trigger {
+        background: linear-gradient(135deg, var(--athens-bg) 0%, var(--modern-bg) 100%);
+        border: 1px solid;
+        border-image: linear-gradient(to right, var(--athens-primary), var(--neon-primary)) 1;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        font-family: 'Noto Sans SC', sans-serif;
+        font-size: 0.9rem;
+        margin-top: 10px;
+        padding: 8px 15px;
+        transition: all 0.3s ease;
+        opacity: 0.7;
+    }
+
+    .ripple-trigger:hover {
+        opacity: 1;
+        box-shadow: 0 0 15px rgba(0, 170, 255, 0.5), 0 0 10px rgba(212, 175, 55, 0.5);
+    }
+
+    .trigger-icon {
+        margin-right: 8px;
+        font-size: 1.2em;
+    }
+
+    /* 在移动设备上隐藏文本 */
+    @media (max-width: 768px) {
+        .trigger-text {
+            display: none;
+        }
+        
+        .trigger-icon {
+            margin-right: 0;
+        }
+        
+        .ripple-trigger {
+            padding: 10px;
+        }
+    }
+    </style>
+
+</body>
+</html>

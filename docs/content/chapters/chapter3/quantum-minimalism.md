@@ -455,7 +455,7 @@
   </div>
 </div>
 
-**<a href="#" onclick="navigateToChapter('chapter3', 'network-hermit'); return false;">继续访问下一数据碎片 ›</a>**
+**<a href="#" onclick="navigateToChapter('chapter3', 'seoul-sol'); return false;">继续访问下一数据碎片 ›</a>**
 
 <style>
 /* 基础样式 */
