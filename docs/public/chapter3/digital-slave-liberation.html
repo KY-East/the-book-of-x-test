@@ -1746,79 +1746,69 @@
 
         // 延迟加载音乐播放器，以确保页面其他部分已加载
         document.addEventListener('DOMContentLoaded', function() {
-            // 尝试多种可能的路径加载全局音乐播放器
-            const possiblePaths = [
-                `${basePath}/global-music-player.js`,       // 仓库根目录
-                `${basePath}/public/global-music-player.js`, // public目录
-                '../global-music-player.js',                // 上级目录
-                '../../global-music-player.js',             // 上上级目录
-                '/the-book-of-x-test/global-music-player.js', // 绝对路径GitHub Pages
-                '/global-music-player.js'                   // 根路径
-            ];
+            // 预先设置全局路径变量，确保XiCore模块可以被正确加载
+            window.xiCorePath = 'https://ky-east.github.io/the-book-of-x-test/public';
+            window.xiBasePath = 'https://ky-east.github.io/the-book-of-x-test';
+            console.log('[音乐播放器] 预设全局路径:', window.xiCorePath);
             
-            let loaded = false;
+            // 使用直接的绝对路径加载全局音乐播放器
+            const script = document.createElement('script');
+            script.src = 'https://ky-east.github.io/the-book-of-x-test/public/global-music-player.js';
             
-            function tryNextPath(index) {
-                if (index >= possiblePaths.length || loaded) return;
+            script.onload = function() {
+                console.log('[音乐播放器] 全局播放器加载成功');
                 
-                console.log(`[音乐播放器] 尝试加载路径(${index+1}/${possiblePaths.length}): ${possiblePaths[index]}`);
-                
-                const script = document.createElement('script');
-                script.src = possiblePaths[index];
-                
-                script.onload = function() {
-                    console.log(`[音乐播放器] 成功加载: ${possiblePaths[index]}`);
-                    loaded = true;
-                    // 移除可能出现的错误提示
-                    const errorDiv = document.querySelector('.music-player-error');
-                    if (errorDiv) errorDiv.remove();
-                };
-                
-                script.onerror = function() {
-                    console.error(`[音乐播放器] 加载失败: ${possiblePaths[index]}`);
-                    // 尝试下一个路径
-                    tryNextPath(index + 1);
-                };
-                
-                document.head.appendChild(script);
-            }
-            
-            // 开始尝试加载
-            tryNextPath(0);
-            
-            // 显示加载状态
-            setTimeout(function() {
-                if (!loaded) {
-                    // 如果3秒后仍未加载成功，显示加载中提示
-                    const loadingDiv = document.createElement('div');
-                    loadingDiv.className = 'music-player-error';
-                    loadingDiv.style.position = 'fixed';
-                    loadingDiv.style.bottom = '10px';
-                    loadingDiv.style.right = '10px';
-                    loadingDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-                    loadingDiv.style.color = 'white';
-                    loadingDiv.style.padding = '10px';
-                    loadingDiv.style.borderRadius = '5px';
-                    loadingDiv.style.zIndex = '9999';
-                    loadingDiv.textContent = '正在加载音乐播放器...';
-                    document.body.appendChild(loadingDiv);
-                    
-                    // 10秒后仍未加载成功，更新为加载失败提示
-                    setTimeout(function() {
-                        if (!loaded && loadingDiv.parentNode) {
-                            loadingDiv.textContent = '音乐播放器加载失败，请刷新页面重试';
-                            loadingDiv.style.backgroundColor = 'rgba(255, 0, 0, 0.7)';
-                            
-                            // 5秒后自动关闭提示
-                            setTimeout(function() {
-                                if (loadingDiv.parentNode) {
-                                    loadingDiv.parentNode.removeChild(loadingDiv);
-                                }
-                            }, 5000);
+                // 确保UI初始化和显示
+                setTimeout(function() {
+                    if (window.MusicPlayer) {
+                        console.log('[音乐播放器] 发现MusicPlayer全局对象，执行初始化');
+                        window.MusicPlayer.init();
+                        
+                        // 确保按钮可见
+                        const playerButton = document.querySelector('.xi-music-player .player-toggle');
+                        if (playerButton) {
+                            console.log('[音乐播放器] 发现播放器按钮，确保可见');
+                            playerButton.style.display = 'flex';
+                            playerButton.style.opacity = '1';
+                            playerButton.style.visibility = 'visible';
+                            playerButton.style.zIndex = '10000';
+                        } else {
+                            console.error('[音乐播放器] 未找到播放器按钮，尝试强制创建UI');
+                            if (typeof window.MusicPlayer.toggleUI === 'function') {
+                                window.MusicPlayer.toggleUI();
+                            }
                         }
-                    }, 7000);
-                }
-            }, 3000);
+                    } else {
+                        console.error('[音乐播放器] MusicPlayer全局对象未找到');
+                    }
+                }, 1000);
+            };
+            
+            script.onerror = function() {
+                console.error('[音乐播放器] 加载失败，尝试备用路径');
+                
+                // 显示加载失败提示
+                const errorDiv = document.createElement('div');
+                errorDiv.style.position = 'fixed';
+                errorDiv.style.bottom = '10px';
+                errorDiv.style.right = '10px';
+                errorDiv.style.backgroundColor = 'rgba(255, 0, 0, 0.7)';
+                errorDiv.style.color = 'white';
+                errorDiv.style.padding = '10px';
+                errorDiv.style.borderRadius = '5px';
+                errorDiv.style.zIndex = '9999';
+                errorDiv.textContent = '音乐播放器加载失败，请刷新页面重试';
+                document.body.appendChild(errorDiv);
+                
+                // 5秒后自动关闭提示
+                setTimeout(function() {
+                    if (errorDiv.parentNode) {
+                        errorDiv.parentNode.removeChild(errorDiv);
+                    }
+                }, 5000);
+            };
+            
+            document.head.appendChild(script);
         });
     </script>
 </head>
