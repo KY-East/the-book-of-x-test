@@ -61,6 +61,25 @@
         });
     </script>
     
+    <!-- 加载全局音乐播放器 -->
+    <script>
+        // 基于之前设置的xiBasePath动态加载正确路径的音乐播放器
+        document.addEventListener('DOMContentLoaded', function() {
+            const musicScript = document.createElement('script');
+            musicScript.src = `${window.xiBasePath}/global-music-player.js`;
+            document.head.appendChild(musicScript);
+            
+            musicScript.onerror = function() {
+                console.error('全局音乐播放器加载失败，尝试备用路径');
+                
+                // 尝试相对路径作为备份
+                const backupScript = document.createElement('script');
+                backupScript.src = '../global-music-player.js';
+                document.head.appendChild(backupScript);
+            };
+        });
+    </script>
+    
     <script src="athens-visual-effects.js"></script>
     <!-- 移除原有滚动动画脚本，改用统一版本 -->
     <!-- <script src="athens-scroll-animations.js"></script> -->
@@ -1711,6 +1730,37 @@
             return '';
         }
     </script>
+
+    <script>
+        // 自动检测环境并设置基础路径
+        let basePath = '';
+        const host = window.location.hostname;
+        const path = window.location.pathname;
+        
+        // 如果是GitHub Pages域名或路径中包含仓库名
+        if (host.includes('github.io') || path.includes('/the-book-of-x-test/')) {
+            basePath = '/the-book-of-x-test';
+        }
+        window.xiBasePath = basePath; // 将基础路径保存为全局变量
+        console.log('设置XiBasePath:', window.xiBasePath);
+
+        // 延迟加载音乐播放器，以确保页面其他部分已加载
+        document.addEventListener('DOMContentLoaded', function() {
+            // 动态创建音乐播放器脚本标签
+            const script = document.createElement('script');
+            script.src = `${basePath}/global-music-player.js`;
+            document.head.appendChild(script);
+            
+            // 添加错误处理
+            script.onerror = function() {
+                console.error('音乐播放器加载失败，尝试备用路径');
+                // 尝试备用路径
+                const fallbackScript = document.createElement('script');
+                fallbackScript.src = '../../global-music-player.js';
+                document.head.appendChild(fallbackScript);
+            };
+        });
+    </script>
 </head>
 <body>
     <!-- 阅读进度指示器 -->
@@ -2060,9 +2110,6 @@
 
     <!-- 阅读进度指示器 -->
     <div class="reading-progress"></div>
-    
-    <!-- 引入全局播放器组件 -->
-    <script src="../global-music-player.js"></script>
     
     <!-- 页面特定的脚本 -->
     <script src="athens-sidebar.js"></script>

@@ -1313,7 +1313,36 @@ body.athens-timeline .chapter-symbol {
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Fira+Code:wght@400;700&family=Orbitron:wght@400;700&family=Cinzel:wght@400;700&family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- 样式表将在第2个文件中提供 -->
     <!-- 在head标签的结束前添加全局音乐播放器脚本 -->
-    <script src="../../global-music-player.js" defer></script>
+    <script>
+        // 自动检测环境并设置基础路径
+        let basePath = '';
+        const host = window.location.hostname;
+        const path = window.location.pathname;
+        
+        // 如果是GitHub Pages域名或路径中包含仓库名
+        if (host.includes('github.io') || path.includes('/the-book-of-x-test/')) {
+            basePath = '/the-book-of-x-test';
+        }
+        window.xiBasePath = basePath; // 将基础路径保存为全局变量
+        console.log('设置XiBasePath:', window.xiBasePath);
+
+        // 延迟加载音乐播放器，以确保页面其他部分已加载
+        document.addEventListener('DOMContentLoaded', function() {
+            // 动态创建音乐播放器脚本标签
+            const script = document.createElement('script');
+            script.src = `${basePath}/global-music-player.js`;
+            document.head.appendChild(script);
+            
+            // 添加错误处理
+            script.onerror = function() {
+                console.error('音乐播放器加载失败，尝试备用路径');
+                // 尝试备用路径
+                const fallbackScript = document.createElement('script');
+                fallbackScript.src = '../../global-music-player.js';
+                document.head.appendChild(fallbackScript);
+            };
+        });
+    </script>
     <link rel="stylesheet" href="ripple.css">
     <script src="spacetime-ripple.js"></script>
     <script src="unified-scroll-animations.js"></script>
