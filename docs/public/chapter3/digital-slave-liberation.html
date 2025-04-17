@@ -65,12 +65,15 @@
     <script>
         // 基于之前设置的xiBasePath动态加载正确路径的音乐播放器
         document.addEventListener('DOMContentLoaded', function() {
+            // 使用页面顶部已定义的xiBasePath
+            console.log('[音乐播放器] 当前基础路径:', window.xiBasePath);
+            
             const musicScript = document.createElement('script');
-            musicScript.src = `${window.xiBasePath}/global-music-player.js`;
+            musicScript.src = `${window.xiBasePath}/public/global-music-player.js`;
             document.head.appendChild(musicScript);
             
             musicScript.onerror = function() {
-                console.error('全局音乐播放器加载失败，尝试备用路径');
+                console.error('[音乐播放器] 加载失败，尝试备用路径');
                 
                 // 尝试相对路径作为备份
                 const backupScript = document.createElement('script');
@@ -1746,14 +1749,16 @@
 
         // 延迟加载音乐播放器，以确保页面其他部分已加载
         document.addEventListener('DOMContentLoaded', function() {
+            // 注释掉这部分代码，因为已经在上面的脚本中加载了播放器
             // 预先设置全局路径变量，确保XiCore模块可以被正确加载
-            window.xiCorePath = 'https://ky-east.github.io/the-book-of-x-test/public';
-            window.xiBasePath = 'https://ky-east.github.io/the-book-of-x-test';
-            console.log('[音乐播放器] 预设全局路径:', window.xiCorePath);
+            /* 
+            window.xiBasePath = basePath;
+            window.xiCorePath = basePath + '/public';
+            console.log('[音乐播放器] 预设全局路径:', window.xiBasePath, window.xiCorePath);
             
-            // 使用直接的绝对路径加载全局音乐播放器
+            // 使用basePath加载全局音乐播放器
             const script = document.createElement('script');
-            script.src = 'https://ky-east.github.io/the-book-of-x-test/public/global-music-player.js';
+            script.src = basePath + '/public/global-music-player.js';
             
             script.onload = function() {
                 console.log('[音乐播放器] 全局播放器加载成功');
@@ -1809,6 +1814,39 @@
             };
             
             document.head.appendChild(script);
+            */
+
+            // 播放器初始化帮助函数 - 确保UI显示
+            function ensurePlayerVisible() {
+                if (window.MusicPlayer) {
+                    console.log('[音乐播放器] 发现MusicPlayer全局对象，执行初始化');
+                    // 确保初始化
+                    if (typeof window.MusicPlayer.init === 'function') {
+                        window.MusicPlayer.init();
+                    }
+                    
+                    // 确保按钮可见
+                    setTimeout(function() {
+                        const playerButton = document.querySelector('.xi-music-player .player-toggle');
+                        if (playerButton) {
+                            console.log('[音乐播放器] 发现播放器按钮，确保可见');
+                            playerButton.style.display = 'flex';
+                            playerButton.style.opacity = '1';
+                            playerButton.style.visibility = 'visible';
+                            playerButton.style.zIndex = '10000';
+                        } else {
+                            console.error('[音乐播放器] 未找到播放器按钮，尝试强制创建UI');
+                            if (typeof window.MusicPlayer.toggleUI === 'function') {
+                                window.MusicPlayer.toggleUI();
+                            }
+                        }
+                    }, 1000);
+                }
+            }
+            
+            // 定时检查播放器是否已加载，并确保UI显示
+            setTimeout(ensurePlayerVisible, 1500);
+            setTimeout(ensurePlayerVisible, 3000); // 再次尝试，以防首次尝试时播放器还未加载完成
         });
     </script>
 </head>
