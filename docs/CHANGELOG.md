@@ -1,6 +1,6 @@
 # 《The Book of Ξ》项目变更日志
 
-## Vercel部署配置添加 (2025-04-17)
+## Vercel部署配置添加与依赖修复 (2025-04-17)
 
 ### 问题分析
 在迁移到Vercel部署过程中，遇到npm依赖冲突问题：`framer-motion-3d@12.4.13`要求`@react-three/fiber@8.2.2`，但项目中安装的是`@react-three/fiber@8.18.0`。
@@ -12,8 +12,11 @@
    - 设置正确的静态目录和路由规则
    
 2. **依赖冲突处理**：
-   - 使用`--legacy-peer-deps`参数忽略peer dependency冲突
-   - 保留现有依赖版本，避免破坏现有功能
+   - 尝试使用`--legacy-peer-deps`参数忽略peer dependency冲突
+   - 由于配置参数不生效，直接修改`package.json`：
+     - 将`framer-motion-3d`版本降级到`^10.16.4`，解决与`@react-three/fiber@8.18.0`的冲突
+     - 添加`resolutions`字段强制解析依赖版本
+     - 添加`vercel-build`脚本，确保使用`--legacy-peer-deps`参数
 
 ### 后续计划
 1. 监控Vercel部署状态，确保网站正常运行
@@ -21,7 +24,7 @@
 3. 评估未来是否需要更精确地解决依赖冲突问题
 
 ### 影响范围
-此次更改仅影响部署流程，不影响实际代码功能。确保网站能够成功部署到Vercel平台。
+此次更改影响部署流程和项目依赖结构。降级`framer-motion-3d`版本可能影响部分3D动画效果，但不应影响核心功能。
 
 2025-04-17 - 实现统一滚动动画系统，修复多个页面滚动效果问题
 
