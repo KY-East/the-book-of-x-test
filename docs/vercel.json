@@ -2,11 +2,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/chapter1", "destination": "/public/chapter1/first-contact-protocol.html" },
-    { "source": "/chapter2", "destination": "/public/chapter2/digital-identity.html" },
-    { "source": "/chapter3", "destination": "/public/chapter3/digital-slave-liberation.html" },
-    { "source": "/preface", "destination": "/public/preface/system-warning.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
     {
