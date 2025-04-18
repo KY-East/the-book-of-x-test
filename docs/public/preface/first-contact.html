@@ -631,183 +631,6 @@ body::before {
   text-shadow: none;
 }
 
-/* 音乐播放器样式 */
-.music-player-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid #00ff9d;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 100;
-  box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
-  transition: all 0.3s ease;
-}
-
-.music-player-toggle:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
-}
-
-.music-icon {
-  color: #00ff9d;
-  font-size: 18px;
-}
-
-.player-container {
-  position: fixed;
-  bottom: 70px;
-  right: 20px;
-  width: 300px;
-  background: rgba(0, 0, 0, 0.85);
-  border: 1px solid #00ff9d;
-  border-radius: 5px;
-  padding: 15px;
-  transform: translateX(350px);
-  transition: transform 0.3s ease;
-  z-index: 100;
-  box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
-}
-
-.player-container.active {
-  transform: translateX(0);
-}
-
-.player-header {
-  color: #00ff9d;
-  font-size: 16px;
-  margin-bottom: 10px;
-  text-align: center;
-  border-bottom: 1px solid rgba(0, 255, 157, 0.3);
-  padding-bottom: 5px;
-}
-
-.music-info {
-  color: #fff;
-  font-size: 14px;
-  margin: 10px 0;
-  text-align: center;
-}
-
-.progress-container {
-  margin: 10px 0;
-}
-
-.progress-bar {
-  height: 5px;
-  background: #333;
-  border-radius: 5px;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.progress-current {
-  height: 100%;
-  width: 0;
-  background: #00ff9d;
-}
-
-.time-display {
-  font-size: 12px;
-  color: #aaa;
-  margin-top: 5px;
-  text-align: right;
-}
-
-.controls {
-  display: flex;
-  justify-content: center;
-  margin: 15px 0;
-}
-
-.control-btn {
-  background: none;
-  border: none;
-  color: #00ff9d;
-  font-size: 18px;
-  margin: 0 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.control-btn:hover {
-  transform: scale(1.2);
-  color: #fff;
-}
-
-.play-btn {
-  font-size: 24px;
-}
-
-.volume-control-container {
-  display: flex;
-  align-items: center;
-  margin: 10px 0;
-}
-
-.volume-icon {
-  color: #00ff9d;
-  margin-right: 10px;
-  font-size: 14px;
-}
-
-.volume-slider {
-  flex: 1;
-  height: 5px;
-  -webkit-appearance: none;
-  background: #333;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.volume-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #00ff9d;
-  cursor: pointer;
-}
-
-.playlist-container {
-  margin-top: 15px;
-  border-top: 1px solid rgba(0, 255, 157, 0.3);
-  padding-top: 10px;
-}
-
-.playlist-title {
-  color: #00ff9d;
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-
-.playlist {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  max-height: 100px;
-  overflow-y: auto;
-}
-
-.playlist li {
-  color: #ccc;
-  font-size: 12px;
-  padding: 5px;
-  border-radius: 3px;
-  transition: all 0.3s ease;
-}
-
-.playlist li:hover {
-  background: rgba(0, 255, 157, 0.2);
-  color: #fff;
-}
-
 /* 机密文件样式 */
 .classified-document {
   position: relative;
@@ -1830,258 +1653,6 @@ body::before {
   });
 </script>
 
-<!-- 音乐播放器 -->
-<div class="music-player-toggle" id="playerToggle">
-  <div class="music-icon">♫</div>
-</div>
-<div class="player-container">
-  <div class="player-header">音乐播放器</div>
-  <div class="music-info" id="musicInfo">加载中...</div>
-  <div class="progress-container">
-    <div class="progress-bar" id="progressBar">
-      <div class="progress-current" id="progressCurrent"></div>
-    </div>
-    <div class="time-display">
-      <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
-    </div>
-  </div>
-  <div class="controls">
-    <button class="control-btn" id="prevTrack">⏮</button>
-    <button class="control-btn play-btn" id="playPause">▶</button>
-    <button class="control-btn" id="nextTrack">⏭</button>
-  </div>
-  <div class="volume-control-container">
-    <span class="volume-icon">🔊</span>
-    <input type="range" min="0" max="1" step="0.1" value="0.3" class="volume-slider" id="volumeControl">
-  </div>
-  <div class="playlist-container">
-    <div class="playlist-title">播放列表</div>
-    <ul class="playlist" id="playlist-display"></ul>
-  </div>
-</div>
-
-<script>
-    // 音乐播放器功能
-    document.addEventListener('DOMContentLoaded', function() {
-      // 音乐播放列表
-      const playlist = [
-        {
-          title: "燃烧",
-          url: "/music/燃烧.mp3"
-        },
-        {
-          title: "《Metaphysics》 (Remastered)",
-          url: "/music/《Metaphysics》 (Remastered).mp3"
-        },
-        {
-          title: "Budapest (Cover) (Remastered)",
-          url: "/music/Budapest (Cover) (Remastered).mp3"
-        },
-        {
-          title: "Moonfall",
-          url: "/music/Moonfall.mp3"
-        },
-        {
-          title: "示例 - Algorithms (电子音乐)",
-          url: "/music/ambient1.mp3"
-        }
-      ];
-      
-      // 创建音频元素
-      let audioPlayer;
-      if (!document.getElementById('audioPlayer')) {
-        audioPlayer = document.createElement('audio');
-        audioPlayer.id = 'audioPlayer';
-        audioPlayer.style.display = 'none';
-        document.body.appendChild(audioPlayer);
-      } else {
-        audioPlayer = document.getElementById('audioPlayer');
-      }
-      
-      // 获取DOM元素
-      const playerToggle = document.getElementById('playerToggle');
-      const playerContainer = document.querySelector('.player-container');
-      const playPauseBtn = document.getElementById('playPause');
-      const prevBtn = document.getElementById('prevTrack');
-      const nextBtn = document.getElementById('nextTrack');
-      const volumeControl = document.getElementById('volumeControl');
-      const musicInfo = document.getElementById('musicInfo');
-      const progressBar = document.getElementById('progressBar');
-      const progressCurrent = document.getElementById('progressCurrent');
-      const currentTimeDisplay = document.getElementById('currentTime');
-      const totalTimeDisplay = document.getElementById('totalTime');
-    const playlistDisplay = document.getElementById('playlist-display');
-      
-      // 状态变量
-      let currentTrack = 0;
-      let isPlaying = false;
-    
-    // 显示播放列表
-    playlistDisplay.innerHTML = '';
-    playlist.forEach(function(track, index) {
-      const li = document.createElement('li');
-      li.textContent = track.title;
-      li.style.cursor = 'pointer';
-      li.onclick = function() {
-        currentTrack = index;
-        loadAndPlayTrack();
-      };
-      playlistDisplay.appendChild(li);
-    });
-      
-      // 切换播放器显示
-      playerToggle.addEventListener('click', function() {
-        playerContainer.classList.toggle('active');
-      });
-      
-      // 更新播放进度
-      function updateProgress() {
-        if (audioPlayer.duration) {
-          const percentage = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-          progressCurrent.style.width = `${percentage}%`;
-          
-          // 更新时间显示
-          const currentMins = Math.floor(audioPlayer.currentTime / 60);
-          const currentSecs = Math.floor(audioPlayer.currentTime % 60);
-          const totalMins = Math.floor(audioPlayer.duration / 60);
-          const totalSecs = Math.floor(audioPlayer.duration % 60);
-          
-          currentTimeDisplay.textContent = `${currentMins}:${currentSecs < 10 ? '0' + currentSecs : currentSecs}`;
-          totalTimeDisplay.textContent = `${totalMins}:${totalSecs < 10 ? '0' + totalSecs : totalSecs}`;
-        }
-      }
-      
-      // 更新音乐信息
-      function updateMusicInfo() {
-        musicInfo.textContent = playlist[currentTrack].title;
-      }
-      
-      // 加载并播放当前曲目
-      function loadAndPlayTrack() {
-        musicInfo.textContent = `加载中... ${playlist[currentTrack].title}`;
-        
-        try {
-          // 设置音频源
-          const encodedUrl = encodeURI(playlist[currentTrack].url);
-          audioPlayer.src = encodedUrl;
-          
-          // 确保先加载音频数据
-          audioPlayer.load();
-          
-          // 等待元数据加载
-          audioPlayer.addEventListener('loadedmetadata', function onMetadataLoaded() {
-            audioPlayer.removeEventListener('loadedmetadata', onMetadataLoaded);
-            
-            // 播放音频
-            audioPlayer.play()
-              .then(function() {
-                playPauseBtn.textContent = '⏸';
-                updateMusicInfo();
-                isPlaying = true;
-              })
-              .catch(function(error) {
-                console.error('播放错误:', error);
-                musicInfo.textContent = `无法播放: ${playlist[currentTrack].title}`;
-                
-                // 尝试播放下一首
-                setTimeout(function() {
-                  currentTrack = (currentTrack + 1) % playlist.length;
-                  loadAndPlayTrack();
-                }, 2000);
-              });
-          }, { once: true });
-        } catch (error) {
-          console.error('音频加载错误:', error);
-          musicInfo.textContent = `错误: ${playlist[currentTrack].title}`;
-          
-          // 尝试播放下一首
-          setTimeout(function() {
-            currentTrack = (currentTrack + 1) % playlist.length;
-            loadAndPlayTrack();
-          }, 2000);
-        }
-      }
-      
-      // 播放/暂停
-      function togglePlay() {
-        if (isPlaying) {
-          audioPlayer.pause();
-          playPauseBtn.textContent = '▶';
-          isPlaying = false;
-        } else {
-          loadAndPlayTrack();
-        }
-      }
-      
-      // 播放下一首
-      function playNext() {
-        currentTrack = (currentTrack + 1) % playlist.length;
-        if (isPlaying) {
-          loadAndPlayTrack();
-        } else {
-          updateMusicInfo();
-        }
-      }
-      
-      // 播放上一首
-      function playPrev() {
-        currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-        if (isPlaying) {
-          loadAndPlayTrack();
-        } else {
-          updateMusicInfo();
-        }
-      }
-      
-      // 设置音频属性
-      audioPlayer.volume = 0.3;
-      
-      // 进度条点击和拖动事件
-      progressBar.addEventListener('click', function(e) {
-        const percentage = (e.offsetX / this.offsetWidth);
-        audioPlayer.currentTime = percentage * audioPlayer.duration;
-      });
-      
-      // 添加拖动支持
-      let isDragging = false;
-      
-      progressBar.addEventListener('mousedown', function(e) {
-        isDragging = true;
-        const percentage = (e.offsetX / this.offsetWidth);
-        audioPlayer.currentTime = percentage * audioPlayer.duration;
-      });
-      
-      document.addEventListener('mousemove', function(e) {
-        if (isDragging) {
-          const rect = progressBar.getBoundingClientRect();
-          const offsetX = e.clientX - rect.left;
-          const percentage = Math.max(0, Math.min(1, offsetX / progressBar.offsetWidth));
-          audioPlayer.currentTime = percentage * audioPlayer.duration;
-        }
-      });
-      
-      document.addEventListener('mouseup', function() {
-        isDragging = false;
-      });
-      
-      // 绑定事件
-      playPauseBtn.addEventListener('click', togglePlay);
-      nextBtn.addEventListener('click', playNext);
-      prevBtn.addEventListener('click', playPrev);
-      volumeControl.addEventListener('input', function(e) {
-        audioPlayer.volume = e.target.value;
-      });
-      
-      // 监听播放进度
-      audioPlayer.addEventListener('timeupdate', updateProgress);
-      
-      // 监听音频结束事件
-      audioPlayer.addEventListener('ended', playNext);
-      
-      // 初始化显示
-      updateMusicInfo();
-});
-</script>
 
 <!-- 添加滚动触发动画系统 -->
 <script src="../scripts/scroll-system/scroll-triggered-animations.js"></script>
@@ -2221,6 +1792,33 @@ document.addEventListener('DOMContentLoaded', function() {
       link.classList.add('active-link');
     }
   });
+});
+</script>
+
+<!-- 删除原有的播放器代码，添加XiCore音乐播放器引用 -->
+<script src="/the-book-of-x-test/XiCore/modules/xi-music.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 初始化音乐播放器
+  if (window.XiMusic) {
+    console.log('正在初始化XiMusic播放器...');
+    XiMusic.init();
+  } else {
+    console.error('XiMusic模块未加载，尝试使用备用路径...');
+    // 尝试使用备用路径加载
+    const script = document.createElement('script');
+    script.src = '/XiCore/modules/xi-music.js';
+    script.onload = function() {
+      console.log('使用备用路径加载成功，正在初始化...');
+      if (window.XiMusic) {
+        XiMusic.init();
+      }
+    };
+    script.onerror = function() {
+      console.error('所有尝试都失败，无法加载音乐播放器');
+    };
+    document.head.appendChild(script);
+  }
 });
 </script>
 

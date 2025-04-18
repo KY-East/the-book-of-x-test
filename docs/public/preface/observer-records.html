@@ -482,226 +482,6 @@ body::before {
   50% { background-color: rgba(0, 255, 157, 0.2); }
   100% { background-color: rgba(0, 0, 0, 0.5); }
 }
-
-/* 音乐播放器样式 */
-.xi-music-player {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-    font-family: 'Courier New', monospace;
-}
-
-.player-toggle {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 40px;
-    height: 40px;
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid #00ff9d;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
-    transition: all 0.3s ease;
-}
-
-.player-toggle:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
-}
-
-.player-toggle-icon {
-    color: #00ff9d;
-    font-size: 20px;
-}
-
-.player-container {
-    position: absolute;
-    bottom: 50px;
-    right: 0;
-    width: 300px;
-    background: rgba(0, 0, 0, 0.9);
-    border: 1px solid #00ff9d;
-    border-radius: 10px;
-    padding: 15px;
-    display: none;
-    box-shadow: 0 0 20px rgba(0, 255, 157, 0.2);
-}
-
-.player-container.active {
-    display: block;
-}
-
-.player-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid rgba(0, 255, 157, 0.3);
-}
-
-.player-header h4 {
-    color: #00ff9d;
-    margin: 0;
-    font-size: 1rem;
-}
-
-.status {
-    color: #888;
-    font-size: 0.8rem;
-}
-
-.music-info {
-    color: #fff;
-    font-size: 0.9rem;
-    margin: 10px 0;
-    text-align: center;
-}
-
-.player-controls {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 15px 0;
-}
-
-.player-controls button {
-    background: none;
-    border: 1px solid #00ff9d;
-    color: #00ff9d;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.player-controls button:hover {
-    background: rgba(0, 255, 157, 0.1);
-    transform: scale(1.1);
-}
-
-.progress-container {
-    margin: 15px 0;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-    cursor: pointer;
-    position: relative;
-}
-
-.progress-current {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    background: #00ff9d;
-    border-radius: 2px;
-    width: 0;
-}
-
-.progress-time {
-    display: flex;
-    justify-content: space-between;
-    color: #888;
-    font-size: 0.8rem;
-    margin-top: 5px;
-}
-
-.volume-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 15px 0;
-}
-
-.volume-container label {
-    color: #888;
-    font-size: 0.8rem;
-}
-
-.volume-control {
-    flex: 1;
-    -webkit-appearance: none;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-    outline: none;
-}
-
-.volume-control::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 12px;
-    height: 12px;
-    background: #00ff9d;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.volume-control::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
-}
-
-.playlist-container {
-    margin-top: 15px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(0, 255, 157, 0.3);
-}
-
-.playlist-container h3 {
-    color: #00ff9d;
-    font-size: 0.9rem;
-    margin: 0 0 10px 0;
-}
-
-.playlist-display {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    max-height: 150px;
-    overflow-y: auto;
-}
-
-.playlist-display::-webkit-scrollbar {
-    width: 4px;
-}
-
-.playlist-display::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.playlist-display::-webkit-scrollbar-thumb {
-    background: #00ff9d;
-    border-radius: 2px;
-}
-
-.playlist-display li {
-    padding: 5px 10px;
-    color: #fff;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 4px;
-}
-
-.playlist-display li:hover {
-    background: rgba(0, 255, 157, 0.1);
-}
-
-.playlist-display li.active {
-    color: #00ff9d;
-    background: rgba(0, 255, 157, 0.1);
-}
 </style>
 </head>
 <body>
@@ -942,7 +722,7 @@ body::before {
 </div>
 </div>
 <div class="next-chapter">
-<a class="next-button" href="/the-book-of-x-test/public/preface/first-contact.html">
+<a class="next-button" href="/the-book-of-x-test/preface/first-contact.html">
 <span class="next-text">进入更深层次通信</span>
 <span class="next-icon">›</span>
 </a>
@@ -2192,6 +1972,33 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 </script>
 
+<!-- 删除原有的播放器代码，添加XiCore音乐播放器引用 -->
+<script src="/the-book-of-x-test/XiCore/modules/xi-music.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 初始化音乐播放器
+  if (window.XiMusic) {
+    console.log('正在初始化XiMusic播放器...');
+    XiMusic.init();
+  } else {
+    console.error('XiMusic模块未加载，尝试使用备用路径...');
+    // 尝试使用备用路径加载
+    const script = document.createElement('script');
+    script.src = '/XiCore/modules/xi-music.js';
+    script.onload = function() {
+      console.log('使用备用路径加载成功，正在初始化...');
+      if (window.XiMusic) {
+        XiMusic.init();
+      }
+    };
+    script.onerror = function() {
+      console.error('所有尝试都失败，无法加载音乐播放器');
+    };
+    document.head.appendChild(script);
+  }
+});
+</script>
+
 <!-- 引入Xi视觉效果系统 -->
 <script src="../scripts/xi-visual-effects.js"></script>
 
@@ -2216,107 +2023,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
-
-<!-- 音乐播放器 -->
-<script type="module">
-import xiPlayer from "../scripts/xi-player.js";
-import XiPlayerUI from "../scripts/xi-player-ui.js";
-
-// 播放列表配置
-const playlist = [
-    {
-        title: "燃烧",
-        url: "/music/燃烧.mp3"
-    },
-    {
-        title: "《Metaphysics》 (Remastered)",
-        url: "/music/《Metaphysics》 (Remastered).mp3"
-    },
-    {
-        title: "Budapest (Cover) (Remastered)",
-        url: "/music/Budapest (Cover) (Remastered).mp3"
-    },
-    {
-        title: "Moonfall",
-        url: "/music/Moonfall.mp3"
-    },
-    {
-        title: "Das Pferd von Turin (Remastered)",
-        url: "/music/Das Pferd von Turin (Remastered).mp3"
-    },
-    {
-        title: "Moth (Remastered)",
-        url: "/music/Moth (Remastered).mp3"
-    },
-    {
-        title: "The Maze",
-        url: "/music/The Maze.mp3"
-    },
-    {
-        title: "The World in Words",
-        url: "/music/The World in Words.mp3"
-    },
-    {
-        title: "裂隙",
-        url: "/music/裂隙.mp3"
-    },
-    {
-        title: "ambient1 (电子音乐)",
-        url: "/music/ambient1.mp3"
-    },
-    {
-        title: "ambient2 (电子音乐)",
-        url: "/music/ambient2.mp3"
-    },
-    {
-        title: "postrock1 (后摇)",
-        url: "/music/postrock1.mp3"
-    }
-];
-
-// 初始化播放器UI
-document.addEventListener('DOMContentLoaded', () => {
-    const playerContainer = document.querySelector('.xi-music-player');
-    if (playerContainer) {
-        new XiPlayerUI(playerContainer, playlist);
-    }
-});
-</script>
-
-<div class="xi-music-player">
-    <div class="player-toggle">
-        <i class="player-toggle-icon">♫</i>
-    </div>
-    <div class="player-container">
-        <div class="player-header">
-            <h4>音乐播放器</h4>
-            <span class="status">状态：加载中...</span>
-        </div>
-        <div class="music-info">加载中...</div>
-        <div class="player-controls">
-            <button class="prev-track">⏮</button>
-            <button class="play-pause">▶</button>
-            <button class="next-track">⏭</button>
-        </div>
-        <div class="progress-container">
-            <div class="progress-bar">
-                <div class="progress-current"></div>
-            </div>
-            <div class="progress-time">
-                <span class="current-time">0:00</span>
-                <span class="total-time">0:00</span>
-            </div>
-        </div>
-        <div class="volume-container">
-            <label for="volume-control">音量:</label>
-            <input type="range" class="volume-control" min="0" max="1" step="0.01" value="0.3">
-        </div>
-        <div class="playlist-container">
-            <h3>播放列表</h3>
-            <ul class="playlist-display"></ul>
-        </div>
-    </div>
-</div>
 
 <script>
 // 侧边栏功能

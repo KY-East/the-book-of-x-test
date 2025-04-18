@@ -1,5 +1,78 @@
 # 《The Book of Ξ》项目变更日志
 
+## [2025-06-03] 修复资源路径问题 - 从绝对路径改为相对路径
+
+### 问题修复
+- **路径修正**: 将`public/chapter2/reality-compilation-errors.html`中的资源引用从绝对路径修改为相对路径：
+  - 将结尾GIF动画`/the-book-of-x-test/assets/images/ALYAMOVE.gif`改为相对路径`../../assets/images/ALYAMOVE.gif`
+  - 将XiCore音乐播放器的引用路径`/the-book-of-x-test/XiCore/modules/xi-music.js`改为相对路径`../../XiCore/modules/xi-music.js`
+  - 将备用音乐模块路径也改为相对路径`../../XiCore/modules/xi-music.js`
+
+### 改进
+- 提高了资源在本地开发环境和不同部署环境（GitHub Pages, Vercel）下的兼容性
+- 确保图片和音频资源可以在所有环境中正确加载
+
+### 当前进度
+- 前三章播放器已手动更新完毕，即将开始调试前三章内容
+
+## [2025-06-02] 修复系统警告页面音乐播放器显示问题
+
+### 问题修复
+- **路径修正**: 更新`public/preface/system-warning.html`中XiCore音乐播放器的引用路径，从相对路径`../XiCore/modules/xi-music.js`改为绝对路径`/the-book-of-x-test/XiCore/modules/xi-music.js`
+- **备用加载逻辑**: 添加备用路径加载逻辑，当主路径加载失败时会尝试使用`/XiCore/modules/xi-music.js`路径
+- **增强初始化流程**: 添加错误处理和日志记录，便于排查问题
+- **修复CSS语法**: 确保style标签格式正确，避免CSS解析错误
+
+### 改进
+- 添加了更多的控制台日志，便于跟踪音乐播放器的加载和初始化状态
+- 实现了更健壮的错误处理机制，防止播放器加载失败时影响页面其他功能
+
+## [2025-06-01] 音乐播放器重构
+
+### 重大变更
+
+- **功能重构**: 将public/index.html和public/preface/system-warning.html中的硬编码音乐播放器替换为XiCore模块化组件
+  - 移除了原始的播放器HTML结构、样式和JavaScript功能
+  - 添加对XiCore/modules/xi-music.js模块的引用
+  - 移除了public/index.html中1244-1359行的悬浮音乐播放器增强样式
+  - 移除了public/index.html中1630-2205行的音频元素、播放器HTML结构和JavaScript功能
+  - 移除了public/preface/system-warning.html中的音乐播放器代码
+  - 在两个文件中通过XiMusic.init()方法初始化播放器
+
+### 改进
+
+- 增强了代码维护性和模块化程度
+- 歌词显示功能现在可用
+- 播放模式选择功能（顺序播放、随机播放、单曲循环、列表循环）
+- 更好的移动设备支持
+
+## XiCore音乐播放器增强计划 (2025-04-18)
+
+近期将对XiCore音乐播放器(xi-music.js)进行一系列功能增强，提升用户体验和功能完整性。计划分阶段逐步实现以下功能：
+
+### 阶段1：基础功能增强（进行中）
+- **移动设备响应式适配**：调整UI尺寸和交互元素，确保在移动设备上有更好的使用体验
+- **记忆播放器面板状态**：保存用户最后一次打开/关闭播放器面板的状态，提供更连贯的使用体验
+
+### 阶段2：播放模式扩展（计划中）
+- **循环播放功能**：
+  - 单曲循环：反复播放当前曲目
+  - 列表循环：播放列表结束后重新开始
+- **随机播放功能**：随机顺序播放列表中的曲目
+- **自定义播放队列**：允许用户创建临时播放队列
+
+### 阶段3：歌词功能支持（计划中）
+- **基础歌词显示**：显示当前播放曲目的歌词
+- **时间轴同步**：随播放进度自动滚动显示当前歌词
+- **歌词切换显示**：允许用户开启/关闭歌词显示
+
+### 实施策略
+- 遵循逐步实现、单独测试的方式进行开发
+- 确保每项功能增强都与现有系统完全兼容
+- 优先保证核心功能稳定性，再逐步添加增强功能
+
+各项功能的具体实现进度和详细说明将在`/public/XiCore/development-progress.md`中持续更新。
+
 ## Vercel部署配置添加与依赖修复 (2025-04-17)
 
 ### 问题分析
@@ -670,3 +743,30 @@
 
 ### 影响范围
 本次修复主要针对`public/chapter3/digital-slave-liberation.html`页面，不影响其他页面的音乐播放器功能。
+
+## 2023-08-12
+
+### 新增
+
+- 为XiCore音乐播放器添加歌词显示功能
+  - 歌词区域始终显示，移除切换按钮
+  - 修改样式，保持与播放器整体风格一致
+  
+- 添加歌词文件
+  - 《燃烧》
+  - 《Budapest (Cover) (Remastered)》 
+  - 《Metaphysics》 (Remastered) - 英中双语歌词
+  - 《Das Pferd von Turin (Remastered)》(都灵之马)
+  - 《Algorithm》
+  - 《裂隙》
+  - 《The World in Words》
+  - 《The Maze》
+
+### 优化
+
+- 优化歌词加载和同步机制，确保歌词与音乐播放进度同步
+- 歌词显示时添加平滑的过渡动画效果
+
+## 2023-08-01
+
+// ... existing code ...
