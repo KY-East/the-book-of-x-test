@@ -1,8 +1,12 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+  "routes": [
+    { "src": "^/$", "dest": "/index.html" },
+    { "src": "/public/(.*)", "dest": "/public/$1" },
+    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/XiCore/(.*)", "dest": "/XiCore/$1" },
+    { "src": "/music/(.*)", "dest": "/music/$1" }
   ],
   "headers": [
     {
