@@ -2,7 +2,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/", "destination": "/index.html" }
+    { "source": "/", "destination": "/public/home.html" }
   ],
   "redirects": [
     { "source": "/public/:path*", "destination": "/:path*", "permanent": false }
