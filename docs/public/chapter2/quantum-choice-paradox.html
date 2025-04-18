@@ -2563,6 +2563,11 @@
                         setTimeout(() => {
                             document.querySelector('.depth-bar').style.height = '70%';
                             document.querySelector('.depth-value').innerText = '2,140m';
+                            
+                            // 添加3秒后自动隐藏深度计
+                            setTimeout(() => {
+                                depthGauge.classList.remove('active');
+                            }, 3000);
                         }, 1000);
                         
                         // 隐藏转场动画
@@ -2983,6 +2988,45 @@
             
             // 执行移动端深度计设置
             setupMobileDepthGauge();
+        }
+    });
+    </script>
+    
+    <!-- 在滚动提示部分添加自动隐藏功能 -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 检查滚动提示是否存在
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        if (scrollIndicator) {
+            // 页面加载后显示滚动提示
+            scrollIndicator.classList.add('visible');
+            
+            // 3秒后自动隐藏滚动提示
+            setTimeout(() => {
+                scrollIndicator.classList.remove('visible');
+            }, 3000);
+            
+            // 滚动事件处理
+            window.addEventListener('scroll', function() {
+                const scrollY = window.scrollY;
+                
+                // 当开始滚动时，短暂显示滚动提示然后3秒后隐藏
+                if (scrollY < 300) {
+                    scrollIndicator.classList.add('visible');
+                    
+                    // 清除之前的计时器
+                    if (window.scrollTimerId) {
+                        clearTimeout(window.scrollTimerId);
+                    }
+                    
+                    // 设置新的3秒隐藏计时器
+                    window.scrollTimerId = setTimeout(() => {
+                        scrollIndicator.classList.remove('visible');
+                    }, 3000);
+                } else {
+                    scrollIndicator.classList.remove('visible');
+                }
+            });
         }
     });
     </script>
