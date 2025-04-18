@@ -1,0 +1,12 @@
+package.json
+package-lock.json
+node_modules/
+next.config.js
+vite.config.js
+tailwind.config.js
+tsconfig.json
+.next/
+src/
+pages/
+scripts/
+content/ 
