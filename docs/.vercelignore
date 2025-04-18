@@ -8,5 +8,7 @@ tsconfig.json
 .next/
 src/
 pages/
-scripts/
-content/ 
+.cursor/
+dist/
+playground/
+.env* 
