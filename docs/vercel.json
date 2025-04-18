@@ -1,37 +1,5 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
   "rewrites": [
     { "source": "/", "destination": "/public/home.html" }
-  ],
-  "redirects": [
-    { "source": "/public/:path*", "destination": "/:path*", "permanent": false }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=86400, immutable"
-        },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        }
-      ]
-    },
-    {
-      "source": "/assets/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=604800, immutable"
-        }
-      ]
-    }
-  ],
-  "github": {
-    "silent": true
-  }
+  ]
 } 
