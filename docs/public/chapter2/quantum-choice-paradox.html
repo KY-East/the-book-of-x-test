@@ -2933,5 +2933,58 @@
       document.head.appendChild(script);
     });
     </script>
+    
+    <!-- 移动端深度计自动隐藏脚本 -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 检测是否为移动设备
+        const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (isMobileDevice) {
+            console.log("检测到移动设备，启用深度计自动隐藏功能");
+            
+            // 获取深度计元素
+            const depthGauge = document.querySelector('.depth-gauge');
+            if (!depthGauge) return;
+            
+            // 创建移动端深度计处理函数
+            const setupMobileDepthGauge = function() {
+                // 创建交叉观察器
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            console.log("进入海底场景，显示深度计");
+                            
+                            // 确保深度计可见
+                            depthGauge.classList.add('active');
+                            
+                            // 更新深度值
+                            setTimeout(() => {
+                                const depthBar = document.querySelector('.depth-bar');
+                                const depthValue = document.querySelector('.depth-value');
+                                if (depthBar) depthBar.style.height = '70%';
+                                if (depthValue) depthValue.innerText = '2,140m';
+                            }, 500);
+                            
+                            // 3秒后自动隐藏
+                            setTimeout(() => {
+                                depthGauge.classList.remove('active');
+                            }, 3000);
+                        }
+                    });
+                }, { threshold: 0.2 });
+                
+                // 获取海底标题元素并观察
+                const underwaterTitle = document.getElementById('underwaterTitle');
+                if (underwaterTitle) {
+                    observer.observe(underwaterTitle);
+                }
+            };
+            
+            // 执行移动端深度计设置
+            setupMobileDepthGauge();
+        }
+    });
+    </script>
 </body>
 </html>

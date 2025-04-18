@@ -1,5 +1,112 @@
 # 《The Book of Ξ》项目变更日志
 
+## [2025-06-05] 优化移动端显示和侧边栏按钮
+
+### 移动端优化
+- **内容区域调整**: 优化移动端显示，使内容更好地利用屏幕空间
+  - 减小内边距从`padding: 40px`调整为`padding: 10px 8px`，再到`padding: 5px`
+  - 添加`body`的`overflow-x: hidden`和`width: 100%`，防止水平滚动
+  - 为内容元素添加`box-sizing: border-box`确保padding不会增加元素宽度
+  - 设置`max-width: 100%`防止元素超出父容器
+
+### 侧边栏按钮优化
+- **吸入式设计**: 重新设计侧边栏按钮，使其不再挡住文字
+  - 位置调整: 从`top: 20px, left: 20px`改为`top: 5px, left: 0`
+  - 尺寸缩小: 宽度从40px减少到22px，高度从40px减少到30px
+  - 形状改变: 从圆形改为半圆形`border-radius: 0 3px 3px 0`
+  - 移除左侧边框`border-left: none`，实现侧边贴合效果
+  - 降低对比度: 背景透明度增加，边框颜色更淡
+  - 增加悬停效果: 从缩放改为水平移动`transform: translateX(2px)`
+
+### CSS变更详情
+```css
+/* 侧边栏按钮 */
+.sidebar-toggle {
+  position: fixed;
+  top: 5px;
+  left: 0;
+  z-index: 200;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.6);
+  width: 22px;
+  height: 30px;
+  border-radius: 0 3px 3px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 255, 157, 0.3);
+  border-left: none;
+  box-shadow: 0 0 5px rgba(0, 255, 157, 0.15);
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.sidebar-toggle:hover {
+  transform: translateX(2px);
+  opacity: 1;
+  box-shadow: 0 0 8px rgba(0, 255, 157, 0.3);
+}
+
+.sidebar-toggle-icon {
+  color: rgba(0, 255, 157, 0.8);
+  font-size: 14px;
+  font-weight: normal;
+  margin-left: 0;
+}
+
+/* 移动端响应式样式 */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+  
+  .main-content {
+    padding: 5px;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+  
+  .terminal-interface, 
+  .narrative-section, 
+  .email-container, 
+  .chat-interface,
+  .system-notification,
+  .patient-record,
+  .handwritten-notes,
+  .dialogue-scene,
+  .video-file,
+  .audio-file,
+  .encrypted-communication,
+  .search-history-container,
+  .system-upgrade,
+  .neural-interface,
+  .oracle-protocol {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    max-width: 100%;
+  }
+}
+```
+
+## [2025-06-04] Vercel部署配置优化
+
+### 问题修复
+- **主页显示问题**: 解决了Vercel部署时主页内容不显示的问题
+  - 将根目录的`index.html`移动到`public/home.html`
+  - 创建了简化的`vercel.json`配置文件，将根路径重定向到`/public/home.html`
+  - 保留了public目录原有结构，确保侧边栏导航正常工作
+
+### 优化
+- 使用最简化的Vercel配置，只添加必要的重写规则，避免干扰资源加载
+- 确保在不同环境下（GitHub Pages和Vercel）部署时都能正确显示内容
+- 保持项目结构和导航系统不变，实现无缝迁移
+
 ## [2025-06-03] 修复资源路径问题 - 从绝对路径改为相对路径
 
 ### 问题修复

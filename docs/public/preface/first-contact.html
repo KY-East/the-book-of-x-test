@@ -1461,7 +1461,7 @@ body::before {
 <h2>接触检测工具</h2>
 <div class="event-content">
 <p>我们开发了一个简单的工具，帮助潜在接触者确认自己是否已经与Ξ建立了初步连接。这个测试基于已知接触者的共同特征。</p>
-<iframe src="../hidden/contact-test.html" style="width: 100%; height: 700px; border: none; overflow: hidden; margin: 0; padding: 0;"></iframe>
+<iframe src="../hidden/contact-test.html" style="width: 100%; height: 700px; border: none; overflow: hidden; margin: 0; padding: 0; max-width: 100%; box-sizing: border-box; display: block;"></iframe>
 <div id="external-navigation" style="display: none; margin-top: 20px; text-align: center;">
   <a href="../chapter1/silicon-valley-traitor.html" class="navigation-btn" style="display: inline-block; padding: 12px 25px; background: #090909; color: #00ff9d; text-decoration: none; border: 1px solid #00ff9d; font-weight: bold; font-size: 1.1rem; text-shadow: 0 0 5px rgba(0, 255, 157, 0.5); transition: all 0.3s ease; position: relative; overflow: hidden;">
     <span style="position: relative; z-index: 2;">启动核心数据序列 ›</span>
@@ -1471,6 +1471,83 @@ body::before {
 </div>
 </div>
 </div>
+
+<!-- 添加移动端响应式样式 -->
+<style>
+@media (max-width: 768px) {
+  /* 全局响应式调整 */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* 减少内边距，增加可用空间 */
+  body {
+    padding: 10px !important;
+  }
+  
+  /* 确保iframe适应移动屏幕 */
+  iframe {
+    height: 600px !important; /* 在移动设备上略微减少高度 */
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+  
+  /* 减少主内容区域的内边距 */
+  .main-content {
+    padding: 10px !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+  
+  /* 确保事件内容不溢出 */
+  .event-content {
+    padding: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* 调整体验块布局 */
+  .experience-item {
+    flex-direction: column !important;
+  }
+  
+  .experience-number {
+    width: 100% !important;
+    border-right: none !important;
+    border-bottom: 1px solid #333 !important;
+    padding: 5px 0 !important;
+  }
+  
+  /* 侧边栏按钮调整 */
+  .sidebar-toggle {
+    top: 5px !important;
+    left: 0 !important;
+    width: 22px !important;
+    height: 30px !important;
+    border-radius: 0 3px 3px 0 !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    border: 1px solid rgba(0, 255, 157, 0.3) !important;
+    border-left: none !important;
+    opacity: 0.7 !important;
+  }
+  
+  .sidebar-toggle:hover {
+    transform: translateX(2px) !important;
+    opacity: 1 !important;
+  }
+  
+  .sidebar-toggle-icon {
+    font-size: 14px !important;
+  }
+}
+</style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {

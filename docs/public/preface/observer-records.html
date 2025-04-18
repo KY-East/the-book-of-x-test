@@ -10,31 +10,35 @@
 /* 侧边栏样式 */
 .sidebar-toggle {
   position: fixed;
-  top: 20px;
-  left: 20px;
+  top: 5px;
+  left: 0;
   z-index: 200;
   cursor: pointer;
-  background: rgba(0, 0, 0, 0.7);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  width: 22px;
+  height: 30px;
+  border-radius: 0 3px 3px 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #00ff9d;
-  box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+  border: 1px solid rgba(0, 255, 157, 0.3);
+  border-left: none;
+  box-shadow: 0 0 5px rgba(0, 255, 157, 0.15);
   transition: all 0.3s ease;
+  opacity: 0.7;
 }
 
 .sidebar-toggle:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+  transform: translateX(2px);
+  opacity: 1;
+  box-shadow: 0 0 8px rgba(0, 255, 157, 0.3);
 }
 
 .sidebar-toggle-icon {
-  color: #00ff9d;
-  font-size: 20px;
-  font-weight: bold;
+  color: rgba(0, 255, 157, 0.8);
+  font-size: 14px;
+  font-weight: normal;
+  margin-left: 0;
 }
 
 .sidebar {
@@ -481,6 +485,68 @@ body::before {
   0% { background-color: rgba(0, 255, 157, 0.05); }
   50% { background-color: rgba(0, 255, 157, 0.2); }
   100% { background-color: rgba(0, 0, 0, 0.5); }
+}
+
+/* 添加移动端响应式样式 */
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    position: relative;
+  }
+  
+  body * {
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  
+  .main-content {
+    padding: 5px;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+  
+  canvas, .data-stream, .data-patterns, .pattern-box, 
+  .quantum-container, .bit-stream, .meter, 
+  .archive-container, .archive-entry, .entry-content,
+  .observer-container, .observer-section,
+  .experiment-block, .glitch-text, .console-output,
+  .data-visualizer, .resonance-meter, .access-control {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 10px !important;
+    overflow-x: hidden !important;
+  }
+  
+  .particles, .code-rain {
+    overflow: hidden !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+  }
+  
+  .next-button {
+    max-width: 90% !important;
+  }
+  
+  /* 居中显示按钮 */
+  .quantum-details {
+    text-align: center !important;
+  }
+  
+  .quantum-details summary {
+    display: inline-block !important;
+    margin: 0 auto !important;
+  }
+  
+  .access-control p {
+    text-align: center !important;
+  }
 }
 </style>
 </head>
