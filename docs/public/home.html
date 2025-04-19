@@ -444,17 +444,18 @@
             <p style="--order: 2.5">步入另一种<span class="dream-text" data-text="梦境">梦境</span></p>
         </div>
         
-        <a id="wakeBtn" class="enter-button">WAKING UP</a>
+        <a href="/public/index.html" class="enter-button">WAKING UP</a>
     </div>
     
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 强制控制跳转
-            document.getElementById("wakeBtn").addEventListener("click", function(e) {
-                e.preventDefault();
-                window.location.href = "/index.html"; // 强行写死
-            });
+            // 检查是否在GitHub Pages上运行
+            if (window.location.hostname.includes('github.io')) {
+                const enterButton = document.querySelector('.enter-button');
+                // 让链接能在GitHub Pages上正确工作
+                enterButton.href = window.location.pathname.replace(/\/[^\/]*$/, '/public/index.html');
+            }
             
             // 粒子效果
             particlesJS('particles-js', {

@@ -1,9 +1,5 @@
 {
   "rewrites": [
     { "source": "/", "destination": "/home.html" }
-  ],
-  "redirects": [
-    { "source": "/index.html", "destination": "/index.html", "permanent": true }
-  ],
-  "trailingSlash": false
+  ]
 } 
