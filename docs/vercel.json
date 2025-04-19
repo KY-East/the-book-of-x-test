@@ -1,8 +1,6 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/home.html" },
-    { "source": "/index", "destination": "/index.html" },
-    { "source": "/:path*", "destination": "/$path*" }
+    { "source": "/", "destination": "/home.html" }
   ],
   "trailingSlash": false
 } 

@@ -444,19 +444,13 @@
             <p style="--order: 2.5">步入另一种<span class="dream-text" data-text="梦境">梦境</span></p>
         </div>
         
-        <a href="/index.html" class="enter-button">WAKING UP</a>
+        <a href="/index.html" class="enter-button">进入</a>
     </div>
     
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 只处理Vercel环境
-            if (window.location.hostname.includes('vercel.app')) {
-                const enterButton = document.querySelector('.enter-button');
-                // Vercel环境，使用简单的绝对路径
-                enterButton.href = '/index.html';
-                console.log('Vercel环境，路径已调整为:', enterButton.href);
-            }
+            // JavaScript路径调整不再需要
             
             // 粒子效果
             particlesJS('particles-js', {
