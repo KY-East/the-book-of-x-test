@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{}"
+self.__REACT_LOADABLE_MANIFEST="{\"chapter4/perfect-void.js -> ../../public/chapter4/perfect-void-main.jsx\":{\"id\":\"chapter4/perfect-void.js -> ../../public/chapter4/perfect-void-main.jsx\",\"files\":[\"static/chunks/public_chapter4_perfect-void-main_jsx.js\"]}}"

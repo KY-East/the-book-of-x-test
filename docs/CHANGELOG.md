@@ -1,5 +1,46 @@
 # 《The Book of Ξ》项目变更日志
 
+## [2025-06-07] 修复JSX文件的CSS语法错误
+
+### 问题修复
+- **CSS语法错误解决**:
+  - 解决了`PerfectVoidScenes.jsx`、`PerfectVoidExploration.jsx`、`PerfectVoidRevelation.jsx`和`PerfectVoidFinale.jsx`文件中的"Unknown word (CssSyntaxError)"错误
+  - 添加了多个配置文件以正确识别JSX文件类型，不再将JSX文件错误地识别为CSS文件
+
+### 添加的配置文件
+- **`.stylelintrc.json`**: 配置Stylelint忽略JSX、JS、TS、TSX文件
+- **`.eslintrc.json`**: 添加ESLint配置文件，正确处理React和JSX语法
+- **`.eslintignore`**: 添加ESLint忽略文件列表
+- **`.vscode/settings.json`**: VSCode编辑器配置，确保正确识别JSX文件
+- **`jsconfig.json`**: 添加JS配置，设置正确的JSX编译选项
+- **`.babelrc`**: 添加Babel配置，确保JSX被正确转换
+
+### 依赖安装
+- 安装了`stylelint`、`eslint`和`eslint-plugin-react`作为开发依赖
+- 使用`--legacy-peer-deps`参数解决依赖冲突问题
+
+## [2025-06-06] 修复前三章基础bug及路径问题
+
+### 问题修复
+- **图片路径修正**:
+  - 修复了`public/chapter2/digital-identity.html`中图片不显示问题，将路径从`/the-book-of-x-test/assets/`修改为`/assets/`
+  - 修复了`public/chapter2/reality-compilation-errors.html`中结尾ALYAMOVE.gif不显示的问题
+  - 统一调整所有图片引用，确保在Vercel环境中正确显示
+
+### 交互优化
+- **深度计自动隐藏功能**: 在`quantum-choice-paradox.html`中修复深度计显示问题
+  - 添加了3秒自动隐藏功能，提升用户体验
+  - 修复了深度计在向下滚动后无法隐藏的问题
+- **滚动提示自动隐藏**: 优化"向下滚动继续"提示的显示逻辑
+  - 页面加载后显示3秒后自动隐藏
+  - 滚动时短暂显示然后再次自动隐藏
+  - 添加计时器管理，避免多次滚动导致的显示问题
+
+### 前3章完成情况
+- 完成了前3章所有基础bug修复
+- 解决了所有影响用户体验的核心问题
+- CSS解析器警告不影响实际功能，将在下一阶段优化中处理
+
 ## [2025-06-05] 优化移动端显示和侧边栏按钮
 
 ### 移动端优化

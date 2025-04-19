@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The Book of Ξ - 风暴之喉，探索宇宙与声音的奥秘">
+    <meta name="theme-color" content="#0a0a12">
+    <title>风暴之喉 | The Book of Ξ</title>
+    
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="../../assets/fonts/cyberpunk.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../assets/images/fog-texture.png" as="image">
+    
+    <!-- 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&family=Orbitron:wght@400;600&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    
+    <!-- 样式表 -->
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="../../styles/base-styles.css">
+    <link rel="stylesheet" href="../../styles/effects-styles.css">
+    
+    <!-- 预加载脚本 -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    
+    <!-- 自定义脚本，延迟加载 -->
+    <script defer src="../../scripts/main-script.js"></script>
+    <script defer src="../../scripts/effects-script.js"></script>
+    
+    <!-- 内联关键CSS以优化关键渲染路径 -->
+    <style>
+        :root {
+            --neon-primary: #00ff9d;
+            --neon-secondary: #ff3366;
+            --neon-blue: #0088ff;
+            --neon-yellow: #ffcc00;
+            --neon-purple: #cc00ff;
+            --bg-primary: #0a0a12;
+            --text-primary: #e0e0e0;
+        }
+        
+        /* 仅包含关键渲染路径所需的最小CSS */
+        body, html {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Roboto Mono', 'ZCOOL XiaoWei', monospace;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease;
+        }
+        
+        .loading-logo {
+            color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            letter-spacing: 0.5rem;
+            animation: pulsate 2s infinite;
+        }
+        
+        .loading-bar-container {
+            width: 300px;
+            height: 3px;
+            background: rgba(0, 136, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .loading-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-blue), #80ccff);
+            box-shadow: 0 0 10px var(--neon-blue);
+            animation: loading 3s ease-in-out forwards;
+        }
+        
+        @keyframes pulsate {
+            0%, 100% { opacity: 0.7; text-shadow: 0 0 10px var(--neon-blue); }
+            50% { opacity: 1; text-shadow: 0 0 20px var(--neon-blue); }
+        }
+        
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+    </style>
+    
+    <!-- 内联CSS样式 -->
+    <style>
+        /* 背景特效 */
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        /* 赛博朋克网格背景 */
+        .neon-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(0, 136, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 136, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            transform: perspective(500px) rotateX(60deg);
+            transform-origin: center 150%;
+            opacity: 0.3;
+            animation: gridPulse 15s infinite linear;
+        }
+        
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.15; }
+        }
+        
+        /* 噪点纹理叠加 */
+        .noise-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAgAElEQVR4nIy9d3Rc133o+bnT6+3AoHcQIEC0QYkUKYoURYmSqG6r2bLl2HGJE793XJ7fkrx8SZycZCOvi2zFspplq1CieiGrF5IgCJAgem8DDKa36fcu74+ZwQCQ9Z31rrUWcOfcM/ec/du//futtb9i8CJ2T+4mJoUIIYAEIQRZUHlU8fiG+Q2EEGiapi9bAHLZ3r1+c/fbb77Jc889DwgURUUIgaIoQggZfn/25uK+qqqopxF+LIQgTddlCFGU3bNvpCKlyKyWS18mJAQpC40J789uEEI01oS0CuXn3/7Bw7ORnp5aJD9+/DQnDh7mwssvoVarADz7+3+Mu+ISRsLPVVVdFc8zHs7uLpfbIwD9+JG9B4vJ8XFd/bz93MG7pCTLcnbOZiQ+q5pYoiqlD5+7qgdVEcRiMY4dPsSlK1e4mQySSaeRZRlJkli3fj07du1k/8uv8vEnH1NTV89Tr7+66v2L+RXKsuNqaWm5qqppU88/++Jlj6+qcGRsCiTQsmNvdlCFEGiaNus1jY9SVEWRc8OU3Xn5VgZ9/ZuK3Wxl/6eHkH3eElAI1VpGNJEgFA7mBmO1BgsXPwBbReXKcSwNXkVRJCGERSiKJIRw5z6VZbM+');
+            opacity: 0.03;
+            animation: noiseAnimation 0.5s steps(2) infinite;
+        }
+        
+        @keyframes noiseAnimation {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-1px, 1px); }
+            50% { transform: translate(1px, -1px); }
+            75% { transform: translate(-1px, -1px); }
+            100% { transform: translate(1px, 1px); }
+        }
+        
+        /* 扫描线效果 */
+        .scan-line {
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to bottom, 
+                rgba(0, 200, 255, 0.2), 
+                rgba(0, 200, 255, 0));
+            opacity: 0.7;
+            animation: scanDown 8s linear infinite;
+            filter: blur(0.5px);
+        }
+        
+        @keyframes scanDown {
+            0% { top: -10px; }
+            100% { top: 100%; }
+        }
+        
+        /* 晕影效果 */
+        .vignette-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, 
+                transparent 60%, 
+                rgba(0, 0, 0, 0.5) 100%);
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        /* 故障文字效果 */
+        .glitch-text {
+            position: relative;
+            animation: glitchEffect 10s infinite;
+            display: inline-block;
+        }
+        
+        @keyframes glitchEffect {
+            0%, 100% { 
+                transform: none;
+                text-shadow: 0 0 8px var(--neon-blue);
+            }
+            20% {
+                transform: skewX(3deg);
+                text-shadow: 3px 0 5px var(--neon-primary), -3px 0 5px var(--neon-secondary);
+            }
+            40% {
+                transform: skewX(-3deg);
+                text-shadow: -3px 0 5px var(--neon-blue), 3px 0 5px var(--neon-purple);
+            }
+            60% {
+                transform: skewX(2deg);
+                text-shadow: 2px 2px 5px var(--neon-yellow), -2px -2px 5px var(--neon-blue);
+            }
+            80% {
+                transform: skewX(-1deg);
+                text-shadow: -2px 0 5px var(--neon-secondary), 2px 0 5px var(--neon-blue);
+            }
+        }
+        
+        /* 滚动显示元素 */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s ease;
+            will-change: opacity, transform;
+        }
+        
+        .reveal-element.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="no-js">
+    <!-- 加载屏幕 -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">Ξ</div>
+        <div class="loading-bar-container">
+            <div class="loading-bar"></div>
+        </div>
+        <div class="loading-message" data-text="扫描中...">扫描中...</div>
+    </div>
+
+    <!-- 辅助菜单 -->
+    <div class="accessibility-menu">
+        <button class="acc-toggle" aria-label="辅助功能菜单" id="accToggle">
+            <span class="acc-icon"></span>
+        </button>
+        <div class="acc-panel">
+            <div class="acc-section">
+                <h3>显示选项</h3>
+                <div class="acc-item">
+                    <label for="fontSizeSlider">文字大小</label>
+                    <input type="range" id="fontSizeSlider" min="80" max="150" value="100">
+                </div>
+                <div class="acc-item">
+                    <label for="contrastToggle">高对比度</label>
+                    <input type="checkbox" id="contrastToggle">
+                </div>
+                <div class="acc-item">
+                    <label for="reduceMotion">减少动画</label>
+                    <input type="checkbox" id="reduceMotion">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 阅读进度指示器 -->
+    <div class="reading-progress">
+        <div class="progress-bar" id="readingProgress"></div>
+    </div>
+
+    <!-- 背景效果层 -->
+    <div class="background-effects">
+        <div class="neon-grid"></div>
+        <div class="noise-overlay"></div>
+        <div class="fog-layer"></div>
+        <div class="water-reflection"></div>
+        <div id="particleCanvas" class="particle-canvas"></div>
+        <div class="scan-line"></div>
+        <div class="vignette-overlay"></div>
+    </div>
+
+    <!-- 页面内容容器 -->
+    <div class="container">
+        <!-- 页眉 -->
+        <header class="chapter-header">
+            <h1 class="page-title glitch-text" data-text="风暴之喉">风暴之喉</h1>
+            <h2 class="page-subtitle">第四章 第三节</h2>
+            <div class="chapter-meta">
+                <span class="chapter-location">挪威地质调查局</span>
+                <span class="chapter-time">黎明时分</span>
+                <span class="chapter-temp">峡湾边缘</span>
+            </div>
+        </header>
+
+        <!-- 章节内容 -->
+        <section class="story-segment reveal-element" id="segment1">
+            <p>三天前，他的生活还是单调而可预测的——处理案件，回到这个孤独的公寓，偶尔想起远在童年的快乐时光。现在，一切都变得陌生而危险。</p>
+
+            <p>身后，Tiril正在电脑前工作，屏幕的蓝光映在她专注的脸上。她的眼睛因为连续二十多个小时没有合上而布满血丝，但依然闪烁着那种学者特有的执着光芒。</p>
+
+            <p class="dialogue rokke">"有任何发现吗？"</p>
+
+            <p>Røkke问，声音因为疲惫而沙哑。</p>
+
+            <p class="dialogue tiril">"很难说。我尝试过所有常规的数据恢复方法，但Rolf的硬盘上几乎没有有用的信息。"</p>
+
+            <p>Røkke走回桌前，看了一眼他的手机屏幕——那条来自"幽灵0"的简短信息仍然在那里："问问弟弟。"</p>
+
+            <p class="dialogue rokke">"这可能是什么意思？如何问一个已经消失的人？"</p>
+
+            <p>他轻声问道，更像是自言自语。</p>
+
+            <p class="dialogue tiril">"也许不是字面意思。也许是指他留下的东西？录音？记录？"</p>
+
+            <p>这个想法让Røkke想起了什么。他迅速拿出随身携带的便携硬盘，连接到电脑上。</p>
+
+            <p class="dialogue rokke">"我还有些东西没检查——这是我在空洞边缘拍摄的视频记录。职业习惯，我总是会录制现场环境。"</p>
+
+            <p>他打开文件。画面晃动着扫过那个完美的球形空洞，背景音里有风声和偶尔的人声。Tiril凑近屏幕，她拿起耳机，连接到电脑上，然后开始调整音频参数。</p>
+
+            <p class="dialogue tiril">"等等，听这个。"</p>
+
+            <p>她突然说，按下暂停键。</p>
+            
+            <p>她调高音量，启动专业的音频分析软件，过滤掉背景噪音。在画面扫过空洞中心点的瞬间，背景杂音中确实有某种奇怪的模式——一种几乎听不见但确实存在的节奏性干扰。</p>
+
+            <p class="dialogue rokke">"那是...人声吗？"</p>
+
+            <p>Røkke接过耳机，仔细聆听。</p>
+
+            <p>Tiril没有立即回答，而是继续调整参数，启动更复杂的音频处理程序。</p>
+
+            <p class="dialogue tiril">"有什么不对劲。这些干扰不是随机的，它们有结构。"</p>
+
+            <p>经过几轮处理，声音变得稍微清晰——依然断断续续，但有了可辨识的轮廓。这时，Røkke的身体突然僵直了。</p>
+
+            <p class="dialogue rokke">"那是Rolf的声音。"</p>
+
+            <p>他说，声音因震惊而略微颤抖。</p>
+        </section>
+        
+        <!-- 内容持续... -->
+        
+        <!-- 这里应该插入完整的故事内容 -->
+        
+        <!-- 分隔线 -->
+        <div class="section-divider reveal-element" id="divider1">
+            <div class="divider-line"></div>
+            <div class="divider-symbol">Ξ</div>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer class="chapter-footer">
+            <div class="footnote">
+                第四章 第三节：风暴之喉 —— 完 <span class="xi-symbol">Ξ</span>
+            </div>
+            
+            <!-- 底部导航 -->
+            <nav class="chapter-navigation">
+                <a href="excluded-sounds.html" class="nav-button prev-button">
+                    <span class="nav-icon">←</span>
+                    <span class="nav-text">返回上一节</span>
+                </a>
+                <a href="../chapter5/first-echo.html" class="nav-button next-button">
+                    <span class="nav-text">继续下一章</span>
+                    <span class="nav-icon">→</span>
+                </a>
+            </nav>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', initEffects);
+    </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+node_modules/
+build/
+dist/
+.next/
+_next/
+_site/
+out/
+public/
+assets/
+**/*.min.js 
