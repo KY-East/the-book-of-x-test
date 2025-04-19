@@ -450,19 +450,12 @@
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 检查是否在部署环境上运行（GitHub Pages或Vercel）
-            if (window.location.hostname.includes('github.io') || window.location.hostname.includes('vercel.app')) {
+            // 只处理Vercel环境
+            if (window.location.hostname.includes('vercel.app')) {
                 const enterButton = document.querySelector('.enter-button');
-                // 让链接能在部署环境上正确工作
-                const basePath = window.location.pathname.replace(/\/[^\/]*$/, '');
-                enterButton.href = `${basePath}/public/index.html`;
-                
-                // 如果已经有前导斜杠，则不重复添加
-                if (enterButton.href.indexOf('//') !== -1) {
-                    enterButton.href = enterButton.href.replace(/\/+/g, '/');
-                }
-                
-                console.log('路径已调整为:', enterButton.href);
+                // Vercel环境，使用简单的绝对路径
+                enterButton.href = '/public/index.html';
+                console.log('Vercel环境，路径已调整为:', enterButton.href);
             }
             
             // 粒子效果
