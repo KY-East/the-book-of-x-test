@@ -571,7 +571,7 @@ const XiMusic = (function() {
     
     // 创建新的音频元素
     const audio = document.createElement('audio');
-    audio.id = 'xiMusicAudio';
+      audio.id = 'xiMusicAudio';
     
     // 添加恢复播放相关属性
     audio.preload = 'auto';  // 预加载音频
@@ -579,7 +579,7 @@ const XiMusic = (function() {
     audio.crossOrigin = 'anonymous'; // 处理跨域资源
     
     // 添加到文档
-    document.body.appendChild(audio);
+      document.body.appendChild(audio);
     
     return audio;
   }
@@ -720,32 +720,32 @@ const XiMusic = (function() {
         // 为提示用户交互而临时设置为非播放状态
         state.playing = false;
           
-        // 停止位置保存定时器
-        stopPositionSaveTimer();
+          // 停止位置保存定时器
+          stopPositionSaveTimer();
           
-        if (playPauseBtn) {
-          playPauseBtn.textContent = '▶';
-        }
+          if (playPauseBtn) {
+            playPauseBtn.textContent = '▶';
+          }
           
-        // 更新状态显示
-        if (statusElement) {
+          // 更新状态显示
+          if (statusElement) {
           statusElement.textContent = "状态：点击播放按钮开始，浏览器已阻止自动播放";
-        }
-      });
+          }
+        });
+      }
+    } catch (error) {
+      console.error('[XiMusic] 加载音频失败:', error);
+      
+      // 更新状态显示
+      const statusElement = document.getElementById('xiMusic_status');
+      if (statusElement) {
+        statusElement.textContent = "状态：加载失败";
+      }
+      
+      // 停止位置保存定时器
+      stopPositionSaveTimer();
     }
-  } catch (error) {
-    console.error('[XiMusic] 加载音频失败:', error);
-    
-    // 更新状态显示
-    const statusElement = document.getElementById('xiMusic_status');
-    if (statusElement) {
-      statusElement.textContent = "状态：加载失败";
-    }
-    
-    // 停止位置保存定时器
-    stopPositionSaveTimer();
   }
-}
   
   // 暂停播放
   function pausePlayback() {
@@ -1302,7 +1302,7 @@ const XiMusic = (function() {
       // 延迟一下再播放，等待UI完全初始化
       setTimeout(() => {
         // 强制自动播放，无需用户交互
-        loadAndPlayTrack();
+      loadAndPlayTrack();
         // 如果因浏览器策略无法自动播放，设置状态提示用户点击
         if (audioElement && audioElement.paused) {
           if (statusElement) {

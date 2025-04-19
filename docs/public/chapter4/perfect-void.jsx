@@ -555,5 +555,5 @@ export default () => (
   <>
     <style>{styles}</style>
     <PerfectVoid />
-  </>
-);
+    </>
+  );
